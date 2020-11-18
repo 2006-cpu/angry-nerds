@@ -28,6 +28,13 @@ async function buildTables() {
         inStock NOT NULL DEFAULT false,
         category NOT NULL
       );
+      CREATE TABLE order_products(
+        id SERIAL PRIMARY KEY,
+        "productId" INTEGER REFERENCES products(id),
+        "orderId" INTEGER REFERENCES orders(id),
+        price INTEGER NOT NULL,
+        quantity INTEGER NOT NULL DEFAULT (0)
+      );
     `)
     console.log("Finished building tables!")
   } catch (error) {
