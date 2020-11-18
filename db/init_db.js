@@ -9,6 +9,7 @@ async function buildTables() {
     client.connect();
     console.log('Dropping All Tables...');
     // drop tables in correct order
+
     client.query(`
       DROP TABLE IF EXISTS order_products;
       DROP TABLE IF EXISTS orders;
@@ -30,6 +31,18 @@ async function buildTables() {
         inStock NOT NULL DEFAULT false,
         category NOT NULL
       );
+
+       CREATE TABLE users(
+            id SERIAL PRIMARY KEY,
+            firstName VARCHAR(255) NOT NULL,
+            lastName VARCHAR (255) NOT NULL,
+            email VARCHAR (255) UNIQUE NOT NULL,
+            imageURL DEFAULT NULL,
+            username VARCHAR (255) UNIQUE NOT NULL,
+            password VARCHAR (255) UNIQUE NOT NULL,
+            "isAdmin" BOOLEAN DEFAULT false
+          );
+
      CREATE TABLE orders(
       id SERIAL PRIMARY KEY,
       status VARCHAR(255) DEFAULT 'created',
