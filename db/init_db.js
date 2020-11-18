@@ -67,6 +67,8 @@ async function buildTables() {
       "userId" INTEGER REFERENCES users(id),
       "datePlaced" TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
     );
+
+
     CREATE TABLE order_products(
         id SERIAL PRIMARY KEY,
         "productId" INTEGER REFERENCES products(id),
