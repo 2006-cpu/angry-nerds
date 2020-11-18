@@ -9,9 +9,21 @@ async function buildTables() {
     client.connect();
 
     // drop tables in correct order
+    await client.query(`
+    DROP TABLE IF EXISTS orders;
+    `)
 
+    console.log('finished dropping tables')
     // build tables in correct order
+    await client.query(`
+    CREATE TABLE orders(
+      id SERIAL PRIMARY KEY,
+      status VARCHAR(255) DEFAULT 'created',
+      "userId" INTEGER REFERENCES users(id),
+      "datePlaced" TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    )`);
 
+    console.log('finished creating tables')
   } catch (error) {
     throw error;
   }
