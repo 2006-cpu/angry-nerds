@@ -12,22 +12,3 @@ module.exports = {
   // db methods
 }
 
-async function createTables(){
-  try{
-    await client.query(`
-      CREATE TABLE users(
-        id SERIAL PRIMARY KEY,
-        firstName VARCHAR(255) NOT NULL,
-        lastName VARCHAR (255) NOT NULL,
-        email VARCHAR (255) UNIQUE NOT NULL,
-        imageURL DEFAULT NULL,
-        username VARCHAR (255) UNIQUE NOT NULL,
-        password VARCHAR (255) UNIQUE NOT NULL,
-        "isAdmin" BOOLEAN DEFAULT false
-      )
-    `);
-  }catch (error){
-    console.error()
-    throw error;
-  }
-}
