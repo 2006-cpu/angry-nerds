@@ -17,7 +17,9 @@ async function buildTables() {
     `);
     console.log('Finished dropping tables!')
     // build tables in correct order
+    
     console.log("Starting to build tables...")
+    
     await client.query(`
       CREATE TABLE products(
         id SERIAL PRIMARY KEY,
@@ -28,7 +30,13 @@ async function buildTables() {
         inStock NOT NULL DEFAULT false,
         category NOT NULL
       );
-    `)
+     CREATE TABLE orders(
+      id SERIAL PRIMARY KEY,
+      status VARCHAR(255) DEFAULT 'created',
+      "userId" INTEGER REFERENCES users(id),
+      "datePlaced" TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    );
+    `);
     console.log("Finished building tables!")
   } catch (error) {
     throw error;
