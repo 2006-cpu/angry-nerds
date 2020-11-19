@@ -36,3 +36,5 @@ const {
             next(error);
         }
     });
+
+module.exports = productsRouter;
