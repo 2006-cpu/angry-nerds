@@ -80,7 +80,8 @@ async function populateInitialData() {
   }
 }
 
-buildTables()
+dropTables()
+  .then(buildTables)
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
