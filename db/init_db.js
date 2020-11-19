@@ -7,6 +7,7 @@ const {
 async function dropTables() {
   console.log('Dropping All Tables...');
 
+//drop tables in correct order
   try {
     client.query(`
     DROP TABLE IF EXISTS order_products;
@@ -25,18 +26,6 @@ async function buildTables() {
   try {
     client.connect();
 
-    // drop tables in correct order
-
-    console.log('Dropping All Tables...');
-    // drop tables in correct order
-
-    client.query(`
-      DROP TABLE IF EXISTS order_products;
-      DROP TABLE IF EXISTS orders;
-      DROP TABLE IF EXISTS users;
-      DROP TABLE IF EXISTS products;
-    `);
-    console.log('Finished dropping tables!')
     // build tables in correct order
     
     console.log("Starting to build tables...")
