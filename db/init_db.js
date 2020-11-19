@@ -72,10 +72,26 @@ async function buildTables() {
   }
 }
 
+
 async function populateInitialData() {
+  console.log('Starting to create products...');
   try {
-    // create useful starting data
+    // creating default dummy data for products
+    const productsToCreate = [
+      { id: 1, name: 'Les Paul Tribute Plus', description: 'A high-end Epiphone', price: 800, inStock: true },
+      { id: 2, name: 'Meris: Enzo', description: 'A synthesizer for your guitar!', price: 299, inStock: true},
+      { id: 3, name: 'Gibson Custom 1965 Les Paul Standard', description: 'A solid body electric guitar', price: 500, inStock: true},
+      { id: 4, name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, inStock: true},
+      { id: 5, name: 'Fender American Professional II', description: 'Jazz Bass roasted pine', price: 2200, inStock: true},
+      { id: 6, name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, inStock: true},
+      { id: 7, name: 'Marshall Reverse Jubilee 20W Head', description: '20W 2525H has two footswitchable channels', price: 1500, inStock: true},
+      { id: 8, name: 'Tone King Imperial MKII 20W 1x12 Combo Lacquered Tweed', description: 'all tube circuitry, traditional spring reverb and a highly resonant cabinet', price: 3500, inStock: true},
+    ]
+    const products = await Promise.all(productsToCreate.map(createProduct));
+    console.log('Products Created');
+    console.log(products);
   } catch (error) {
+    console.error('Error creating products!!!')
     throw error;
   }
 }
