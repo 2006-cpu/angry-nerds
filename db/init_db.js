@@ -7,6 +7,7 @@ const {
 async function dropTables() {
   console.log('Dropping All Tables...');
 
+//drop tables in correct order
   try {
     client.query(`
     DROP TABLE IF EXISTS order_products;
@@ -25,18 +26,6 @@ async function buildTables() {
   try {
     client.connect();
 
-    // drop tables in correct order
-
-    console.log('Dropping All Tables...');
-    // drop tables in correct order
-
-    client.query(`
-      DROP TABLE IF EXISTS order_products;
-      DROP TABLE IF EXISTS orders;
-      DROP TABLE IF EXISTS users;
-      DROP TABLE IF EXISTS products;
-    `);
-    console.log('Finished dropping tables!')
     // build tables in correct order
     
     console.log("Starting to build tables...")
@@ -51,7 +40,6 @@ async function buildTables() {
         inStock NOT NULL DEFAULT false,
         category NOT NULL
       );
-
      CREATE TABLE users(
           id SERIAL PRIMARY KEY,
           firstName VARCHAR(255) NOT NULL,
@@ -62,7 +50,6 @@ async function buildTables() {
           password VARCHAR (255) UNIQUE NOT NULL,
           "isAdmin" BOOLEAN DEFAULT false
         );
-
      CREATE TABLE orders(
       id SERIAL PRIMARY KEY,
       status VARCHAR(255) DEFAULT 'created',
@@ -77,7 +64,6 @@ async function buildTables() {
         "orderId" INTEGER REFERENCES orders(id),
         price INTEGER NOT NULL,
         quantity INTEGER NOT NULL DEFAULT (0)
-
       );
     `);
     console.log("Finished building tables!")
@@ -94,7 +80,8 @@ async function populateInitialData() {
   }
 }
 
-buildTables()
+dropTables()
+  .then(buildTables)
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
