@@ -9,9 +9,5 @@ const client = new Client(DB_URL);
 // database methods
 
 // export
-module.exports = {
-  client,
-  ...require('./products')
-  // db methods
-}
+module.exports = client
 
