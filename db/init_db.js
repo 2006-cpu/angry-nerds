@@ -1,5 +1,5 @@
 // code to build and initialize DB goes here
-const client = require('./index');
+const {client} = require('./index');
 
 const {createProduct} = require('./products')
 
