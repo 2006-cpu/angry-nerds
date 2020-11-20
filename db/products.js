@@ -4,7 +4,7 @@ async function getAllProducts() {
     try{
         const { rows } = await client.query(`
             SELECT *
-            FROM products;
+            FROM products
         `)
 
         return rows;
@@ -31,10 +31,10 @@ async function createProduct(product) {
     const {name, description, price, inStock, imageURL, category} = product;
     try{
         const { rows: [product] } = await client.query(`
-            INSERT INTO products (id, name, description, price, inStock, imageURL, category)
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
-            RETURNING *;
-        `, [id, name, description, price, inStock, imageURL, category]);
+            INSERT INTO products(name, description, price, inStock, imageURL, category)
+            VALUES($1, $2, $3, $4, $5, $6)
+            RETURNING *
+        `, [name, description, price, inStock, imageURL, category]);
 
         return product;
     } catch (error) {
