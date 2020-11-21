@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 
 import {
-  getSomething
-} from '../api';
+  Navigation,
+  MainBoard
+} from './index'
+
 
 const App = () => {
-  const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    getSomething()
-      .then(response => {
-        setMessage(response.message);
-      })
-      .catch(error => {
-        setMessage(error.message);
-      });
-  });
 
   return (
     <div className="App">
-      <h1>Hello, World!</h1>
-      <h2>{ message }</h2>
+      <Navigation />
+      <Route path="/products">
+      <MainBoard />
+      </Route>
     </div>
   );
 }
