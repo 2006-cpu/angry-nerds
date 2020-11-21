@@ -26,7 +26,7 @@ const {
 /* THIS IS THE GET/product/:productId ROUTER */
 
     /* looks up product by id and sends back */
-    productsRouter.get('/product/:productId', async ( req, res, next ) => {
+    productsRouter.get('/product/productId', async ( req, res, next ) => {
         const { productId } = req.params;
         try {
             const productById = await getProductById(productId);
