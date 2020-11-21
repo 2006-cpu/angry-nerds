@@ -44,6 +44,7 @@ const {client} = require("./index")
         }
     }
 
+const someVar = "delete it";
 
 module.exports = {
     getOrderById,
