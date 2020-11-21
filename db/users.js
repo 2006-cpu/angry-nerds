@@ -28,7 +28,7 @@ async function getUser({username, password}) {
         const {rows:[user]} = await client.query(`
         SELECT *
         FROM users
-        WHERE username = $1
+        WHERE username=$1
         `,[username]);
         const isMatch = await bcrypt.compare(password, user.password);
         if (isMatch === true) {
@@ -59,9 +59,9 @@ async function getAllUsers(){
 async function getUserById(id) {
     try {
         const {rows:[user]} = await client.query(`
-        SELECT id
+        SELECT *
         FROM users
-        WHERE id = $1;
+        WHERE id=$1
         `, [id]);
         delete user.password;
         return user;
@@ -75,7 +75,7 @@ async function getUserByUsername(username) {
         const {row:[user]} = await client.query(`
         SELECT *
         FROM users
-        WHERE username=$5
+        WHERE username=$1
         `,[username]);
         return user;
     }catch (error) {
