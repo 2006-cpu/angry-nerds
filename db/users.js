@@ -4,7 +4,7 @@ const bcrypt = requrire('bcrypt');
 const SALT_COUNT = 10;
 
 //Week 2: Users backend database Adopters -------------->
-async function createUser({firstName, lastName, email, imageURL, username, password, "isAdmin"}) {
+async function createUser({firstName, lastName, email, imageURL, username, password, isAdmin}) {
     const hashedPassword = await bcrypt.hash(
         password, SALT_COUNT
         );
@@ -14,7 +14,7 @@ async function createUser({firstName, lastName, email, imageURL, username, passw
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         ON CONFLICT (username) DO NOTHING
         RETURNING *;
-        `,[firstName, lastName, email, imageURL, username, password, "isAdmin"]);
+        `,[firstName, lastName, email, imageURL, username, password, isAdmin]);
 
         delete user.password;
         return user;
