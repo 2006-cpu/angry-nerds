@@ -4,17 +4,17 @@ const bcrypt = requrire('bcrypt');
 const SALT_COUNT = 10;
 
 //Week 2: Users backend database Adopters -------------->
-async function createUser({username, password}) {
+async function createUser({firstName, lastName, email, imageURL, username, password, "isAdmin"}) {
     const hashedPassword = await bcrypt.hash(
         password, SALT_COUNT
         );
     try{
         const {rows:[user]} = await client.query(`
-        INSERT INTO users (username,password)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        INSERT INTO users (firstName, lastName, email, imageURL, username, password, "isAdmin")
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
         ON CONFLICT (username) DO NOTHING
         RETURNING *;
-        `,[username, password]);
+        `,[firstName, lastName, email, imageURL, username, password, "isAdmin"]);
 
         delete user.password;
         return user;
@@ -61,8 +61,8 @@ async function getUserById(id) {
         const {rows:[user]} = await client.query(`
         SELECT id
         FROM users
-        WHERE id = ${id};
-        `);
+        WHERE id = $1;
+        `, [id]);
         delete user.password;
         return user;
     } catch (error) {
