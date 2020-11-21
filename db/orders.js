@@ -29,22 +29,20 @@ const {client} = require("./index")
    
 /* THIS IS FOR THE getOrdersByUser ADAPTER */
 
-    async function getOrdersByUser({ username }) {
-        try {
-            const { rows: order }  = await client.query(`
-            SELECT orders.*, users.id
-            AS "userId"
-            JOIN users ON users.id = orders."userId"
-            WHERE users.id = $1
-            `, [username]);
+async function getOrdersByUser({ username }) {
+    try {
+        const { rows: order }  = await client.query(`
+        SELECT orders.*, users.id
+        AS "userId"
+        JOIN users ON users.id = orders."userId"
+        WHERE users.id = $1
+        `, [username]);
 
-            return order;
-        } catch (error) {
-            throw error;
-        }
+        return order;
+    } catch (error) {
+        throw error;
     }
-
-const someVar = "delete it"
+}
 
 module.exports = {
     getOrderById,
