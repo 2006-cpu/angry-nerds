@@ -38,8 +38,7 @@ const {client} = require("./index")
         } catch (error) {
             throw error;
         }
-    }
- */
+    } */
 
 module.exports = {
     getOrderById,
