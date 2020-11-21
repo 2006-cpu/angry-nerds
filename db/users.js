@@ -14,7 +14,7 @@ async function createUser({firstName, lastName, email, imageURL, username, passw
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         ON CONFLICT (username) DO NOTHING
         RETURNING *;
-        `,[firstName, lastName, email, imageURL, username, password, isAdmin]);
+        `,[firstName, lastName, email, imageURL, username, hashedPassword, isAdmin]);
 
         delete user.password;
         return user;
