@@ -14,7 +14,7 @@ const Prod = (props) => {
     boxShadow: '0 6px 10px -5px' }} onClick={() => {console.log('selected product with id ', id)}}>
     <Card.Img variant="top" src={imageURL} />
     <Card.Body>
-<Card.Title><Link to="/products/:productId">{name}</Link></Card.Title>
+<Card.Title><Link to={`/products/${id}`}>{name}</Link></Card.Title>
       <Card.Text>
         {description}
       </Card.Text>
