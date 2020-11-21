@@ -13,7 +13,6 @@ import {
 
 
 const App = () => {
-  const [message, setMessage] = useState([]);
 
 
   return (
@@ -22,7 +21,6 @@ const App = () => {
       <Route path="/products">
       <MainBoard />
       </Route>
-      <div>{message}</div>
     </div>
   );
 }
