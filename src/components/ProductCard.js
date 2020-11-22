@@ -8,14 +8,15 @@ import {Link, useParams} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Prod = (props) => {
-    const {id, name, description, price, imageURL, inStock, category} = props
+    const {setSelected} = props
+    const {id, name, description, price, imageurl, instock, category} = props.product
     
     return <Card style={{ width: '18rem', margin: '1rem', 
     boxShadow: '0 6px 10px -5px' }} onClick={() => {
         console.log('selected product with id ', id)
         setSelected(id)
         }}>
-    <Card.Img variant="top" src={imageURL} />
+    <Card.Img variant="top" src={imageurl} />
     <Card.Body>
 <Card.Title><Link to={`/products/${id}`}>{name}</Link></Card.Title>
       <Card.Text>
@@ -28,7 +29,7 @@ const Prod = (props) => {
     </ListGroup>
     <div style={{height: '4rem'}}>
     <Card.Body>
-        {inStock ? <Button style={{float: 'left'}} variant="primary" size="sm">Add To Cart</Button>
+        {instock ? <Button style={{float: 'left'}} variant="primary" size="sm">Add To Cart</Button>
          : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }
       
       <Button style={{float: 'right'}} variant="secondary" size="sm">Similar Items</Button>
