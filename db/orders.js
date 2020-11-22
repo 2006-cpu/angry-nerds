@@ -44,10 +44,26 @@ const {client} = require("./index")
         }
     }
 
+    /* THIS IS FOR THE createOrder ADAPTER */
+    async function createOrder({ status, userId, datePlaced }) {
+        try {
+            const { rows: [ order ] } = await client.query(`
+                INSERT INTO orders
+                (status, "userId", "datePlaced")
+                VALUES($1, $2, $3)
+                RETURNING *
+            `, [status, userId, datePlaced]);
+
+            return order;
+        } catch (error) {
+            throw error;
+        }
+    }
 
 module.exports = {
     getOrderById,
     getAllOrders,
-    getOrdersByUser
+    getOrdersByUser,
+    createOrder
 }
 

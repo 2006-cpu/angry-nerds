@@ -10,7 +10,8 @@ const {
     getOrdersByUser
 } = require('../db/orders')
 
-    ordersRouter.get('/', requireAdmin, async (req, res, next ) => {
+//fix requireAdmin
+    ordersRouter.get('/', async (req, res, next ) => {
         try {
             const orders = await getAllOrders();
             res.send(orders);
@@ -33,10 +34,11 @@ const {
         }
     });
 
-    ordersRouter.post('/', requireUser, async (req, res, next ) => {
-        const { status, userId } = req.params;
+    //fix requireUser
+    ordersRouter.post('/', async (req, res, next ) => {
+        const { status, userId, datePlaced } = req.body;
         try {
-            const newOrder = await createOrder(status, userId);
+            const newOrder = await createOrder(status, userId, datePlaced);
             res.send(newOrder);
             // return newOrder;
 
