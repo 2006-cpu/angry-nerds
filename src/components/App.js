@@ -8,7 +8,8 @@ import {
 
 import {
   Navigation,
-  MainBoard
+  MainBoard,
+  SelectedBoard
 } from './index'
 
 
@@ -19,7 +20,10 @@ const App = () => {
     <div className="App">
       <Navigation />
       <Route path="/products">
-      <MainBoard />
+        <MainBoard />
+      </Route>
+      <Route path={`/products/:productId`}>
+        <SelectedBoard />
       </Route>
     </div>
   );

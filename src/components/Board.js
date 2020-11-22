@@ -6,28 +6,27 @@ import {Prod} from './index'
 
 const MainBoard = () => {
     const [initialRender, setInitialRender] = useState([])
+    const [selected, setSelected] = useState(null)
 
     useEffect(() => {
-        async function getDat(){
+        async function fetchProducts(){
           try{
         const data = await getAllProducts()
         console.log('data array ', data)
         setInitialRender(data)
+        setSelected(null)
           }catch(error){
             console.log(error)
           }
         }
-    getDat()
+    fetchProducts()
       },[]);
       console.log('set render ',initialRender)
 
     return <div style={{display: 'flex', flexWrap: 'wrap'}}>
-{initialRender.map((product, idx) => {
-    return <Prod key={idx} id={product.id} name={product.name} 
-    description={product.description} price={product.price} imageURL={product.imageurl}
-    inStock={product.instock} category={product.category} />
+{initialRender.map((product) => {
+    return <Prod key={product.id} product={product} setSelected={setSelected} />
 })}
-
     </div>
 }
 
