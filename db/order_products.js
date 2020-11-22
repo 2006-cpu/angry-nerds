@@ -32,10 +32,13 @@ const {client} = require("./index")
 /* THIS IS FOR THE updateOrderProduct ADAPTER */
     async function updateOrderProduct({ id, price, quantity }) {
         try {
-            const { rows } = await client.query(`
-                
-            `)
-            return rows;
+            const { rows: orderProduct } = await client.query(`
+                UPDATE order_products
+                SET price = $2, quantity = $3
+                WHERE id = $1
+                RETURNING *;
+            `, [id, price, quantity] );
+            return orderProduct;
         } catch (error) {
             throw error
         }
