@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 import {getAllProducts} from '../api'
 
-import {Prod} from './index'
+import {Prod, SelectedProd} from './index'
 
-const MainBoard = () => {
+const SelectedBoard = () => {
     const [initialRender, setInitialRender] = useState([])
-    const [selected, setSelected] = useState(null)
+    const [selected, setSelected] = useState([])
 
     useEffect(() => {
         async function fetchProducts(){
@@ -14,7 +14,6 @@ const MainBoard = () => {
         const data = await getAllProducts()
         console.log('data array ', data)
         setInitialRender(data)
-        setSelected(null)
           }catch(error){
             console.log(error)
           }
@@ -23,11 +22,17 @@ const MainBoard = () => {
       },[]);
       console.log('set render ',initialRender)
 
-    return <div style={{display: 'flex', flexWrap: 'wrap'}}>
+    return<div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
+    <div>
+        empty for moment
+        </div> 
+    <div style={{display: 'flex', borderLeft: '1px solid grey', 
+     backgroundColor: 'lightgrey', float: 'right', flexDirection: 'column'}}>
 {initialRender.map((product) => {
-    return <Prod key={product.id} product={product} setSelected={setSelected} />
+    return <Prod key={product.id} product={product} />
 })}
+    </div>
     </div>
 }
 
-export default MainBoard;
+export default SelectedBoard;
