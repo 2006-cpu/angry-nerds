@@ -13,8 +13,26 @@ import {
   SelectedBoard
 } from './index'
 
+import { callApi } from '../api' ;
+import LoginComponent from './Login';
+
 
 const App = () => {
+
+  const [ token, setToken ] = useState('');
+  const [ user, setUser ] = useState( {} )
+
+  /* We'll persist login here */
+  /* {const userToken = localStorage.getItem('token');
+    useEffect( async () => {
+      if(userToken) {
+        const user = await callApi(
+          {token: userToken, url: '/users/me'})
+          setUser(user);
+      }
+    }, []);
+
+  } */
 
 
   return (
@@ -28,6 +46,9 @@ const App = () => {
       </Route>
       <Route path="/products/:productId">
         <Prod />
+      </Route>
+      <Route path="/users/login">
+        <LoginComponent token={token} setToken={setToken} user={user} setUser={setUser} />
       </Route>
     </div>
   );
