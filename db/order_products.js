@@ -4,10 +4,11 @@ const {client} = require("./index")
 
     async function getOrderProductById(id) {
         try {
-            const { rows } = await client.query(`
-                
-            `)
-            return rows;
+            const { rows: [ orderProduct ] } = await client.query(`
+            SELECT * FROM order_products
+            WHERE id = $1;
+            `, [ id ])
+            return orderProduct;
         } catch (error) {
             throw error
         }
