@@ -85,9 +85,10 @@ usersRouter.post('/login', async (req, res, next) => {
 
 //====Users -- GET/users/me (*) API route
 usersRouter.get('/me', requireUser, async(req, res, next) => {
-
+    const {id} = req.user;
+    
     try {
-        res.send(req.user)
+        res.send({id})
     }catch (error) {
         next (error);
     }
