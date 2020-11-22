@@ -29,14 +29,14 @@ const {client} = require("./index")
    
 /* THIS IS FOR THE getOrdersByUser ADAPTER */
 
-    async function getOrdersByUser({ username }) {
+    async function getOrdersByUser({ id }) {
         try {
             const { rows: order }  = await client.query(`
             SELECT orders.*, users.id
             AS "userId"
             JOIN users ON users.id = orders."userId"
             WHERE users.id = $1
-            `, [username]);
+            `, [id]);
 
             return order;
         } catch (error) {

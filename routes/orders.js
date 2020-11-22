@@ -23,11 +23,11 @@ const {
     } )
 
 
-    ordersRouter.get('/cart', requireUser, async ( req, res, next ) => {
+    ordersRouter.get('/cart', async ( req, res, next ) => {
         const { userId } = req.params;
         try {
-            const data = await getCartByUser(userId);
-            res.send(data);
+            const cart = await getCartByUser(userId);
+            res.send(cart);
 
         } catch(error) {
             next(error);
@@ -38,7 +38,7 @@ const {
     ordersRouter.post('/', async (req, res, next ) => {
         const { status, userId, datePlaced } = req.body;
         try {
-            const newOrder = await createOrder(status, userId, datePlaced);
+            const newOrder = await createOrder({status, userId, datePlaced});
             res.send(newOrder);
             // return newOrder;
 
@@ -47,14 +47,14 @@ const {
         }
     } )
 
-    ordersRouter.get('/users/:userId/orders', requireUser, async (req, res, next ) => {
-        const { username } = req.params;
+    ordersRouter.get('/users/:userId/orders', async (req, res, next ) => {
+        const { userId } = req.params;
         try {
-            const orders = await getOrdersByUser();
-            
-            if(username === userId){
-                res.send(orders);
-            }
+            const orders = await getOrdersByUser(userId);
+            res.send(orders)
+            // if(req.user.id === userId){
+            //     res.send(orders);
+            // }
 
         } catch (error) {
             next(error)
