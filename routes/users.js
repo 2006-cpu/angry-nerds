@@ -10,6 +10,17 @@ const {
 } = require('../db/users');
 
 
+usersRouter.get('/', async (req, res) => {
+    const users = await getAllUsers();
+    res.send({user})
+});
+
+usersRouter.use((req, res, next) => {
+    console.log("A request is being made to /users");
+    next();
+});
+
+
 //==== REQUIRE USER 
 function requireUser(req, res, next) {
     if(!req.user) {
@@ -79,7 +90,7 @@ usersRouter.post('/users/login', async (req, res, next) => {
                 name: "your un/pw is incorrect error",
                 message: "Username or Password are not matching, please try again"
             })
-            return;
+            return user;
         }
     } catch (error) {
         next (error);
