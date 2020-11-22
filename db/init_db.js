@@ -36,7 +36,7 @@ async function createTables() {
         name VARCHAR(255) NOT NULL,
         description VARCHAR(255) NOT NULL,
         price VARCHAR(255) NOT NULL,
-        imageURL VARCHAR(255) DEFAULT NULL,
+        imageURL VARCHAR(255) DEFAULT 'https://icon-library.com/images/no-image-available-icon/no-image-available-icon-8.jpg',
         inStock BOOLEAN DEFAULT false,
         category VARCHAR(255) NOT NULL
       );
@@ -78,14 +78,14 @@ async function populateInitialData() {
   try {
     // creating default dummy data for products
     const productsToCreate = [
-      { name: 'Les Paul Tribute Plus', description: 'A high-end Epiphone', price: 800, inStock: true , category: 'testing'},
-      { name: 'Meris: Enzo', description: 'A synthesizer for your guitar!', price: 299, inStock: true , category: 'testing'},
-      { name: 'Gibson Custom 1965 Les Paul Standard', description: 'A solid body electric guitar', price: 500, inStock: true , category: 'testing'},
-      { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, inStock: true , category: 'testing'},
-      { name: 'Fender American Professional II', description: 'Jazz Bass roasted pine', price: 2200, inStock: true , category: 'testing'},
-      { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, inStock: true , category: 'testing'},
-      { name: 'Marshall Reverse Jubilee 20W Head', description: '20W 2525H has two footswitchable channels', price: 1500, inStock: true , category: 'testing'},
-      { name: 'Tone King Imperial MKII 20W 1x12 Combo Lacquered Tweed', description: 'all tube circuitry, traditional spring reverb and a highly resonant cabinet', price: 3500, inStock: true , category: 'testing'},
+      { name: 'Les Paul Tribute Plus', description: 'A high-end Epiphone', price: 800, inStock: true , category: 'guitar'},
+      { name: 'Meris: Enzo', description: 'A synthesizer for your guitar!', price: 299, inStock: true , category: 'piano'},
+      { name: 'Gibson Custom 1965 Les Paul Standard', description: 'A solid body electric guitar', price: 500, inStock: true , category: 'drums'},
+      { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, inStock: true , category: 'guitar'},
+      { name: 'Fender American Professional II', description: 'Jazz Bass roasted pine', price: 2200, inStock: true , category: 'guitar'},
+      { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, inStock: true , category: 'guitar'},
+      { name: 'Marshall Reverse Jubilee 20W Head', description: '20W 2525H has two footswitchable channels', price: 1500, inStock: true , category: 'drums'},
+      { name: 'Tone King Imperial MKII 20W 1x12 Combo Lacquered Tweed', description: 'all tube circuitry, traditional spring reverb and a highly resonant cabinet', price: 3500, inStock: true , category: 'microphone'},
     ]
     const products = await Promise.all(productsToCreate.map(createProduct));
     console.log('Products Created');
