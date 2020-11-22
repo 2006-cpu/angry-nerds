@@ -42,12 +42,15 @@ const {client} = require("./index")
 
 
 /* THIS IS FOR THE destroyOrderProduct ADAPTER */
+
     async function destroyOrderProduct(id) {
         try {
-            const { rows } = await client.query(`
-                
-            `)
-            return rows;
+            const { rows: [ orderProduct ] } = await client.query(`
+            DELETE FROM order_products WHERE id = $1
+            RETURNING *;
+            `, [ id ] );
+
+            return orderProduct;
         } catch (error) {
             throw error
         }
