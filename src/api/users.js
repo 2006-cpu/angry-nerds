@@ -40,7 +40,7 @@ usersRouter.post('/users/register', async (req, res, next) => {
             })
         }
 
-        const user = await createUser({firstName, lastName, email,username, Password});
+        const user = await createUser({firstName, lastName, email,username, password});
         const token = jwt.sign({
             id: user.id,
             username,
