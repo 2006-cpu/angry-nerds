@@ -1,5 +1,5 @@
 const {client} = require('./index');
-const bcrypt = requrire('bcrypt');
+const bcrypt = require('bcrypt');
 
 const SALT_COUNT = 10;
 
@@ -15,13 +15,13 @@ async function createUser({firstName, lastName, email, imageURL, username, passw
         ON CONFLICT (username) DO NOTHING
         RETURNING *;
         `,[firstName, lastName, email, imageURL, username, hashedPassword, isAdmin]);
-
         delete user.password;
         return user;
     }catch (error) {
         throw error;
+     }
     }
-}
+
 
 async function getUser({username, password}) {
     try {
@@ -82,6 +82,7 @@ async function getUserByUsername(username) {
         throw error;
     }
 }
+
 
 module.exports = {
     createUser,
