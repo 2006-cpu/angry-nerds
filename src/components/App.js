@@ -9,6 +9,7 @@ import {
 import {
   Navigation,
   MainBoard,
+  Prod,
   SelectedBoard
 } from './index'
 
@@ -24,6 +25,9 @@ const App = () => {
       </Route>
       <Route path={`/products/:productId`}>
         <SelectedBoard />
+      </Route>
+      <Route path="/products/:productId">
+        <Prod />
       </Route>
     </div>
   );

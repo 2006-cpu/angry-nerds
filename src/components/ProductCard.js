@@ -4,12 +4,12 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import Button from 'react-bootstrap/Button'
 
+import {Link, useParams} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Prod = (props) => {
-    const {setSelected} = props
-    const {id, name, description, price, imageURL, inStock, category} = props.product
-
+    const {id, name, description, price, imageURL, inStock, category} = props
+    
     return <Card style={{ width: '18rem', margin: '1rem', 
     boxShadow: '0 6px 10px -5px' }} onClick={() => {
         console.log('selected product with id ', id)
@@ -17,7 +17,7 @@ const Prod = (props) => {
         }}>
     <Card.Img variant="top" src={imageURL} />
     <Card.Body>
-<Card.Title>{name}</Card.Title>
+<Card.Title><Link to={`/products/${id}`}>{name}</Link></Card.Title>
       <Card.Text>
         {description}
       </Card.Text>
