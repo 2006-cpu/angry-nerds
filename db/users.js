@@ -1,5 +1,5 @@
 const {client} = require('./index');
-const bcrypt = requrire('bcrypt');
+const bcrypt = require('bcrypt');
 
 const SALT_COUNT = 10;
 
