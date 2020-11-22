@@ -60,10 +60,27 @@ const {client} = require("./index")
         }
     }
 
+    /* THIS IS FOR THE getCartByUser ADAPTER */
+    async function getCartByUser(id) {
+        try {
+            const { rows: [ order ] } = await
+            client.query(`
+            SELECT * FROM orders
+            WHERE orders.status = 'created'
+            AND orders."userId" = $1
+            `, [ id ])
+
+            return order;
+        } catch (error) {
+            throw error;
+        }
+    }
+
 module.exports = {
     getOrderById,
     getAllOrders,
     getOrdersByUser,
-    createOrder
+    createOrder,
+    getCartByUser
 }
 
