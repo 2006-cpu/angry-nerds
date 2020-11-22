@@ -5,7 +5,7 @@ const {client} = require("./index")
     async function getAllOrders() {
         try {
             const { rows } = await client.query(`
-                SELECT * FROM orders;
+                SELECT * FROM orders
             `)
             return rows;
         } catch (error) {
@@ -19,7 +19,7 @@ const {client} = require("./index")
         try {
             const { rows: [ order ] } = await client.query(`
             SELECT * FROM orders
-            Where id = $1;
+            Where id = $1
             `, [id])
             return order;
         } catch (error) {
@@ -32,8 +32,7 @@ const {client} = require("./index")
     async function getOrdersByUser({ username }) {
         try {
             const { rows: order }  = await client.query(`
-            SELECT orders.*, users.id
-            AS "userId"
+            SELECT *, users.id AS "userId"
             JOIN users ON users.id = orders."userId"
             WHERE users.id = $1
             `, [username]);
@@ -48,7 +47,7 @@ const {client} = require("./index")
     async function getOrdersByProductId({ id }) {
         try {
             const { rows: order } = await client.query(`
-            SELECT orders.*
+            SELECT *
             FROM orders
             JOIN order_products ON
             order_products."orderId" = 
@@ -68,7 +67,7 @@ const {client} = require("./index")
         try {
             const { rows: [ order ] } = await
             client.query(`
-            SELECT orders.*
+            SELECT * FROM orders
             WHERE orders.status = "created"
             WHERE order."userId" = $1
             `, [ id ])
@@ -86,7 +85,7 @@ const {client} = require("./index")
                 INSERT INTO orders
                 (status, "userId")
                 VALUES($1, $2)
-                RETURNING *;
+                RETURNING *
             `, [status, userId]);
 
             return order;
