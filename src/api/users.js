@@ -21,7 +21,7 @@ function requireUser(req, res, next) {
 
 
 //====Users -- REGISTER API route
-usersRouter.post('/register', async (req, res, next) => {
+usersRouter.post('/users/register', async (req, res, next) => {
 
     const {firstName, lastName, email, username, password} = req.body;
 
@@ -58,7 +58,7 @@ usersRouter.post('/register', async (req, res, next) => {
 
 
 //====Users -- USER LOGIN  API route
-usersRouter.post('/login', async (req, res, next) => {
+usersRouter.post('/users/login', async (req, res, next) => {
     const {username, password} = req.body;
     if(!username || !password) {
         next({
@@ -84,7 +84,7 @@ usersRouter.post('/login', async (req, res, next) => {
 })
 
 //====Users -- GET/users/me (*) API route
-usersRouter.get('/me', requireUser, async(req, res, next) => {
+usersRouter.get('/users/me', requireUser, async(req, res, next) => {
     const {id} = req.user;
     
     try {
