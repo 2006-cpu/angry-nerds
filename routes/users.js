@@ -23,7 +23,7 @@ function requireUser(req, res, next) {
 
 
 
-//====Users -- REGISTER API route
+//====Users -- POST/REGISTER API route
 usersRouter.post('/users/register', async (req, res, next) => {
 
     const {firstName, lastName, email, username, password} = req.body;
@@ -60,7 +60,7 @@ usersRouter.post('/users/register', async (req, res, next) => {
 });
 
 
-//====Users -- USER LOGIN  API route
+//====Users -- POST/USER LOGIN  API route
 usersRouter.post('/users/login', async (req, res, next) => {
     const {username, password} = req.body;
     if(!username || !password) {
