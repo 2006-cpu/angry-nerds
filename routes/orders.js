@@ -14,7 +14,7 @@ const {
         try {
             const orders = await getAllOrders();
             res.send(orders);
-            return orders;
+            // return orders;
 
         } catch (error) {
             next(error)
@@ -38,7 +38,7 @@ const {
         try {
             const newOrder = await createOrder(status, userId);
             res.send(newOrder);
-            return orders;
+            // return newOrder;
 
         } catch (error) {
             next(error)

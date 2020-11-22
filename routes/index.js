@@ -46,6 +46,6 @@ apiRouter.get("/", (req, res, next) => {
 /* ROUTING FOR /api/products */
 
   apiRouter.use('/products', require('./products'));
-  apiRouter.use('/products', require('./orders'));
+  apiRouter.use('/orders', require('./orders'));
 
 module.exports = apiRouter;
