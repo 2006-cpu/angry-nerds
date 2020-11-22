@@ -2,6 +2,7 @@
 const {client} = require('./index');
 
 const {createProduct} = require('./products')
+const {createUser} = require('./users')
 
 async function dropTables() {
   console.log('Dropping All Tables...');
@@ -72,6 +73,23 @@ async function createTables() {
   }
 }
 
+async function populateInitialUsers() {
+  try {
+    const seedUsers = [
+      {firstName:'cecilia', lastName:'lam', email:'cecilia@example.com', username:'cecilia', password:'cecilia123', isAdmin: false},
+      {firstName:'katiana', lastName:'CV', email:'kati-cv@example.com', username:'kati', password:'katicv123', isAdmin: true},
+      {firstName:'trin', lastName:'padilla', email:'trinp@example.com', username:'trin', password:'padilla123', isAdmin: true},
+      {firstName:'nicholas', lastName:'lopez', email:'nicholas@example.com', username:'nicholas', password:'nicholas123', isAdmin: true},
+    ]
+    const users = await Promise.all(seedUsers.map(createUser));
+    console.log('users created');
+    console.log(users);
+  }catch(error) {
+    console.error('Error populating users!!')
+    throw error;
+  }
+}
+
 
 async function populateInitialData() {
   console.log('Starting to create products...');
@@ -107,6 +125,7 @@ await createTables()
 
 buildTables()
   //.then(buildTables)
+  .then(populateInitialUsers)
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
