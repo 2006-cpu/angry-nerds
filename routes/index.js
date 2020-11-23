@@ -1,7 +1,7 @@
 const apiRouter = require('express').Router();
-const { getUserById } = require('../db/users');
+const {JWT_SECRET} = process.env
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = process.env;
+
 
 apiRouter.use(async (req, res, next) => {
   const prefix = 'Bearer ';
@@ -50,5 +50,6 @@ apiRouter.get("/", (req, res, next) => {
 
   apiRouter.use('/products', require('./products'));
   apiRouter.use('/orders', require('./orders'));
+  apiRouter.use('/users', require('./users'));
 
 module.exports = apiRouter;
