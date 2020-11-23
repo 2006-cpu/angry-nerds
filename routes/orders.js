@@ -47,18 +47,5 @@ const {
         }
     } )
 
-    ordersRouter.get('/users/:userId/orders', async (req, res, next ) => {
-        const { userId } = req.params;
-        try {
-            const orders = await getOrdersByUser(userId);
-            res.send(orders)
-            // if(req.user.id === userId){
-            //     res.send(orders);
-            // }
-
-        } catch (error) {
-            next(error)
-        }
-    } )
 
 module.exports = ordersRouter;

@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 
 const {
     getUserByUsername, 
-    getUser,
+    createUser,
     getAllUsers
 } = require('../db/users');
 
@@ -39,34 +39,27 @@ function requireUser(req, res, next) {
 //====Users -- POST/REGISTER API route
 usersRouter.post('/register', async (req, res, next) => {
 
-    const {firstName, lastName, email, username, password} = req.body;
+    const {firstName, lastName, email, username, password, isAdmin, imageURL} = req.body;
 
     try{
-        const newUser = await getUserByUsername(username);
-        if(newUser){
-            return next ({
-                name:'Throws errors for duplicate username',
-                message: 'A user with that username already exists'
-            });
-        }
-        if(password.length < 8) {
-            return next({
-                name:'Throw errors for password too short',
-                message: 'Password is less than 8 characters, please create a longer password'
+        const _user = await getUserByUsername(username);
+        if (_user) {
+            res.send({message: 'A user by that username already exists'});
+        } else if (password.length < 8) {
+            res.send({message: 'Password Too Short!'})
+        } else {
+            const user = await createUser({
+                firstName, 
+                lastName, 
+                email, 
+                username, 
+                password, 
+                isAdmin, 
+                imageURL
             })
+    
+            res.send({user})
         }
-
-        const user = await createUser({firstName, lastName, email,username, password});
-        const token = jwt.sign({
-            id: user.id,
-            username,
-        }, JWT_SECRET,{
-        });
-        res.send({
-            user,
-            message: "Thank you for signing up",
-            token
-        })
     } catch (error) {
         next (error);
     }
