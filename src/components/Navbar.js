@@ -27,7 +27,7 @@ const Navigation = () => {
         </NavDropdown>
       </Nav>
       <Nav>
-        <Nav.Link>Filler</Nav.Link>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart">Cart</Link>
         <Nav.Link eventKey={2}>
           Filler
         </Nav.Link>
