@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useParams} from 'react-router-dom'
-import { getAllOrders } from '../api';
+import { getCart } from '../api';
 import {Order} from './index'
 
 
@@ -10,7 +10,7 @@ const Cart = (props) => {
     const [orders, setOrders] = useState('')
 
     const fetchOrders = () => {
-        getAllOrders().then(
+        getCart().then(
             orders => {
             setOrders(orders);
         })

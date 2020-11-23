@@ -21,9 +21,9 @@ export async function getProductById(id) {
   }
 }
 
-export async function getAllOrders() {
+export async function getCart() {
   try {
-    const { data } = await axios.get('/api/orders');
+    const { data } = await axios.get('/api/orders/cart');
     return data;
   } catch (error) {
     throw error;
