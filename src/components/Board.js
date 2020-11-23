@@ -4,9 +4,10 @@ import {getAllProducts} from '../api'
 
 import {Prod} from './index'
 
-const MainBoard = () => {
+const MainBoard = (props) => {
+    const {setFetchId} = props
     const [initialRender, setInitialRender] = useState([])
-    const [selected, setSelected] = useState(null)
+    const [selectedId, setSelectedId] = useState('')
 
     useEffect(() => {
         async function fetchProducts(){
@@ -14,18 +15,18 @@ const MainBoard = () => {
         const data = await getAllProducts()
         console.log('data array ', data)
         setInitialRender(data)
-        setSelected(null)
+        setFetchId(selectedId)
           }catch(error){
             console.log(error)
           }
         }
     fetchProducts()
-      },[]);
+      },[selectedId]);
       console.log('set render ',initialRender)
 
     return <div style={{display: 'flex', flexWrap: 'wrap'}}>
 {initialRender.map((product) => {
-    return <Prod key={product.id} product={product} setSelected={setSelected} />
+    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} />
 })}
     </div>
 }

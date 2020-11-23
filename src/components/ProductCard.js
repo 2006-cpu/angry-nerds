@@ -8,17 +8,17 @@ import {Link, useParams} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Prod = (props) => {
-    const {setSelected} = props
+    const {setSelectedId} = props
     const {id, name, description, price, imageurl, instock, category} = props.product
     
     return <Card style={{ width: '18rem', margin: '1rem', 
     boxShadow: '0 6px 10px -5px' }} onClick={() => {
         console.log('selected product with id ', id)
-        setSelected(id)
+        setSelectedId(id)
         }}>
     <Card.Img variant="top" src={imageurl} />
     <Card.Body>
-<Card.Title><Link to={`/products/${id}`}>{name}</Link></Card.Title>
+<Card.Title><Link to={`/product/${id}`}>{name}</Link></Card.Title>
       <Card.Text>
         {description}
       </Card.Text>
