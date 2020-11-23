@@ -4,7 +4,21 @@ const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const {JWT_SECRET} = process.env;
 
-const {getUserByUsername, getUser} = require('../db/users');
+const {
+    getUserByUsername, 
+    getUser
+} = require('../db/users');
+
+
+usersRouter.get('/', async (req, res) => {
+    const users = await getAllUsers();
+    res.send({user})
+});
+
+usersRouter.use((req, res, next) => {
+    console.log("A request is being made to /users");
+    next();
+});
 
 
 //==== REQUIRE USER 
@@ -20,7 +34,7 @@ function requireUser(req, res, next) {
 
 
 
-//====Users -- REGISTER API route
+//====Users -- POST/REGISTER API route
 usersRouter.post('/users/register', async (req, res, next) => {
 
     const {firstName, lastName, email, username, password} = req.body;
@@ -57,7 +71,7 @@ usersRouter.post('/users/register', async (req, res, next) => {
 });
 
 
-//====Users -- USER LOGIN  API route
+//====Users -- POST/USER LOGIN  API route
 usersRouter.post('/users/login', async (req, res, next) => {
     const {username, password} = req.body;
     if(!username || !password) {
@@ -76,7 +90,7 @@ usersRouter.post('/users/login', async (req, res, next) => {
                 name: "your un/pw is incorrect error",
                 message: "Username or Password are not matching, please try again"
             })
-            return;
+            return user;
         }
     } catch (error) {
         next (error);
