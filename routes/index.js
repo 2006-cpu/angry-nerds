@@ -1,4 +1,7 @@
 const apiRouter = require('express').Router();
+const {JWT_SECRET} = process.env
+const jwt = require('jsonwebtoken');
+
 
 apiRouter.use(async (req, res, next) => {
   const prefix = 'Bearer ';

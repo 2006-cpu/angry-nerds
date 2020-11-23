@@ -3,6 +3,7 @@ const usersRouter = express.Router();
 
 const jwt = require('jsonwebtoken');
 const {JWT_SECRET} = process.env;
+const bcrypt = require('bcrypt');
 
 const {
     getUserByUsername, 
@@ -82,16 +83,19 @@ usersRouter.post('/login', async (req, res, next) => {
         })
     }
     try {
-        const user = await getUser({username, password});
-        if(user) {
-            const token = jwt.sign({id: user.id, username: user.username}, JWT_SECRET);
-            res.send({user, message: "Welcome back to Codalorians!", token})
-        } else {
-            next ({
-                name: "your un/pw is incorrect error",
-                message: "Username or Password are not matching, please try again"
-            })
+        const user = await getUserByUsername(username);
+        console.log('getUserByUsername', user )
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (isMatch === true) {
+            console.log('matching password!!');
+            let token = jwt.sign(user, JWT_SECRET);
+
+            res.send({ message: "you're logged in!", token});
+            delete user.password;
             return user;
+        }else if ([isMatch === false]) {
+            console.log('username or password does not match');
         }
     } catch (error) {
         next (error);
