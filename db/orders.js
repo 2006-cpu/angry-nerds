@@ -29,13 +29,13 @@ const {client} = require("./index")
    
 /* THIS IS FOR THE getOrdersByUser ADAPTER */
 
-    async function getOrdersByUser({ id }) {
+    async function getOrdersByUser(id) {
         try {
             const { rows: order }  = await client.query(`
-            SELECT orders.*, users.id
-            AS "userId"
+            SELECT orders.*, users.id AS "userId"
+            FROM orders
             JOIN users ON users.id = orders."userId"
-            WHERE users.id = $1
+            WHERE users.id = $1;
             `, [id]);
 
             return order;
@@ -63,14 +63,23 @@ const {client} = require("./index")
     /* THIS IS FOR THE getCartByUser ADAPTER */
     async function getCartByUser(id) {
         try {
-            const { rows: [ order ] } = await
+            const { rows:  [cart]  } = await
             client.query(`
             SELECT * FROM orders
-            WHERE orders.status = 'created'
-            AND orders."userId" = $1
+            WHERE status = 'created'
+            AND "userId" = $1
             `, [ id ])
 
-            return order;
+            const { rows: products} = await client.query(`
+            SELECT products.*
+            FROM products
+            JOIN order_products ON products.id=order_products."orderId"
+            WHERE order_products."orderId"=$1;
+            `, [cart.id])
+
+            cart.products = products
+            console.log("cart products", cart)
+            return cart
         } catch (error) {
             throw error;
         }
