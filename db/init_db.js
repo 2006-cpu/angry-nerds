@@ -3,6 +3,7 @@ const {client} = require('./index');
 
 const {createProduct} = require('./products')
 const {createUser} = require('./users')
+const {createOrder} = require('./orders')
 
 async function dropTables() {
   console.log('Dropping All Tables...');
@@ -113,6 +114,24 @@ async function populateInitialData() {
     throw error;
   }
 }
+
+async function populateInitialOrders() {
+  console.log("creating orders...")
+  try {
+    const seedOrders = [
+      {status:'created', userId:'1', datePlaced:'2020-06-22 18:10:25-07'},
+      {status:'created', userId:'2', datePlaced:'2011-06-22 10:10:25-07'},
+      {status:'created', userId:'3', datePlaced:'2019-06-22 11:10:25-07'}
+    ]
+    const orders = await Promise.all(seedOrders.map(createOrder));
+    console.log('orders created');
+    console.log(orders);
+  }catch(error) {
+    console.error('Error populating orders!!')
+    throw error;
+  }
+}
+
 async function buildTables(){
   try{
 client.connect()
@@ -127,5 +146,6 @@ buildTables()
   //.then(buildTables)
   .then(populateInitialUsers)
   .then(populateInitialData)
+  .then(populateInitialOrders)
   .catch(console.error)
   .finally(() => client.end());
