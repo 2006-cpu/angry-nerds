@@ -6,13 +6,14 @@ const {JWT_SECRET} = process.env;
 
 const {
     getUserByUsername, 
-    getUser
+    getUser,
+    getAllUsers
 } = require('../db/users');
 
 
 usersRouter.get('/', async (req, res) => {
     const users = await getAllUsers();
-    res.send({user})
+    res.send(users)
 });
 
 usersRouter.use((req, res, next) => {
@@ -35,7 +36,7 @@ function requireUser(req, res, next) {
 
 
 //====Users -- POST/REGISTER API route
-usersRouter.post('/users/register', async (req, res, next) => {
+usersRouter.post('/register', async (req, res, next) => {
 
     const {firstName, lastName, email, username, password} = req.body;
 
@@ -72,7 +73,7 @@ usersRouter.post('/users/register', async (req, res, next) => {
 
 
 //====Users -- POST/USER LOGIN  API route
-usersRouter.post('/users/login', async (req, res, next) => {
+usersRouter.post('/login', async (req, res, next) => {
     const {username, password} = req.body;
     if(!username || !password) {
         next({
@@ -98,7 +99,7 @@ usersRouter.post('/users/login', async (req, res, next) => {
 })
 
 //====Users -- GET/users/me (*) API route
-usersRouter.get('/users/me', requireUser, async(req, res, next) => {
+usersRouter.get('/me', requireUser, async(req, res, next) => {
     const {id} = req.user;
     
     try {
@@ -108,5 +109,19 @@ usersRouter.get('/users/me', requireUser, async(req, res, next) => {
     }
 })
 
+usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
+    const { userId } = req.params;
+    try {
+        const orders = await getOrdersByUser(1);
+        console.log("user order", orders)
+        res.send(orders)
+        // if(req.user.id === userId){
+        //     res.send(orders);
+        // }
+
+    } catch (error) {
+        next(error)
+    }
+} )
 
 module.exports = usersRouter;

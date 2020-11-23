@@ -45,12 +45,12 @@ async function getUser({username, password}) {
 
 async function getAllUsers(){
     try {
-        const {rows:[user]} = await client.query(`
+        const {rows} = await client.query(`
         SELECT *
         FROM users
         `);
-        delete user.password;
-        return user;
+        
+        return rows;
     } catch (error) {
         throw error;
     }
