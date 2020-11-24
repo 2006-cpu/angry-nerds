@@ -3,12 +3,16 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
+import {callApi} from '../api'
 
-/* NEEDS TO BE TESTED after routes created!!! */
+
+/* HITTING ROUTE, BUT REQUEST NOT PROPERLY FULFILLED */
 const LoginComponent = (props) => {
 
     const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
+
+    const {token, setToken, user, setUser} = props;
     
     const loginHandler = async (event) => {
         try {
@@ -20,17 +24,31 @@ const LoginComponent = (props) => {
             setUsername('');
             setPassword('');
             localStorage.setItem('token', data.token);
+
+            const user = await callApi(
+                {token: data.token, url:'/api/users/me'}
+            )
+            if(user && user,username) {
+                console.log("We have successfully logged in!!!");
+            }
+
         } catch(error) {
             console.log(error);
         }
     }
 
+    useEffect(() => {
+        if(token) {
+        setUser(user);
+        }
+    }, []);
+
     return <> 
        
-       <Form>
+       <Form onSubmit={loginHandler}>
             <Form.Group controlId="formBasicEmail">
                 <Form.Label>Username</Form.Label>
-                <Form.Control type="email" placeholder="Enter Username" />
+                <Form.Control type="text" value={username} onChange={(event) => {setUsername(event.target.value)}} placeholder="Enter Username" />
                 <Form.Text className="text-muted">
                 Please Enter Your Username
                 </Form.Text>
@@ -38,7 +56,7 @@ const LoginComponent = (props) => {
 
             <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control type="password" value={password} onChange={(event) => {setPassword(event.target.value)}}placeholder="Password" />
                 <Form.Text className="text-muted">
                 Please Enter Your Password
                 </Form.Text>
