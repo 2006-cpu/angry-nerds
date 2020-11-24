@@ -1,9 +1,11 @@
 // code to build and initialize DB goes here
 const {client} = require('./index');
 
-const {createProduct} = require('./products')
+const {createProduct, getAllProducts} = require('./products')
 const {createUser} = require('./users')
-const {createOrder} = require('./orders')
+const {createOrder, getAllOrders} = require('./orders');
+// const { getAllProducts } = require('../src/api');
+const {addProductToOrder} = require('./order_products')
 
 async function dropTables() {
   console.log('Dropping All Tables...');
@@ -132,6 +134,52 @@ async function populateInitialOrders() {
   }
 }
 
+async function populateInitialOrderProducts() {
+  try {
+    console.log('starting to create order products...');
+    const [order1, order2, order3] = await getAllOrders();
+    const [prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8] = await getAllProducts();
+
+    const orderProductsToCreate = [
+      {
+        productId: prod1.id,
+        orderId: order1.id,
+        price: prod1.price,
+        quantity: 2
+      },
+      {
+        productId: prod2.id,
+        orderId: order1.id,
+        price: prod2.price,
+        quantity: 5 
+      },
+      {
+        productId: prod3.id,
+        orderId: order1.id,
+        price: prod3.price,
+        quantity: 1 
+      },
+      {
+        productId: prod1.id,
+        orderId: order2.id,
+        price: prod1.price,
+        quantity: 7 
+      },
+      {
+        productId: prod5.id,
+        orderId: order2.id,
+        price: prod5.price,
+        quantity: 2 
+      }
+    ]
+    const orderProducts = await Promise.all(orderProductsToCreate.map(addProductToOrder));
+    console.log('order_products created: ', orderProducts)
+    console.log('Finished creating order_products!')
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function buildTables(){
   try{
 client.connect()
@@ -147,5 +195,6 @@ buildTables()
   .then(populateInitialUsers)
   .then(populateInitialData)
   .then(populateInitialOrders)
+  .then(populateInitialOrderProducts)
   .catch(console.error)
   .finally(() => client.end());

@@ -27,8 +27,9 @@ const Cart = (props) => {
     {/* {orders.map((order) => {
         return <Order />
     })} */}
-    <h1>fill this in after finishing singleOrder</h1>
-        </div>
+    <h1>My Cart</h1>
+                
+    </div>
 }
 
 export default Cart;

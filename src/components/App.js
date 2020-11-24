@@ -20,6 +20,7 @@ import {
 
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
 console.log('this is the fetchId ', fetchId)
