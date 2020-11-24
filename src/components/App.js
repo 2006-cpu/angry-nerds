@@ -15,10 +15,28 @@ import {
   SelectedBoard
 } from './index'
 
+import LoginComponent from './Login';
+
 
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
+  const [ token, setToken ] = useState('');
+  const [ user, setUser ] = useState( {} );
 
+
+
+  /* We'll persist login here */
+  /* {const userToken = localStorage.getItem('token');
+    useEffect( async () => {
+      if(userToken) {
+        const user = await callApi(
+          {token: userToken, url: '/users/me'})
+          setUser(user);
+      }
+    }, []);
+
+  }
+ */
   useEffect(() => {
 console.log('this is the fetchId ', fetchId)
   },[fetchId])
@@ -33,6 +51,9 @@ console.log('this is the fetchId ', fetchId)
         </Route>
         <Route path={`/product/${fetchId}`}>
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} />
+        </Route>
+        <Route path="/users/login">
+          <LoginComponent token={token} setToken={setToken} user={user} setUser={setUser}/>
         </Route>
       </Switch>
     </div></Router>
