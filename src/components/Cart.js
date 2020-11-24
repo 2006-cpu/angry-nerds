@@ -8,11 +8,12 @@ const Cart = (props) => {
     const {orderId} = useParams();
 
     const [orders, setOrders] = useState([]);
+    const [products, setProducts] = useState([]);
 
     const fetchOrders = () => {
         getCart().then(
             orders => {
-            setOrders(orders);
+            setOrders(orders.products);
         })
         .catch(error => {
             console.error(error);
@@ -21,21 +22,22 @@ const Cart = (props) => {
     useEffect(() => {
         fetchOrders()
       },[]);
-      console.log('orders', orders.products)
+      console.log('orders', orders)
 
     //   const productsList = orders.products
 
-    return <div style={{display: 'flex', flexWrap: 'wrap'}}>
+    return <div >
     <h1>My Cart</h1>
     <div>
     
-    {/* {productsList.map((product) => {
+    {orders.map((product) => {
         return (
             <div>
                 <h3>{product.name}</h3>
+                <h3>{product.price}</h3>
             </div>
         )
-    })} */}
+    })}
 
     </div>
                 
