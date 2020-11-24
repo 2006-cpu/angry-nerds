@@ -38,12 +38,16 @@ console.log('this is the fetchId ', fetchId)
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} />
         </Route>
       </Switch>
-      <Route path="/orders/:orderId">
-        <Order />
-      </Route>
-      <Route path="/orders/cart">
-        <Cart />
-      </Route>
+      <Switch>
+        <Route path="/orders/cart">
+          <Cart />
+        </Route>
+        <Route path="/orders/:orderId">
+          <Order />
+        </Route>
+      </Switch>
+      
+      
     </div></Router>
   
 }

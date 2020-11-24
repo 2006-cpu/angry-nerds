@@ -7,7 +7,7 @@ import {Order} from './index'
 const Cart = (props) => {
     const {orderId} = useParams();
 
-    const [orders, setOrders] = useState('')
+    const [orders, setOrders] = useState([]);
 
     const fetchOrders = () => {
         getCart().then(
@@ -21,13 +21,23 @@ const Cart = (props) => {
     useEffect(() => {
         fetchOrders()
       },[]);
-      console.log('orders', orders)
+      console.log('orders', orders.products)
+
+    //   const productsList = orders.products
 
     return <div style={{display: 'flex', flexWrap: 'wrap'}}>
-    {/* {orders.map((order) => {
-        return <Order />
-    })} */}
     <h1>My Cart</h1>
+    <div>
+    
+    {/* {productsList.map((product) => {
+        return (
+            <div>
+                <h3>{product.name}</h3>
+            </div>
+        )
+    })} */}
+
+    </div>
                 
     </div>
 }

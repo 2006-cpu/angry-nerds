@@ -1,19 +1,55 @@
 import React, { useState, useEffect } from 'react';
 
 import {useParams} from 'react-router-dom'
+import {getAllOrders} from '../api'
 
 import {Prod} from './index'
 
 const Order = (props) => {
-    // const {orderId} = useParams();
-    // const [orders, setOrders] = useState('');
+    const {orderId} = useParams();
+    const [orders, setOrders] = useState([]);
     const {products, setProducts} = props
 
-    return <div style={{display: 'flex', flexWrap: 'wrap'}}>
+    const fetchOrders = () => {
+        getAllOrders().then(
+            orders => {
+            setOrders(orders);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+      }
+    useEffect(() => {
+        fetchOrders()
+      },[]);
+      console.log('orders', orders)
+      console.log("ORDER ID PARAM", orderId)
+
+    return <div >
         <h1>Single Order</h1>
-            {products?.map((product) => {
-                return <Prod product={product}/>
-            })}
+        {orders?.map((order) => {
+            if(orderId === order.id){
+                return (
+                    <div>
+                        <p>{order.id}</p>
+                        <p>{order.status}</p>
+                        <p>{order.datePlaced}</p>
+                    </div>
+                )
+            } else {
+                return (
+                    <div>
+                    <p>{order.id}</p>
+                    <p>{order.status}</p>
+                    <p>{order.datePlaced}</p>
+                </div>
+                )
+            }
+            
+        })
+        }
+           
+        
     </div>
 }
 
