@@ -12,12 +12,15 @@ import {
   Navigation,
   MainBoard,
   Prod,
-  SelectedBoard
+  SelectedBoard,
+  Order,
+  Cart
 } from './index'
 
 
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
 console.log('this is the fetchId ', fetchId)
@@ -35,6 +38,16 @@ console.log('this is the fetchId ', fetchId)
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} />
         </Route>
       </Switch>
+      <Switch>
+        <Route path="/orders/cart">
+          <Cart />
+        </Route>
+        <Route path="/orders/:orderId">
+          <Order />
+        </Route>
+      </Switch>
+      
+      
     </div></Router>
   
 }
