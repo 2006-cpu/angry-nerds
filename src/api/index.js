@@ -20,3 +20,21 @@ export async function getProductById(id) {
     throw error;
   }
 }
+
+export async function getCart() {
+  try {
+    const { data } = await axios.get('/api/orders/cart');
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getAllOrders() {
+  try {
+    const { data } = await axios.get('/api/orders');
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

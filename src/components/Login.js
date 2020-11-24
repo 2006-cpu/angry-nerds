@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
@@ -7,16 +8,22 @@ import {callApi} from '../api'
 
 
 /* HITTING ROUTE, BUT REQUEST NOT PROPERLY FULFILLED */
+
+
+/* NEEDS TO BE TESTED after routes created!!! */
+
 const LoginComponent = (props) => {
 
     const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
 
     const {token, setToken, user, setUser} = props;
+
     
     const loginHandler = async (event) => {
         try {
             event.preventDefault();
+
             const response = await axios.post(`/api/users/login`, {username, password})
 
             const {data} = response;
@@ -24,6 +31,7 @@ const LoginComponent = (props) => {
             setUsername('');
             setPassword('');
             localStorage.setItem('token', data.token);
+
             setToken(data.token);
             const user = await callApi(
                 {token: data.token, url:'/api/users/me'}
@@ -32,10 +40,12 @@ const LoginComponent = (props) => {
                 console.log("We have successfully logged in!!!");
             }
 
+
         } catch(error) {
             console.log(error);
         }
     }
+
 
     useEffect(() => {
         if(token) {
@@ -66,6 +76,7 @@ const LoginComponent = (props) => {
             </Button>
         </Form>
     </>
+
 }
 
 export default LoginComponent;
