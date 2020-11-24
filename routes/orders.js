@@ -24,9 +24,11 @@ const {
 
 
     ordersRouter.get('/cart', async ( req, res, next ) => {
-        const { userId } = req.params;
+        // const { userId } = req.params;
+        //getCartByUser(req.user.id)
         try {
-            const cart = await getCartByUser(userId);
+            const cart = await getCartByUser(1);
+            console.log("user req", req.user)
             res.send(cart);
 
         } catch(error) {

@@ -8,8 +8,10 @@ const bcrypt = require('bcrypt');
 const {
     getUserByUsername, 
     createUser,
-    getAllUsers
+    getAllUsers,
 } = require('../db/users');
+
+const {getOrdersByUser} = require('../db/orders')
 
 
 usersRouter.get('/', async (req, res) => {
@@ -106,10 +108,10 @@ usersRouter.get('/me', requireUser, async(req, res, next) => {
     }
 })
 
-usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
+usersRouter.get('/:userId/orders', async (req, res, next ) => {
     const { userId } = req.params;
     try {
-        const orders = await getOrdersByUser(1);
+        const orders = await getOrdersByUser(userId);
         console.log("user order", orders)
         res.send(orders)
         // if(req.user.id === userId){
