@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactDOM from 'react-dom';
+import { NavLink } from 'react-router-dom';
 
 import {
   BrowserRouter as Router,
@@ -27,7 +28,9 @@ const Navigation = () => {
         </NavDropdown>
       </Nav>
       <Nav>
-        <Nav.Link>Login</Nav.Link>
+        <Nav.Link>
+          <NavLink to="/users/login">Login</NavLink>
+        </Nav.Link>
         <Nav.Link eventKey={2}>
           Filler
         </Nav.Link>
