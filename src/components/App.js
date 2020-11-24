@@ -17,12 +17,13 @@ import {
   Cart
 } from './index'
 
-import { callApi } from '../api' ;
+
 import LoginComponent from './Login';
 
 
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
+
   const [products, setProducts] = useState([]);
   const [ token, setToken ] = useState('');
   const [ user, setUser ] = useState( {} )
@@ -39,6 +40,19 @@ const App = () => {
 
   } */
 
+
+  /* We'll persist login here */
+  /* {const userToken = localStorage.getItem('token');
+    useEffect( async () => {
+      if(userToken) {
+        const user = await callApi(
+          {token: userToken, url: '/users/me'})
+          setUser(user);
+      }
+    }, []);
+
+  }
+ */
   useEffect(() => {
 console.log('this is the fetchId ', fetchId)
   },[fetchId])
@@ -54,6 +68,7 @@ console.log('this is the fetchId ', fetchId)
         <Route path={`/product/${fetchId}`}>
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} />
         </Route>
+
         <Route path="/orders/cart">
           <Cart />
         </Route>
