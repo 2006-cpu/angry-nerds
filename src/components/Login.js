@@ -17,14 +17,14 @@ const LoginComponent = (props) => {
     const loginHandler = async (event) => {
         try {
             event.preventDefault();
-            const response = await axios.post(`/login`, {username, password})
+            const response = await axios.post(`/api/users/login`, {username, password})
 
             const {data} = response;
 
             setUsername('');
             setPassword('');
             localStorage.setItem('token', data.token);
-
+            setToken(data.token);
             const user = await callApi(
                 {token: data.token, url:'/api/users/me'}
             )

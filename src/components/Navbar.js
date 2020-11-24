@@ -30,6 +30,7 @@ const Navigation = () => {
       <Nav>
         <Nav.Link>
           <NavLink to="/users/login">Login</NavLink>
+          <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/order/cart">Cart</Link>
         </Nav.Link>
         <Nav.Link eventKey={2}>
           Filler
