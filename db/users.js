@@ -1,5 +1,5 @@
 const {client} = require('./index');
-const bcrypt = requrire('bcrypt');
+const bcrypt = require('bcrypt');
 
 const SALT_COUNT = 10;
 
@@ -12,16 +12,15 @@ async function createUser({firstName, lastName, email, imageURL, username, passw
         const {rows:[user]} = await client.query(`
         INSERT INTO users (firstName, lastName, email, imageURL, username, password, "isAdmin")
         VALUES ($1, $2, $3, $4, $5, $6, $7)
-        ON CONFLICT (username) DO NOTHING
         RETURNING *;
         `,[firstName, lastName, email, imageURL, username, hashedPassword, isAdmin]);
-
-        delete user.password;
+        // delete user.password;
         return user;
     }catch (error) {
         throw error;
+     }
     }
-}
+
 
 async function getUser({username, password}) {
     try {
@@ -45,12 +44,12 @@ async function getUser({username, password}) {
 
 async function getAllUsers(){
     try {
-        const {rows:[user]} = await client.query(`
+        const {rows} = await client.query(`
         SELECT *
         FROM users
         `);
-        delete user.password;
-        return user;
+        
+        return rows;
     } catch (error) {
         throw error;
     }
@@ -72,16 +71,23 @@ async function getUserById(id) {
 
 async function getUserByUsername(username) {
     try {
-        const {row:[user]} = await client.query(`
+        const {rows} = await client.query(`
         SELECT *
         FROM users
         WHERE username=$1
         `,[username]);
+
+        if(!rows || !rows.length){
+            return null
+        }
+
+        const [user] = rows
         return user;
     }catch (error) {
         throw error;
     }
 }
+
 
 module.exports = {
     createUser,

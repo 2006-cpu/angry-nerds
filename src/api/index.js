@@ -13,7 +13,26 @@ export async function getAllProducts() {
 export async function getProductById(id) {
   try {
     const { data } = await axios.get(`/api/products/${id}`);
+    console.log("productId: id", id)
     console.log("productId:", data)
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getCart() {
+  try {
+    const { data } = await axios.get('/api/orders/cart');
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getAllOrders() {
+  try {
+    const { data } = await axios.get('/api/orders');
     return data;
   } catch (error) {
     throw error;

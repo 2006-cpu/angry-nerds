@@ -1,7 +1,11 @@
 // code to build and initialize DB goes here
 const {client} = require('./index');
 
-const {createProduct} = require('./products')
+const {createProduct, getAllProducts} = require('./products')
+const {createUser} = require('./users')
+const {createOrder, getAllOrders} = require('./orders');
+// const { getAllProducts } = require('../src/api');
+const {addProductToOrder} = require('./order_products')
 
 async function dropTables() {
   console.log('Dropping All Tables...');
@@ -72,6 +76,23 @@ async function createTables() {
   }
 }
 
+async function populateInitialUsers() {
+  try {
+    const seedUsers = [
+      {firstName:'cecilia', lastName:'lam', email:'cecilia@example.com', username:'cecilia', password:'cecilia123', isAdmin: false},
+      {firstName:'katiana', lastName:'CV', email:'kati-cv@example.com', username:'kati', password:'katicv123', isAdmin: true},
+      {firstName:'trin', lastName:'padilla', email:'trinp@example.com', username:'trin', password:'padilla123', isAdmin: true},
+      {firstName:'nicholas', lastName:'lopez', email:'nicholas@example.com', username:'nicholas', password:'nicholas123', isAdmin: true},
+    ]
+    const users = await Promise.all(seedUsers.map(createUser));
+    console.log('users created');
+    console.log(users);
+  }catch(error) {
+    console.error('Error populating users!!')
+    throw error;
+  }
+}
+
 
 async function populateInitialData() {
   console.log('Starting to create products...');
@@ -95,6 +116,70 @@ async function populateInitialData() {
     throw error;
   }
 }
+
+async function populateInitialOrders() {
+  console.log("creating orders...")
+  try {
+    const seedOrders = [
+      {status:'created', userId:'1', datePlaced:'2020-06-22 18:10:25-07'},
+      {status:'created', userId:'2', datePlaced:'2011-06-22 10:10:25-07'},
+      {status:'created', userId:'3', datePlaced:'2019-06-22 11:10:25-07'}
+    ]
+    const orders = await Promise.all(seedOrders.map(createOrder));
+    console.log('orders created');
+    console.log(orders);
+  }catch(error) {
+    console.error('Error populating orders!!')
+    throw error;
+  }
+}
+
+async function populateInitialOrderProducts() {
+  try {
+    console.log('starting to create order products...');
+    const [order1, order2, order3] = await getAllOrders();
+    const [prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8] = await getAllProducts();
+
+    const orderProductsToCreate = [
+      {
+        productId: prod1.id,
+        orderId: order1.id,
+        price: prod1.price,
+        quantity: 2
+      },
+      {
+        productId: prod2.id,
+        orderId: order1.id,
+        price: prod2.price,
+        quantity: 5 
+      },
+      {
+        productId: prod3.id,
+        orderId: order1.id,
+        price: prod3.price,
+        quantity: 1 
+      },
+      {
+        productId: prod1.id,
+        orderId: order2.id,
+        price: prod1.price,
+        quantity: 7 
+      },
+      {
+        productId: prod5.id,
+        orderId: order2.id,
+        price: prod5.price,
+        quantity: 2 
+      }
+    ]
+    const orderProducts = await Promise.all(orderProductsToCreate.map(addProductToOrder));
+    console.log('order_products created: ', orderProducts)
+    console.log('Finished creating order_products!')
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function buildTables(){
   try{
 client.connect()
@@ -107,6 +192,9 @@ await createTables()
 
 buildTables()
   //.then(buildTables)
+  .then(populateInitialUsers)
   .then(populateInitialData)
+  .then(populateInitialOrders)
+  .then(populateInitialOrderProducts)
   .catch(console.error)
   .finally(() => client.end());

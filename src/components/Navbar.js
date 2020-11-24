@@ -28,8 +28,8 @@ const Navigation = () => {
       </Nav>
       <Nav>
         <Nav.Link>Login</Nav.Link>
-        <Nav.Link eventKey={2}>
-          Filler
+        <Nav.Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart">
+          Cart
         </Nav.Link>
       </Nav>
     </Navbar.Collapse>

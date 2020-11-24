@@ -19,10 +19,13 @@ const {client} = require("./index")
 
     async function addProductToOrder({ orderId, productId, price, quantity }) {
         try {
-            const { rows } = await client.query(`
-                
-            `)
-            return rows;
+            const { rows: [orderProduct] } = await client.query(`
+                INSERT INTO order_products("orderId", "productId", price, quantity)
+                VALUES ($1, $2, $3, $4)
+                RETURNING *;
+            `, [orderId, productId, price, quantity])
+    
+            return orderProduct;
         } catch (error) {
             throw error
         }

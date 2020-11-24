@@ -29,48 +29,14 @@ const {client} = require("./index")
    
 /* THIS IS FOR THE getOrdersByUser ADAPTER */
 
-    async function getOrdersByUser({ username }) {
+    async function getOrdersByUser(id) {
         try {
             const { rows: order }  = await client.query(`
-            SELECT *, users.id AS "userId"
-            JOIN users ON users.id = orders."userId"
-            WHERE users.id = $1
-            `, [username]);
-
-            return order;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-/* THIS IS FOR THE getOrdersByProductId ADAPTER */
-    async function getOrdersByProductId({ id }) {
-        try {
-            const { rows: order } = await client.query(`
-            SELECT *
+            SELECT orders.*, users.id AS "userId"
             FROM orders
-            JOIN order_products ON
-            order_products."orderId" = 
-            orders.id
-            WHERE order_products."productId" = $1
-            `, [ id ])
-
-            return order;
-
-        } catch (error) {
-            throw error;
-        }
-    }
-
-/* THIS IS FOR THE getCartByUser ADAPTER */
-    async function getCartByUser({id}) {
-        try {
-            const { rows: [ order ] } = await
-            client.query(`
-            SELECT * FROM orders
-            WHERE orders.status = "created"
-            WHERE order."userId" = $1
-            `, [ id ])
+            JOIN users ON users.id = orders."userId"
+            WHERE users.id = $1;
+            `, [id]);
 
             return order;
         } catch (error) {
@@ -78,17 +44,42 @@ const {client} = require("./index")
         }
     }
 
-/* THIS IS FOR THE createOrder ADAPTER */
-    async function createOrder({ status, userId }) {
+    /* THIS IS FOR THE createOrder ADAPTER */
+    async function createOrder({ status, userId, datePlaced }) {
         try {
             const { rows: [ order ] } = await client.query(`
                 INSERT INTO orders
-                (status, "userId")
-                VALUES($1, $2)
+                (status, "userId", "datePlaced")
+                VALUES($1, $2, $3)
                 RETURNING *
-            `, [status, userId]);
+            `, [status, userId, datePlaced]);
 
             return order;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /* THIS IS FOR THE getCartByUser ADAPTER */
+    async function getCartByUser(id) {
+        try {
+            const { rows:  [cart]  } = await
+            client.query(`
+            SELECT * FROM orders
+            WHERE status = 'created'
+            AND "userId" = $1
+            `, [ id ])
+
+            const { rows: products} = await client.query(`
+            SELECT products.*
+            FROM products
+            JOIN order_products ON products.id=order_products."orderId"
+            WHERE order_products."orderId"=$1;
+            `, [cart.id])
+
+            cart.products = products
+            console.log("cart products", cart)
+            return cart
         } catch (error) {
             throw error;
         }
@@ -98,8 +89,7 @@ module.exports = {
     getOrderById,
     getAllOrders,
     getOrdersByUser,
-    getOrdersByProductId,
-    getCartByUser,
-    createOrder
+    createOrder,
+    getCartByUser
 }
 
