@@ -65,7 +65,7 @@ console.log('this is the fetchId ', fetchId)
         <Route path="/products">
           <MainBoard setFetchId={setFetchId} />
         </Route>
-        <Route path={`/product/${fetchId}`}>
+        <Route path="/product/:productId">
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} />
         </Route>
 
