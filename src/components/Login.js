@@ -31,12 +31,13 @@ const LoginComponent = (props) => {
             setUsername('');
             setPassword('');
             localStorage.setItem('token', data.token);
+            console.log(data.token);
 
             setToken(data.token);
             const user = await callApi(
                 {token: data.token, url:'/api/users/me'}
             )
-            if(user && user,username) {
+            if(user && user.username) {
                 console.log("We have successfully logged in!!!");
             }
 
