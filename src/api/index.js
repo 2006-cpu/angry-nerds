@@ -21,6 +21,17 @@ export async function getProductById(id) {
   }
 }
 
+export async function getProductByCategory(category) {
+  try {
+    console.log("product category", category)
+    const { data } = await axios.get(`/api/products/${category}`);
+    console.log("category array", data)
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getCart() {
   try {
     const { data } = await axios.get('/api/orders/cart');

@@ -11,6 +11,7 @@ const SelectedBoard = (props) => {
     const [initialRender, setInitialRender] = useState([])
     const [selectedId, setSelectedId] = useState(fetchId)
     const [selected, setSelected] = useState({})
+    const [categorysel, setCategorysel] = useState('')
 
     useEffect(() => {
         async function fetchProducts(){
@@ -38,7 +39,7 @@ const SelectedBoard = (props) => {
      backgroundColor: 'lightgrey', float: 'right', flexDirection: 'column', overflow: 'scroll'}}>
 {initialRender.map((product) => {
     if(product.id !== selectedId){
-    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} />
+    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} />
 }
 })}
     </div>
