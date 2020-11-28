@@ -8,15 +8,15 @@ import {Link, useParams} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Prod = (props) => {
-    const {setSelectedId} = props
+    const {setSelectedId, setCategorysel} = props
     const {id, name, description, price, imageurl, instock, category} = props.product
     
-    return <Card style={{ width: '18rem', margin: '1rem', 
+    return <Card style={{ width: '18rem', height: '40rem', margin: '1rem', 
     boxShadow: '0 6px 10px -5px' }} onClick={() => {
         console.log('selected product with id ', id)
         setSelectedId(id)
         }}>
-    <Card.Img variant="top" src={imageurl} />
+    <Card.Img variant="top" src={imageurl ? imageurl : "https://icon-library.com/images/no-image-available-icon/no-image-available-icon-8.jpg"} />
     <Card.Body>
 <Card.Title><Link to={`/product/${id}`}>{name}</Link></Card.Title>
       <Card.Text>
@@ -32,7 +32,7 @@ const Prod = (props) => {
         {instock ? <Button style={{float: 'left'}} variant="primary" size="sm">Add To Cart</Button>
          : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }
       
-      <Button style={{float: 'right'}} variant="secondary" size="sm">Similar Items</Button>
+      <Button style={{float: 'right'}} variant="secondary" size="sm" onClick={() => {setCategorysel(category)}} >Similar Items</Button>
     </Card.Body>
     </div>
   </Card>
