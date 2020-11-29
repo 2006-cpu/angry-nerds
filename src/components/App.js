@@ -48,7 +48,7 @@ console.log('this is the fetchId ', fetchId)
 
   return <Router>
     <div className="App">
-      <Navigation />
+      <Navigation user={user} setUser={setUser} token={token} setToken={setToken} />
       <Switch>
         <Route path="/home">
           <HomePage setFetchId={setFetchId} />
