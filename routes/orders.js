@@ -79,7 +79,7 @@ const {
 
 
 //=====DELETE /orders/:orderId (**):Update the order's status to cancelled
-    ordersRouter.delete('/:orders/:orderId', requireUser, async (req, res, next) => {
+    ordersRouter.delete('/orders/:orderId', requireUser, async (req, res, next) => {
         const {getOrderById} = req.params;
 
         try{
