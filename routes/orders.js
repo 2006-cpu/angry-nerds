@@ -56,12 +56,12 @@ const {
 
 //=====PATCH /orders/:orderId (**):Update an order, notably change status
     ordersRouter.patch('/orders:orderId', requireUser, async (req, res, next) => {
-        const {completeOrder} = req.params;
-        const {status, userId} = req.body;
+        const {getOrderById} = req.params;
+        const {id, status, userId} = req.body;
 
         try{
             const updateOrder = await completeOrder({status, id});
-            if(req.id !== userId){
+            if(req.user.id !== userId){
                 res.send({
                     name: "UnauthorizedUserError",
                     message: "You are not allowed to update the status of the order until you signed in."
