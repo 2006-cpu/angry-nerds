@@ -60,6 +60,7 @@ const {
         const {id, status, userId} = req.body;
 
         try{
+            console.log("this is a param:", getOrderById)
             const updateOrder = await completeOrder({status, id});
             if(req.user.id !== userId){
                 res.send({
