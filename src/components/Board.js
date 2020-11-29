@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import Button from 'react-bootstrap/Button'
 
 import {getAllProducts} from '../api'
 
@@ -6,15 +8,17 @@ import {Prod} from './index'
 
 const MainBoard = (props) => {
     const {setFetchId} = props
-    const [initialRender, setInitialRender] = useState([])
+    const [productRender, setProductRender] = useState([])
     const [selectedId, setSelectedId] = useState('')
+    const [categorysel, setCategorysel] = useState('')
 
     useEffect(() => {
         async function fetchProducts(){
           try{
         const data = await getAllProducts()
         console.log('data array ', data)
-        setInitialRender(data)
+        console.log('category ', categorysel)
+        setProductRender(data)
         setFetchId(selectedId)
           }catch(error){
             console.log(error)
@@ -22,13 +26,23 @@ const MainBoard = (props) => {
         }
     fetchProducts()
       },[selectedId]);
-      console.log('set render ',initialRender)
+      console.log('set render ',productRender)
 
-    return <div style={{display: 'flex', flexWrap: 'wrap'}}>
-{initialRender.map((product) => {
-    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} />
+    return <><div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
+        <h3 style={{marginTop: '.4rem', marginLeft: '1rem'}}>You Are Now Viewing {categorysel ? `All ${categorysel}s` : 'All Items'}</h3>
+        {categorysel ? <Button style={{marginTop: '.4rem', marginRight: '1rem'}} onClick={() => {setCategorysel('')}}>Unfilter Products</Button> : null}
+        </div>
+        <div style={{display: 'flex', flexWrap: 'wrap'}}>
+{productRender.map((product) => {
+    if (categorysel === ''){
+    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} />}
+    else if (categorysel !== ''){
+        if(product.category === categorysel){
+            return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} />
+        }
+    }
 })}
-    </div>
+    </div></>
 }
 
 export default MainBoard;

@@ -11,9 +11,9 @@ import {
 import {
   Navigation,
   MainBoard,
-  Prod,
   SelectedBoard,
   Order,
+  HomePage,
   Cart
 } from './index'
 
@@ -62,13 +62,16 @@ console.log('this is the fetchId ', fetchId)
     <div className="App">
       <Navigation />
       <Switch>
+        <Route path="/home">
+          <HomePage setFetchId={setFetchId} />
+        </Route>
         <Route path="/products">
           <MainBoard setFetchId={setFetchId} />
         </Route>
-        <Route path={`/product/${fetchId}`}>
+        <Route path="/product/:productId">
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} />
         </Route>
-
+        
         <Route path="/orders/cart">
           <Cart />
         </Route>
@@ -78,6 +81,7 @@ console.log('this is the fetchId ', fetchId)
        <Route path="/users/login">
         <LoginComponent token={token} setToken={setToken} user={user} setUser={setUser} />
       </Route>
+      <Redirect to="/home" />
       </Switch>
     </div></Router>
 }

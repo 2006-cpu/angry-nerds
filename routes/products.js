@@ -4,6 +4,7 @@ const productsRouter = express.Router();
 const {
     getAllProducts,
     getProductById,
+    getProductsByCategory,
     createProduct
 } = require('../db/products')
 
@@ -30,6 +31,23 @@ const {
         const { productId } = req.params;
         try {
             const productById = await getProductById(productId);
+            res.send(productById);
+
+        } catch(error) {
+            next(error);
+        }
+    });
+
+
+/* ------------------------------------------------------------ */
+/* THIS IS THE GET/product/:category ROUTER */
+
+    /* looks up product by category and sends back */
+    productsRouter.get('/:category', async ( req, res, next ) => {
+        const { category } = req.params;
+        try {
+            console.log('this is the params ', category)
+            const productById = await getProductsByCategory({category});
             res.send(productById);
 
         } catch(error) {

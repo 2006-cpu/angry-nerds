@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import {getAllProducts, getProductById} from '../api'
 
 import {Prod, SelectedProd} from './index'
 
 const SelectedBoard = (props) => {
+    const {productId} = useParams()
     const {fetchId} = props
     const [initialRender, setInitialRender] = useState([])
     const [selectedId, setSelectedId] = useState(fetchId)
     const [selected, setSelected] = useState({})
+    const [categorysel, setCategorysel] = useState('')
 
     useEffect(() => {
         async function fetchProducts(){
           try{
+            console.log('chosen productId ', productId)
         const data = await getAllProducts()
-        const chosenOne = await getProductById(selectedId)
+        const chosenOne = await getProductById(productId)
         console.log('data array ', data)
         console.log('chosen array ', chosenOne)
         setInitialRender(data)
@@ -35,7 +39,7 @@ const SelectedBoard = (props) => {
      backgroundColor: 'lightgrey', float: 'right', flexDirection: 'column', overflow: 'scroll'}}>
 {initialRender.map((product) => {
     if(product.id !== selectedId){
-    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} />
+    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} />
 }
 })}
     </div>

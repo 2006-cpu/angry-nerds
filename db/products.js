@@ -27,6 +27,20 @@ async function getProductById(id) {
     }
 }
 
+async function getProductsByCategory({category}) {
+    try{
+        const { rows: products } = await client.query(`
+            SELECT *
+            FROM products
+            WHERE category=$1
+        `, [category]);
+
+        return products;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function createProduct(product) {
     const {name, description, price, inStock, imageURL, category} = product;
     try{
@@ -45,5 +59,6 @@ async function createProduct(product) {
 module.exports = {
     createProduct,
     getAllProducts,
-    getProductById
+    getProductById,
+    getProductsByCategory
 }
