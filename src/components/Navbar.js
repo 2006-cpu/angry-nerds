@@ -34,8 +34,7 @@ const Navigation = () => {
           <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart">Cart</Link>
         </Nav.Link>
         <Nav.Link eventKey={2}>
-          Filler
-
+          <NavLink to="/users/register">Register</NavLink>
         </Nav.Link>
       </Nav>
     </Navbar.Collapse>
