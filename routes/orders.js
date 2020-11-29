@@ -1,13 +1,17 @@
 const express = require('express');
 const ordersRouter = express.Router();
 
-const { requireAdmin, requireUser } = require("./utils");
+const { requireAdmin, requireUser } = require('./utils');
 
 const {
     getAllOrders,
     getCartByUser,
     createOrder,
-    getOrdersByUser
+    getOrderById,
+    updateOrder,
+    completeOrder,
+    cancelOrder,
+    // getOrdersByUser
 } = require('../db/orders')
 
 //fix requireAdmin
@@ -48,6 +52,52 @@ const {
             next(error)
         }
     } )
+
+
+//=====PATCH /orders/:orderId (**):Update an order, notably change status
+    ordersRouter.patch('/orders:orderId', requireUser, async (req, res, next) => {
+        const {completeOrder} = req.params;
+        const {status, userId} = req.body;
+
+        try{
+            const updateOrder = await completeOrder({status, id});
+            if(req.id !== userId){
+                res.send({
+                    name: "UnauthorizedUserError",
+                    message: "You are not allowed to update the status of the order until you signed in."
+                })
+            }else {
+                const updatedStatus = await updateOrder(status)
+                    res.send(updatedStatus)
+            }
+        } catch({name, message}){
+            next({
+                name:"updatedOrderMessage",
+                message:"Great News! Your order status has been updated!"
+            })}
+        })
+
+
+//=====DELETE /orders/:orderId (**):Update the order's status to cancelled
+    ordersRouter.delete('/:orders/:orderId', requireUser, async (req, res, next) => {
+        const {getOrderById} = req.params;
+
+        try{
+            const order = await getOrderById(id);
+
+            if(order && order.userId !== req.userId){
+                req.send({
+                    name: "UnauthorizedUserError",
+                    message: "You are not allowed to update the status of the order until you signed in."
+                })
+            } else {
+                const deletedOrder = await cancelOrder(orderId)
+                res.send(deletedOrder)
+            }
+        } catch (error){
+            next (error)
+        }
+    })
 
 
 module.exports = ordersRouter;
