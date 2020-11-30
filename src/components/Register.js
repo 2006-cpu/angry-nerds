@@ -7,12 +7,7 @@ import Button from 'react-bootstrap/Button'
 import {callApi} from '../api'
 
 
-/* HITTING ROUTE, BUT REQUEST NOT PROPERLY FULFILLED */
-
-
-/* NEEDS TO BE TESTED after routes created!!! */
-
-const LoginComponent = (props) => {
+const RegisterComponent = (props) => {
 
     const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
@@ -20,31 +15,30 @@ const LoginComponent = (props) => {
     const {token, setToken, user, setUser} = props;
 
     
-    const loginHandler = async (event) => {
+    const registerHandler = async (event) => {
         try {
             event.preventDefault();
 
-            const response = await axios.post(`/api/users/login`, {username, password})
+            const response = await axios.post(`/api/users/register`, {username, password})
 
             const {data} = response;
             console.log("here is the response:", response)
-            
-            console.log("Here is the data:", data.token);
-            setUsername('');
-            setPassword('');
+            if(data) {
+                console.log("Here is the data:", data.token);
+                setUsername('');
+                setPassword('');
 
-            console.log(`Welcome ${username}`)
-            console.log(`Welcome ${password}`)
-            localStorage.setItem('token', data.token);
-            console.log("check out the token:",localStorage.getItem('token'))
-            console.log(data.token);
+                console.log(`Welcome ${username}`)
+                console.log(`Welcome ${password}`)
+                localStorage.setItem('token', data.token);
+                setToken(data.token);
 
-            setToken(data.token);
-            const user = await callApi(
-                {token: data.token, url:'/api/users/me'}
-            )
-            if(user && user.username) {
-                console.log("We have successfully logged in!!!");
+                const user = await callApi(
+                    {token: data.token, url:'/api/users/me'}
+                )
+                if(user && user.username) {
+                    console.log("We have successfully created an account!!!");
+                }
             }
 
 
@@ -62,12 +56,12 @@ const LoginComponent = (props) => {
 
     return <> 
        
-       <Form onSubmit={loginHandler}>
+       <Form onSubmit={registerHandler}>
             <Form.Group controlId="formBasicEmail">
                 <Form.Label>Username</Form.Label>
                 <Form.Control type="text" value={username} onChange={(event) => {setUsername(event.target.value)}} placeholder="Enter Username" />
                 <Form.Text className="text-muted">
-                Please Enter Your Username
+                Please Create Your Username
                 </Form.Text>
             </Form.Group>
 
@@ -75,15 +69,15 @@ const LoginComponent = (props) => {
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" value={password} onChange={(event) => {setPassword(event.target.value)}}placeholder="Password" />
                 <Form.Text className="text-muted">
-                Please Enter Your Password
+                Please Create Your Password
                 </Form.Text>
             </Form.Group>
             <Button variant="primary" type="submit">
-                Submit
+                Create
             </Button>
         </Form>
     </>
 
 }
 
-export default LoginComponent;
+export default RegisterComponent;

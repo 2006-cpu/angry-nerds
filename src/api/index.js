@@ -53,7 +53,7 @@ export async function getAllOrders() {
 export const callApi = async ({method, body, url, token}) => {
   try {
       const options = {
-          method: method || 'get',
+          method: method || 'GET',
           data: body,
           url: `${url}`
       }
