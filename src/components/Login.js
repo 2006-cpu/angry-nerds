@@ -24,9 +24,9 @@ const LoginComponent = (props) => {
         try {
             event.preventDefault();
 
-            const response = await axios.post(`/api/users/login`, {username, password})
+            const {data} = await axios.post(`/api/users/login`, {username, password})
 
-            const {data} = response;
+            // const {data} = response;
 
             setUsername('');
             setPassword('');
@@ -36,7 +36,7 @@ const LoginComponent = (props) => {
             const user = await callApi(
                 {token: data.token, url:'/api/users/me'}
             )
-            if(user && user,username) {
+            if(user && user.username) {
                 console.log("We have successfully logged in!!!");
             }
 

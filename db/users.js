@@ -14,7 +14,7 @@ async function createUser({firstName, lastName, email, imageURL, username, passw
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING *;
         `,[firstName, lastName, email, imageURL, username, hashedPassword, isAdmin]);
-        // delete user.password;
+        delete user.password;
         return user;
     }catch (error) {
         throw error;
@@ -30,11 +30,11 @@ async function getUser({username, password}) {
         WHERE username=$1
         `,[username]);
         const isMatch = await bcrypt.compare(password, user.password);
-        if (isMatch === true) {
+        if (isMatch) {
             console.log('matching password!!');
             delete user.password;
             return user;
-        }else if ([isMatch === false]) {
+        }else if (!isMatch) {
             console.log('password does not match');
         }
         } catch (error) {
@@ -80,8 +80,8 @@ async function getUserByUsername(username) {
         if(!rows || !rows.length){
             return null
         }
-
-        const [user] = rows
+        const [user] = rows;
+        delete user.password;
         return user;
     }catch (error) {
         throw error;

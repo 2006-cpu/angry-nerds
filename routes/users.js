@@ -2,7 +2,8 @@ const express = require('express');
 const usersRouter = express.Router();
 
 const jwt = require('jsonwebtoken');
-const {JWT_SECRET} = process.env;
+//remember to remove testing secret at submission
+const {JWT_SECRET} = process.env || 'notSoSecret';
 const bcrypt = require('bcrypt');
 
 const {
@@ -10,6 +11,11 @@ const {
     createUser,
     getAllUsers,
 } = require('../db/users');
+
+usersRouter.use((req, res, next) => {
+    console.log("A request is being made to /users");
+    next();
+});
 
 const {getOrdersByUser} = require('../db/orders')
 
@@ -19,10 +25,6 @@ usersRouter.get('/', async (req, res) => {
     res.send(users)
 });
 
-usersRouter.use((req, res, next) => {
-    console.log("A request is being made to /users");
-    next();
-});
 
 
 //==== REQUIRE USER 
