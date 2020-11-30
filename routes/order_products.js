@@ -10,22 +10,23 @@ const {
 
 const { getOrderById } = require('../db/orders');
 
-opRouter.patch('/order_products/:orderProductId', requireUser, async ( req, res, next ) => {
+opRouter.patch('/:orderProductId', async ( req, res, next ) => {
     try {
-        const { orderProductId: id } = req.params;
+        const { orderProductId } = req.params;
         
-        const orderProduct = await getOrderProductById(id);
+        const orderProduct = await getOrderProductById(orderProductId);
         const order = await getOrderById(orderProduct.orderId)
         
-        if(order.userId === req.user.id) {
-            const {quantity, price} = req.body;
-            const updatedOP = await updateOrderProduct({id, quantity, price})
-            res.send(updatedOP);
-        } else {
+        const {id, quantity, price} = req.body;
+        const updatedOP = await updateOrderProduct({id: orderProductId, quantity, price})
+       
+        if(order.userId !== req.user.id) {
             next({
                 message:
                     "user must also be owner"
             })
+        } else {
+            res.send(updatedOP);
         }
 
     } catch(error) {
@@ -33,7 +34,7 @@ opRouter.patch('/order_products/:orderProductId', requireUser, async ( req, res,
     }
 });
 
-opRouter.delete('/order_products/:orderProductId', requireUser, async ( req, res, next ) => {
+opRouter.delete('/:orderProductId', requireUser, async ( req, res, next ) => {
     try {
         const { orderProductId: id } = req.params;
         
