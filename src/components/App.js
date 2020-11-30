@@ -19,6 +19,7 @@ import {
 
 
 import LoginComponent from './Login';
+import RegisterComponent from './Register';
 
 
 const App = () => {
@@ -40,19 +41,6 @@ const App = () => {
 
   } */
 
-
-  /* We'll persist login here */
-  /* {const userToken = localStorage.getItem('token');
-    useEffect( async () => {
-      if(userToken) {
-        const user = await callApi(
-          {token: userToken, url: '/users/me'})
-          setUser(user);
-      }
-    }, []);
-
-  }
- */
   useEffect(() => {
 console.log('this is the fetchId ', fetchId)
   },[fetchId])
@@ -60,7 +48,7 @@ console.log('this is the fetchId ', fetchId)
 
   return <Router>
     <div className="App">
-      <Navigation />
+      <Navigation user={user} setUser={setUser} token={token} setToken={setToken} />
       <Switch>
         <Route path="/home">
           <HomePage setFetchId={setFetchId} />
@@ -80,6 +68,9 @@ console.log('this is the fetchId ', fetchId)
         </Route>
        <Route path="/users/login">
         <LoginComponent token={token} setToken={setToken} user={user} setUser={setUser} />
+      </Route>
+      <Route path="/users/register">
+        <RegisterComponent token={token} setToken={setToken} user={user} setUser={setUser} />
       </Route>
       <Redirect to="/home" />
       </Switch>
