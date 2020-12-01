@@ -8,7 +8,8 @@ const {
     getCartByUser,
     createOrder,
     getOrdersByUser
-} = require('../db/orders')
+} = require('../db/orders');
+const { addProductToOrder } = require('../db/order_products');
 
 //fix requireAdmin
     ordersRouter.get('/', async (req, res, next ) => {
@@ -42,7 +43,19 @@ const {
         try {
             const newOrder = await createOrder({status, userId, datePlaced});
             res.send(newOrder);
-            // return newOrder;
+
+        } catch (error) {
+            next(error)
+        }
+    } )
+
+    //fix requireUser
+    ordersRouter.post('/:orderId/products', async (req, res, next ) => {
+        const { orderId } = req.params
+        const { productId, price, quantity } = req.body;
+        try {
+            const newOrderProduct = await addProductToOrder({orderId, productId, price, quantity});
+            res.send(newOrderProduct);
 
         } catch (error) {
             next(error)

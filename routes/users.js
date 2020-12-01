@@ -57,8 +57,9 @@ usersRouter.post('/register', async (req, res, next) => {
                 isAdmin, 
                 imageURL
             })
+            let token = jwt.sign(user, JWT_SECRET);
     
-            res.send({user})
+            res.send({user, token})
         }
     } catch (error) {
         next (error);
