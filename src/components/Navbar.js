@@ -46,16 +46,32 @@ const Navigation = (props) => {
       </Nav>
       <Nav>
 
-        <Nav.Link>
+      { !token
+      ? <>
+      <Nav.Link>
           <NavLink to="/users/login">Login</NavLink>
           <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart">Cart</Link>
         </Nav.Link>
         <Nav.Link eventKey={2}>
           <NavLink to="/users/register">Register</NavLink>
         </Nav.Link>
+        </>
+
+        : <>
+         <Nav.Link>
+         <a onClick={handleLogout}className="nav-link" href="#">Logout</a>
+          </Nav.Link>
+        </>
+
+      }
+    
       </Nav>
     </Navbar.Collapse>
   </Navbar></div>
+
+
+
+
 }
 
 export default Navigation;
