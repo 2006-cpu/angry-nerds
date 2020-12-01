@@ -13,20 +13,20 @@ const SelectedBoard = (props) => {
     const [selected, setSelected] = useState({})
     const [categorysel, setCategorysel] = useState('')
 
-    useEffect(() => {
-        async function fetchProducts(){
-          try{
-            console.log('chosen productId ', productId)
+    async function fetchProducts(){
+      try{
+        console.log('chosen productId ', productId)
         const data = await getAllProducts()
         const chosenOne = await getProductById(productId)
         console.log('data array ', data)
         console.log('chosen array ', chosenOne)
         setInitialRender(data)
         setSelected(chosenOne)
-          }catch(error){
-            console.log(error)
-          }
-        }
+      }catch(error){
+        console.log(error)
+      }
+    }
+    useEffect(() => {
     fetchProducts()
       },[selectedId]);
       console.log('set render ',initialRender)

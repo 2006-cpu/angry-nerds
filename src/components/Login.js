@@ -24,9 +24,9 @@ const LoginComponent = (props) => {
         try {
             event.preventDefault();
 
-            const {data} = await axios.post(`/api/users/login`, {username, password})
+            const response = await axios.post(`/api/users/login`, {username, password})
 
-            // const {data} = response;
+            const {data} = response;
 
             setUsername('');
             setPassword('');

@@ -89,7 +89,7 @@ usersRouter.post('/login', async (req, res, next) => {
             let token = jwt.sign(user, JWT_SECRET);
 
             res.send({ message: "you're logged in!", token});
-            delete user.password;
+            // delete user.password;
             return user;
         }else if ([isMatch === false]) {
             console.log('username or password does not match');
