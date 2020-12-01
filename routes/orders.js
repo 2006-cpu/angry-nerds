@@ -86,7 +86,7 @@ const {
         try{
             const order = await getOrderById(id);
 
-            if(order && order.userId !== req.userId){
+            if(order && order.user.Id !== req.user.Id){
                 req.send({
                     name: "UnauthorizedUserError",
                     message: "You are not allowed to update the status of the order until you signed in."
