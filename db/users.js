@@ -14,7 +14,6 @@ async function createUser({firstName, lastName, email, imageURL, username, passw
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING *;
         `,[firstName, lastName, email, imageURL, username, hashedPassword, isAdmin]);
-        delete user.password;
         return user;
     }catch (error) {
         throw error;
