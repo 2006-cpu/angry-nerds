@@ -6,12 +6,6 @@ import Button from 'react-bootstrap/Button'
 
 import {callApi} from '../api'
 
-
-/* HITTING ROUTE, BUT REQUEST NOT PROPERLY FULFILLED */
-
-
-/* NEEDS TO BE TESTED after routes created!!! */
-
 const LoginComponent = (props) => {
 
     const [ username, setUsername ] = useState('');
