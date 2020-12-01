@@ -55,7 +55,7 @@ const {
 
 
 //=====PATCH /orders/:orderId (**):Update an order, notably change status
-    ordersRouter.patch('/orders:orderId', requireUser, async (req, res, next) => {
+    ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
         const {getOrderById} = req.params;
         const {id, status, userId} = req.body;
 
@@ -80,7 +80,7 @@ const {
 
 
 //=====DELETE /orders/:orderId (**):Update the order's status to cancelled
-    ordersRouter.delete('/orders/:orderId', requireUser, async (req, res, next) => {
+    ordersRouter.delete('/:orderId', requireUser, async (req, res, next) => {
         const {getOrderById} = req.params;
 
         try{
