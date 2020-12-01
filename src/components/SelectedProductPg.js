@@ -15,7 +15,6 @@ const SelectedBoard = (props) => {
 
     async function fetchProducts(){
       try{
-        console.log('chosen productId ', productId)
         const data = await getAllProducts()
         const chosenOne = await getProductById(productId)
         console.log('data array ', data)
