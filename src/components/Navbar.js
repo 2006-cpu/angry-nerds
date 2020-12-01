@@ -12,7 +12,24 @@ import {
   Link
 } from 'react-router-dom';
 
-const Navigation = () => {
+const Navigation = (props) => {
+
+
+  const {token, setToken, user, setUser} = props;
+
+  //for the logout
+  function clearCurrentUser() {
+    localStorage.removeItem('token');
+  }
+
+  const handleLogout = () => {
+    clearCurrentUser();
+    console.log("See Ya!", "You Have Succesfully Logged Out!", "success");
+    setUser({});
+    setToken('');
+  }
+
+
     return <div><Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
     <Navbar.Brand href="/home">Codalorians</Navbar.Brand>
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -34,8 +51,7 @@ const Navigation = () => {
           <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart">Cart</Link>
         </Nav.Link>
         <Nav.Link eventKey={2}>
-          Filler
-
+          <NavLink to="/users/register">Register</NavLink>
         </Nav.Link>
       </Nav>
     </Navbar.Collapse>

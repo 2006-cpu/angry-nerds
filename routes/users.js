@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 const {
     getUserByUsername, 
     createUser,
-    getAllUsers,
+    getAllUsers
 } = require('../db/users');
 
 usersRouter.use((req, res, next) => {
@@ -100,7 +100,7 @@ usersRouter.post('/login', async (req, res, next) => {
 })
 
 //====Users -- GET/users/me (*) API route
-usersRouter.get('/me', requireUser, async(req, res, next) => {
+usersRouter.get('/me', /* requireUser,  */async(req, res, next) => {
     const {id} = req.user;
     
     try {
@@ -110,10 +110,10 @@ usersRouter.get('/me', requireUser, async(req, res, next) => {
     }
 })
 
-usersRouter.get('/:userId/orders', async (req, res, next ) => {
+usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
     const { userId } = req.params;
     try {
-        const orders = await getOrdersByUser(userId);
+        const orders = await getOrdersByUser(1);
         console.log("user order", orders)
         res.send(orders)
         // if(req.user.id === userId){
