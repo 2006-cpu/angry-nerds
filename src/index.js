@@ -10,9 +10,13 @@ import {
   App
 } from './components';
 
+import { ChakraProvider} from "@chakra-ui/react"
+
 ReactDOM.render(
   <Router>
-  <App />
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
   </Router>,
   document.getElementById('root')
 );
