@@ -9,6 +9,10 @@ import {callApi} from '../api'
 
 const RegisterComponent = (props) => {
 
+    const [ firstName, setFirstName ] = useState('');
+    const [ lastName, setLastName ] = useState('');
+    const [ emailFirstHalf, setEmailFirstHalf ] = useState('');
+    const [ emailSecHalf, setEmailSecHalf ] = useState('');
     const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
 
@@ -18,24 +22,28 @@ const RegisterComponent = (props) => {
     const registerHandler = async (event) => {
         try {
             event.preventDefault();
+            console.log(emailFirstHalf+'@'+emailSecHalf+'.com')
 
-            const response = await axios.post(`/api/users/register`, {username, password})
+            const response = await axios.post(`/api/users/register`, {firstName, lastName, email: emailFirstHalf+'@'+emailSecHalf+'.com', username, password, isAdmin: false, imageURL: null})
 
             const {data} = response;
             console.log("here is the response:", response)
+            console.log("here is the data:", data)
             if(data) {
                 console.log("Here is the data:", data.token);
+                setFirstName('');
+                setLastName('');
                 setUsername('');
                 setPassword('');
 
                 console.log(`Welcome ${username}`)
-                console.log(`Welcome ${password}`)
+                console.log(`input password ${password}`)
                 localStorage.setItem('token', data.token);
                 setToken(data.token);
 
-                const user = await callApi(
-                    {token: data.token, url:'/api/users/me'}
-                )
+                //const user = await callApi(
+                    //{token: data.token, url:'/api/users/me'}
+                //)
                 if(user && user.username) {
                     console.log("We have successfully created an account!!!");
                 }
@@ -57,7 +65,36 @@ const RegisterComponent = (props) => {
     return <> 
        
        <Form onSubmit={registerHandler}>
-            <Form.Group controlId="formBasicEmail">
+            <Form.Group style={{margin: '1rem'}}>
+                <Form.Label>First Name</Form.Label>
+                <Form.Control type="text" value={firstName} onChange={(event) => {setFirstName(event.target.value)}} placeholder="First Name" />
+                <Form.Text className="text-muted">
+                Please Input your First Name
+                </Form.Text>
+            </Form.Group>
+
+            <Form.Group style={{margin: '1rem'}}>
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control type="text" value={lastName} onChange={(event) => {setLastName(event.target.value)}} placeholder="Last Name" />
+                <Form.Text className="text-muted">
+                Please Input your Last Name
+                </Form.Text>
+            </Form.Group>
+
+            <Form.Group style={{margin: '1rem'}}>
+                <Form.Label>Email</Form.Label>
+                <div style={{display: 'flex'}}>
+                <Form.Control type="text" value={emailFirstHalf} onChange={(event) => {setEmailFirstHalf(event.target.value)}} placeholder="example" />
+                <Form.Text className="text-muted">@</Form.Text>
+                <Form.Control type="text" value={emailSecHalf} onChange={(event) => {setEmailSecHalf(event.target.value)}} placeholder="handle" />
+                <Form.Text className="text-muted">.com</Form.Text>
+                </div>
+                <Form.Text className="text-muted">
+                Please Input your Email
+                </Form.Text>
+            </Form.Group>
+
+            <Form.Group style={{margin: '1rem'}}>
                 <Form.Label>Username</Form.Label>
                 <Form.Control type="text" value={username} onChange={(event) => {setUsername(event.target.value)}} placeholder="Enter Username" />
                 <Form.Text className="text-muted">
@@ -65,14 +102,14 @@ const RegisterComponent = (props) => {
                 </Form.Text>
             </Form.Group>
 
-            <Form.Group controlId="formBasicPassword">
+            <Form.Group style={{margin: '1rem'}}>
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" value={password} onChange={(event) => {setPassword(event.target.value)}}placeholder="Password" />
                 <Form.Text className="text-muted">
                 Please Create Your Password
                 </Form.Text>
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button style={{marginLeft: '1rem'}} variant="primary" type="submit">
                 Create
             </Button>
         </Form>
