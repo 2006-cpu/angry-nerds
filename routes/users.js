@@ -85,14 +85,14 @@ usersRouter.post('/login', async (req, res, next) => {
         console.log('getUserByUsername', user )
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (isMatch === true) {
+        if (isMatch) {
             console.log('matching password!!');
             let token = jwt.sign(user, JWT_SECRET);
 
             res.send({ message: "you're logged in!", token});
             // delete user.password;
             return user;
-        }else if ([isMatch === false]) {
+        }else if (!isMatch) {
             console.log('username or password does not match');
         }
     } catch (error) {
@@ -101,7 +101,7 @@ usersRouter.post('/login', async (req, res, next) => {
 })
 
 //====Users -- GET/users/me (*) API route
-usersRouter.get('/me', /* requireUser,  */async(req, res, next) => {
+usersRouter.get('/me', async(req, res, next) => {
     const {id} = req.user;
     
     try {
@@ -117,9 +117,7 @@ usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
         const orders = await getOrdersByUser(1);
         console.log("user order", orders)
         res.send(orders)
-        // if(req.user.id === userId){
-        //     res.send(orders);
-        // }
+    
 
     } catch (error) {
         next(error)

@@ -32,7 +32,6 @@ const LoginComponent = (props) => {
             setPassword('');
 
             console.log(`Welcome ${username}`)
-            console.log(`Welcome ${password}`)
             localStorage.setItem('token', data.token);
             console.log("check out the token:",localStorage.getItem('token'))
             console.log(data.token);
