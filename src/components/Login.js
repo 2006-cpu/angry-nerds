@@ -76,11 +76,9 @@ const LoginComponent = (props) => {
                 Please Enter Your Password
                 </Form.Text>
             </Form.Group>
-            <Link to="/home">
             <Button variant="primary" type="submit">
                 Submit
             </Button>
-            </Link>
         </Form>
     </>
 

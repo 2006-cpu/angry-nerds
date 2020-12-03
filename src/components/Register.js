@@ -5,6 +5,9 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 import {callApi} from '../api'
+import {
+    useHistory
+} from 'react-router-dom';
 
 
 const RegisterComponent = (props) => {
@@ -18,6 +21,8 @@ const RegisterComponent = (props) => {
 
     const {token, setToken, user, setUser} = props;
 
+    const history = useHistory();
+
     
     const registerHandler = async (event) => {
         try {
@@ -27,10 +32,9 @@ const RegisterComponent = (props) => {
             const response = await axios.post(`/api/users/register`, {firstName, lastName, email: emailFirstHalf+'@'+emailSecHalf+'.com', username, password, isAdmin: false, imageURL: null})
 
             const {data} = response;
-            console.log("here is the response:", response)
-            console.log("here is the data:", data)
+            
             if(data) {
-                console.log("Here is the data:", data.token);
+                console.log("Here is token from register:", data.token);
                 setFirstName('');
                 setLastName('');
                 setUsername('');
@@ -46,6 +50,8 @@ const RegisterComponent = (props) => {
                 //)
                 if(user && user.username) {
                     console.log("We have successfully created an account!!!");
+                    setUser(user);
+                    history.push('/');
                 }
             }
 
