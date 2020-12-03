@@ -11,19 +11,22 @@ const MainBoard = (props) => {
     const [productRender, setProductRender] = useState([])
     const [selectedId, setSelectedId] = useState('')
     const [categorysel, setCategorysel] = useState('')
+    
 
+    async function fetchProducts(){
+      try{
+    const data = await getAllProducts()
+    console.log('data array ', data)
+    console.log('category ', categorysel)
+    setProductRender(data)
+    setFetchId(selectedId)
+      }catch(error){
+        console.log(error)
+      }
+    }
+
+    
     useEffect(() => {
-        async function fetchProducts(){
-          try{
-        const data = await getAllProducts()
-        console.log('data array ', data)
-        console.log('category ', categorysel)
-        setProductRender(data)
-        setFetchId(selectedId)
-          }catch(error){
-            console.log(error)
-          }
-        }
     fetchProducts()
       },[selectedId]);
       console.log('set render ',productRender)

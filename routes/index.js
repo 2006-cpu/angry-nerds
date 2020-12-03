@@ -1,5 +1,7 @@
 const apiRouter = require('express').Router();
-const {JWT_SECRET} = process.env
+///Need to remove public secret when submit
+const {JWT_SECRET} = process.env || 'notSoSecret';
+
 const jwt = require('jsonwebtoken');
 
 const {getUserById} = require('../db/users')

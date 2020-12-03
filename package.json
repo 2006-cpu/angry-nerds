@@ -9,13 +9,16 @@
     "client:build": "react-scripts build",
     "server:dev": "nodemon index.js",
     "db:build": "node ./db/init_db",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@chakra-ui/react": "^1.0.1",
+    "@stripe/react-stripe-js": "^1.1.2",
+    "@stripe/stripe-js": "^1.11.0",
     "@emotion/react": "^11.1.1",
     "@emotion/styled": "^11.0.0",
     "axios": "^0.19.2",
