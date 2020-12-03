@@ -6,11 +6,9 @@ import Button from 'react-bootstrap/Button'
 
 import {callApi} from '../api'
 
-
-/* HITTING ROUTE, BUT REQUEST NOT PROPERLY FULFILLED */
-
-
-/* NEEDS TO BE TESTED after routes created!!! */
+import {
+    Link
+  } from 'react-router-dom';
 
 const LoginComponent = (props) => {
 
@@ -78,9 +76,11 @@ const LoginComponent = (props) => {
                 Please Enter Your Password
                 </Form.Text>
             </Form.Group>
+            <Link to="/home">
             <Button variant="primary" type="submit">
                 Submit
             </Button>
+            </Link>
         </Form>
     </>
 
