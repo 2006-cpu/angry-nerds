@@ -3,6 +3,8 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FiUser, FiShoppingCart } from "react-icons/fi";
+
 import ReactDOM from 'react-dom';
 import { NavLink } from 'react-router-dom';
 
@@ -51,8 +53,8 @@ const Navigation = (props) => {
       { !token
       ? <>
       <Nav.Link>
-          <NavLink to="/users/login"><Navbar.Brand>Login</Navbar.Brand></NavLink>
-          <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>Cart</Navbar.Brand></Link>
+      <NavLink to="/users/login"><Navbar.Brand>Login{<FiUser/>}</Navbar.Brand></NavLink>
+      <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>Cart{<FiShoppingCart/>}</Navbar.Brand></Link>
         </Nav.Link>
         <Nav.Link eventKey={2}>
           <NavLink to="/users/register"><Navbar.Brand>Register</Navbar.Brand></NavLink>
@@ -60,7 +62,7 @@ const Navigation = (props) => {
         </>
 
         : <>
-        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>Cart</Navbar.Brand></Link>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>Cart{<FiShoppingCart/>}</Navbar.Brand></Link>
         <Nav.Link>
          <a onClick={handleLogout}className="nav-link" /* href="#" */>Logout</a>
         </Nav.Link>
