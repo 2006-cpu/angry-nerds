@@ -52,7 +52,7 @@ const Navigation = (props) => {
       ? <>
       <Nav.Link>
           <NavLink to="/users/login"><Navbar.Brand>Login</Navbar.Brand></NavLink>
-          <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart">Cart</Link>
+          <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>Cart</Navbar.Brand></Link>
         </Nav.Link>
         <Nav.Link eventKey={2}>
           <NavLink to="/users/register"><Navbar.Brand>Register</Navbar.Brand></NavLink>
@@ -62,7 +62,7 @@ const Navigation = (props) => {
         : <>
         <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>Cart</Navbar.Brand></Link>
         <Nav.Link>
-         <a onClick={handleLogout}className="nav-link" href="#">Logout</a>
+         <a onClick={handleLogout}className="nav-link" /* href="#" */>Logout</a>
         </Nav.Link>
         </>
 
