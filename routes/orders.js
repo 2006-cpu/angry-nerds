@@ -2,6 +2,8 @@ const express = require('express');
 const ordersRouter = express.Router();
 
 const { requireAdmin, requireUser } = require("./utils");
+const {JWT_SECRET} = process.env
+const jwt = require('jsonwebtoken');
 
 const {
     getAllOrders,
@@ -10,13 +12,52 @@ const {
     getOrdersByUser
 } = require('../db/orders');
 const { addProductToOrder } = require('../db/order_products');
+const { getUserById } = require('../db/users');
+
+
+
+
+ordersRouter.use(async (req, res, next) => {
+    const prefix = 'Bearer ';
+    const auth = req.header('Authorization');
+  
+    if (!auth) {
+        next();
+    } else if (auth.startsWith(prefix)) {
+        const token = auth.slice(prefix.length);
+  
+        try {
+            const { id } = jwt.verify(token, JWT_SECRET);
+    
+            if (id) {
+                req.user = await getUserById(id);
+                next();
+            }
+        } catch ({ name, message }) {
+            next({ name, message });
+        }
+    } else {
+      next({
+        name: 'AuthorizationHeaderError',
+        message: `Authorization token must start with ${ prefix }`
+        });
+    }
+  
+  });
+  
+  ordersRouter.use((req, res, next) => {
+    if(req.user) {
+        console.log("User is set:", req.user)
+    }
+    next();
+  })
+
 
 //fix requireAdmin
     ordersRouter.get('/', async (req, res, next ) => {
         try {
             const orders = await getAllOrders();
             res.send(orders);
-            // return orders;
 
         } catch (error) {
             next(error)
@@ -24,12 +65,12 @@ const { addProductToOrder } = require('../db/order_products');
     } )
 
 
-    ordersRouter.get('/cart', async ( req, res, next ) => {
-        // const { userId } = req.params;
+    ordersRouter.get('/cart', requireUser, async ( req, res, next ) => {
+        // const { userId } = req.user;
         //getCartByUser(req.user.id)
+        // console.log('requser', req.user)
         try {
-            const cart = await getCartByUser(1);
-            console.log("user req", req.user)
+            const cart = await getCartByUser(req.user.id);
             res.send(cart);
 
         } catch(error) {

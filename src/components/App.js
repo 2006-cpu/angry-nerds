@@ -21,6 +21,8 @@ import {
 import LoginComponent from './Login';
 import RegisterComponent from './Register';
 
+import {callApi} from '../api';
+
 
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
@@ -30,7 +32,7 @@ const App = () => {
   const [ user, setUser ] = useState( {} )
 
   /* We'll persist login here */
-  /* {const userToken = localStorage.getItem('token');
+  {const userToken = localStorage.getItem('token');
     useEffect( async () => {
       if(userToken) {
         const user = await callApi(
@@ -39,7 +41,7 @@ const App = () => {
       }
     }, []);
 
-  } */
+  }
 
   useEffect(() => {
 console.log('this is the fetchId ', fetchId)

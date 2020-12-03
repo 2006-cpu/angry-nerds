@@ -78,7 +78,6 @@ usersRouter.post('/login', async (req, res, next) => {
     }
     try {
         const user = await getUserByUsername(username);
-        console.log('getUserByUsername', user )
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (isMatch === true) {
@@ -110,7 +109,7 @@ usersRouter.get('/me', /* requireUser,  */async(req, res, next) => {
 usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
     const { userId } = req.params;
     try {
-        const orders = await getOrdersByUser(1);
+        const orders = await getOrdersByUser(req.user.id);
         console.log("user order", orders)
         res.send(orders)
         // if(req.user.id === userId){
