@@ -110,7 +110,7 @@ const RegisterComponent = (props) => {
 
             <Form.Group style={{margin: '1rem'}}>
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" value={password} onChange={(event) => {setPassword(event.target.value)}}placeholder="Password" />
+                <Form.Control type="password" value={password} minLength="8" maxLength="15" onChange={(event) => {setPassword(event.target.value)}}placeholder="Password" />
                 <Form.Text className="text-muted">
                 Please Create Your Password
                 </Form.Text>
