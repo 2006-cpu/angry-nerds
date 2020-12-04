@@ -48,9 +48,9 @@ usersRouter.post('/register', async (req, res, next) => {
     try{
         const _user = await getUserByUsername(username);
         if (_user) {
-            res.send({message: 'A user by that username already exists'});
+            res.send({message: 'Error: The Requested Username Already Exists.  Please Enter A Valid Username'});
         } else if (password.length < 8) {
-            res.send({message: 'Password Too Short!'})
+            res.send({message: 'Error: Your Password Must Be At Least 8 Characters In Length!'})
         } else {
             const user = await createUser({
                 firstName, 
@@ -74,27 +74,36 @@ usersRouter.post('/register', async (req, res, next) => {
 //====Users -- POST/USER LOGIN  API route
 usersRouter.post('/login', async (req, res, next) => {
     const {username, password} = req.body;
+
     if(!username || !password) {
         next({
             name: "you are not registered error",
-            message: "Username or Password are not matching, please try again"
+            message: "Username or Password are not matching.  Please try again"
         })
-    }
+    } 
+    
     try {
         const user = await getUserByUsername(username);
         console.log('getUserByUsername', user )
 
         const isMatch = await bcrypt.compare(password, user.password);
+
         if (isMatch === true) {
-            console.log('matching password!!');
             let token = jwt.sign(user, JWT_SECRET);
 
-            res.send({ message: "you're logged in!", token});
-            // delete user.password;
+            res.send({ message: "You Have Successfully Logged In!", token});
+         
             return user;
-        }else if ([isMatch === false]) {
-            console.log('username or password does not match');
-        }
+
+        } else if (isMatch === false) {
+            res.send({message: "Username or Password Does Not Match"})
+
+        } /* else if(!password) {
+            res.send({
+                name: "Incorrect Password Error",
+                message: "YOU'VE ENTERED AN INCORRECT PASSWORD. PLEASE TRY AGAIN."
+            })
+        } */
     } catch (error) {
         next (error);
     }
@@ -127,3 +136,5 @@ usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
 } )
 
 module.exports = usersRouter;
+
+

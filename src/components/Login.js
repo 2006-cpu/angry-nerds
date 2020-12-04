@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Image from 'react-bootstrap/Image';
+import Alert from 'react-bootstrap/Alert';
 
 import {callApi} from '../api'
 
@@ -59,7 +61,7 @@ const LoginComponent = (props) => {
     }, []);
 
     return <> 
-       
+       <Image src="https://cdn.shopify.com/s/files/1/1298/4787/files/Web_Banner-2_1400x.progressive.png.jpg?v=1588688871" fluid />
        <Form onSubmit={loginHandler}>
             <Form.Group controlId="formBasicEmail">
                 <Form.Label>Username</Form.Label>
@@ -80,6 +82,22 @@ const LoginComponent = (props) => {
                 Submit
             </Button>
         </Form>
+
+        {/* THIS IS FOR THE FOOTER - needs to be styled*/}
+
+        <div className="footer-container">
+            <div className="bottom-container-inner">
+                <span className="bottom-link-items">C 2020</span>
+                <span className="bottom-link-items">Privacy</span>
+                <span className="bottom-link-items">Terms</span>
+                <span className="bottom-link-items">Accessibility</span>
+                <span className="bottom-link-items">Sitemap</span>
+                <span className="bottom-link-items">Do Not Sell My Personal Information</span>
+            </div>
+        </div>
+
+
+
     </>
 
 }
