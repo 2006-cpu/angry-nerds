@@ -31,7 +31,9 @@ const Navigation = (props) => {
 
 
     return <div><Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-    <Navbar.Brand href="/home">Codalorians</Navbar.Brand>
+    <NavLink to="/home">
+      <Navbar.Brand>Codalorians</Navbar.Brand>
+    </NavLink>
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
       <Nav className="mr-auto">
@@ -46,16 +48,33 @@ const Navigation = (props) => {
       </Nav>
       <Nav>
 
-        <Nav.Link>
-          <NavLink to="/users/login">Login</NavLink>
-          <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart">Cart</Link>
+      { !token
+      ? <>
+      <Nav.Link>
+          <NavLink to="/users/login"><Navbar.Brand>Login</Navbar.Brand></NavLink>
+          <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>Cart</Navbar.Brand></Link>
         </Nav.Link>
         <Nav.Link eventKey={2}>
-          <NavLink to="/users/register">Register</NavLink>
+          <NavLink to="/users/register"><Navbar.Brand>Register</Navbar.Brand></NavLink>
         </Nav.Link>
+        </>
+
+        : <>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>Cart</Navbar.Brand></Link>
+        <Nav.Link>
+         <a onClick={handleLogout}className="nav-link" /* href="#" */>Logout</a>
+        </Nav.Link>
+        </>
+
+      }
+    
       </Nav>
     </Navbar.Collapse>
   </Navbar></div>
+
+
+
+
 }
 
 export default Navigation;

@@ -6,11 +6,9 @@ import Button from 'react-bootstrap/Button'
 
 import {callApi} from '../api'
 
-
-/* HITTING ROUTE, BUT REQUEST NOT PROPERLY FULFILLED */
-
-
-/* NEEDS TO BE TESTED after routes created!!! */
+import {
+    Link
+  } from 'react-router-dom';
 
 const LoginComponent = (props) => {
 
@@ -34,7 +32,6 @@ const LoginComponent = (props) => {
             setPassword('');
 
             console.log(`Welcome ${username}`)
-            console.log(`Welcome ${password}`)
             localStorage.setItem('token', data.token);
             console.log("check out the token:",localStorage.getItem('token'))
             console.log(data.token);

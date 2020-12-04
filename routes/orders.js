@@ -7,12 +7,9 @@ const {
     getAllOrders,
     getCartByUser,
     createOrder,
-    getOrderById,
-    updateOrder,
-    completeOrder,
-    cancelOrder,
-    // getOrdersByUser
-} = require('../db/orders')
+    getOrdersByUser
+} = require('../db/orders');
+const { addProductToOrder } = require('../db/order_products');
 
 //fix requireAdmin
     ordersRouter.get('/', async (req, res, next ) => {
@@ -46,7 +43,19 @@ const {
         try {
             const newOrder = await createOrder({status, userId, datePlaced});
             res.send(newOrder);
-            // return newOrder;
+
+        } catch (error) {
+            next(error)
+        }
+    } )
+
+    //fix requireUser
+    ordersRouter.post('/:orderId/products', async (req, res, next ) => {
+        const { orderId } = req.params
+        const { productId, price, quantity } = req.body;
+        try {
+            const newOrderProduct = await addProductToOrder({orderId, productId, price, quantity});
+            res.send(newOrderProduct);
 
         } catch (error) {
             next(error)
@@ -57,12 +66,12 @@ const {
 //=====PATCH /orders/:orderId (**):Update an order, notably change status
     ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
         const {getOrderById} = req.params;
-        const {id, status, userId} = req.body;
+        const {id, status} = req.body;
 
         try{
-            console.log("this is a param:", getOrderById)
-            const updateOrder = await completeOrder({status, id});
-            if(req.user.id !== userId){
+            
+            const order = await getOrderById(id);
+            if(order && order.user.id !== req.user.id){
                 res.send({
                     name: "UnauthorizedUserError",
                     message: "You are not allowed to update the status of the order until you signed in."
@@ -82,17 +91,18 @@ const {
 //=====DELETE /orders/:orderId (**):Update the order's status to cancelled
     ordersRouter.delete('/:orderId', requireUser, async (req, res, next) => {
         const {getOrderById} = req.params;
+        const {id, status} = req.body;
 
         try{
             const order = await getOrderById(id);
-
-            if(order && order.user.Id !== req.user.Id){
+            
+            if(order && order.user.id !== req.user.id){
                 req.send({
                     name: "UnauthorizedUserError",
                     message: "You are not allowed to update the status of the order until you signed in."
                 })
             } else {
-                const deletedOrder = await cancelOrder(orderId)
+                const deletedOrder = await cancelOrder(status)
                 res.send(deletedOrder)
             }
         } catch (error){

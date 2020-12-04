@@ -2,7 +2,8 @@ const express = require('express');
 const usersRouter = express.Router();
 
 const jwt = require('jsonwebtoken');
-const {JWT_SECRET} = process.env;
+//remember to remove testing secret at submission
+const {JWT_SECRET} = process.env || 'notSoSecret';
 const bcrypt = require('bcrypt');
 
 const {
@@ -11,16 +12,19 @@ const {
     getAllUsers
 } = require('../db/users');
 
+usersRouter.use((req, res, next) => {
+    console.log("A request is being made to /users");
+    next();
+});
+
+const {getOrdersByUser} = require('../db/orders')
+
 
 usersRouter.get('/', async (req, res) => {
     const users = await getAllUsers();
     res.send(users)
 });
 
-usersRouter.use((req, res, next) => {
-    console.log("A request is being made to /users");
-    next();
-});
 
 
 //==== REQUIRE USER 
@@ -57,8 +61,9 @@ usersRouter.post('/register', async (req, res, next) => {
                 isAdmin, 
                 imageURL
             })
+            let token = jwt.sign(user, JWT_SECRET);
     
-            res.send({user})
+            res.send({user, token})
         }
     } catch (error) {
         next (error);
@@ -80,14 +85,14 @@ usersRouter.post('/login', async (req, res, next) => {
         console.log('getUserByUsername', user )
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (isMatch === true) {
+        if (isMatch) {
             console.log('matching password!!');
             let token = jwt.sign(user, JWT_SECRET);
 
             res.send({ message: "you're logged in!", token});
-            delete user.password;
+            // delete user.password;
             return user;
-        }else if ([isMatch === false]) {
+        }else if (!isMatch) {
             console.log('username or password does not match');
         }
     } catch (error) {

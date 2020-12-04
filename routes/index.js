@@ -1,7 +1,10 @@
 const apiRouter = require('express').Router();
-const {JWT_SECRET} = process.env
+///Need to remove public secret when submit
+const {JWT_SECRET} = process.env || 'notSoSecret';
+
 const jwt = require('jsonwebtoken');
 
+const {getUserById} = require('../db/users')
 
 apiRouter.use(async (req, res, next) => {
   const prefix = 'Bearer ';
@@ -50,8 +53,7 @@ apiRouter.get("/", (req, res, next) => {
 
   apiRouter.use('/products', require('./products'));
   apiRouter.use('/orders', require('./orders'));
-
-  const usersRouter = require('./users');
-  apiRouter.use('/users', usersRouter);
+  apiRouter.use('/users', require('./users'));
+  apiRouter.use('/order_products', require('./order_products'));
 
 module.exports = apiRouter;
