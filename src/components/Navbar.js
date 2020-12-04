@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Alert from 'react-bootstrap/Alert';
 import { FiUser, FiShoppingCart } from "react-icons/fi";
 import {
   useHistory
@@ -40,10 +41,10 @@ const Navigation = (props) => {
     if(!token) {
         const theToken = localStorage.getItem('token');
         setToken(theToken);
-
     }
   }, []);
 
+{console.log("this is the user:", user)}
 
     return <div><Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
     <NavLink to="/home">
@@ -75,9 +76,9 @@ const Navigation = (props) => {
         </>
 
         : <>
-        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>{user.username}Cart{<FiShoppingCart/>}</Navbar.Brand></Link>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>My Cart{<FiShoppingCart/>}</Navbar.Brand></Link>
         <Nav.Link>
-         <a onClick={handleLogout}className="nav-link" /* href="#" */>Logout</a>
+         <a onClick={handleLogout}className="nav-link">Logout</a>
         </Nav.Link>
         </>
 

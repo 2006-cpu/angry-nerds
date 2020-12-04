@@ -31,19 +31,14 @@ const LoginComponent = (props) => {
             const response = await axios.post(`/api/users/login`, {username, password})
 
             const {data} = response;
-            console.log("here is the response:", response)
             
-            console.log("Here is the data:", data.token);
             setUsername('');
             setPassword('');
 
             console.log(`Welcome ${username}`)
-            console.log(`Welcome ${password}`)
             localStorage.setItem('token', data.token);
-            console.log("check out the token:",localStorage.getItem('token'))
-            console.log(data.token);
-
             setToken(data.token);
+
             const user = await callApi(
                 {token: data.token, url:'/api/users/me'}
             )
@@ -67,6 +62,7 @@ const LoginComponent = (props) => {
 
     return <> 
        <Image src="https://cdn.shopify.com/s/files/1/1298/4787/files/Web_Banner-2_1400x.progressive.png.jpg?v=1588688871" fluid />
+
        <Form onSubmit={loginHandler}>
             <Form.Group controlId="formBasicEmail">
                 <Form.Label>Username</Form.Label>
