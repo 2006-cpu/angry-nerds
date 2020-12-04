@@ -51,7 +51,6 @@ const RegisterComponent = (props) => {
                 if(user && user.username) {
                     console.log("We have successfully created an account!!!");
                     setUser(user);
-                    history.push('/');
                 }
             }
 
@@ -65,8 +64,9 @@ const RegisterComponent = (props) => {
     useEffect(() => {
         if(token) {
         setUser(user);
+        history.push('/home');
         }
-    }, []);
+    }, [token]);
 
     return <> 
        
