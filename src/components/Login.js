@@ -5,6 +5,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
+import {
+    useHistory
+} from 'react-router-dom';
 
 import {callApi} from '../api'
 
@@ -18,6 +21,7 @@ const LoginComponent = (props) => {
     const [ password, setPassword ] = useState('');
 
     const {token, setToken, user, setUser} = props;
+    const history = useHistory();
 
     
     const loginHandler = async (event) => {
@@ -44,7 +48,7 @@ const LoginComponent = (props) => {
                 {token: data.token, url:'/api/users/me'}
             )
             if(user && user.username) {
-                console.log("We have successfully logged in!!!");
+                setUser(user)
             }
 
 
@@ -57,8 +61,9 @@ const LoginComponent = (props) => {
     useEffect(() => {
         if(token) {
         setUser(user);
+        history.push('/home');
         }
-    }, []);
+    }, [token]);
 
     return <> 
        <Image src="https://cdn.shopify.com/s/files/1/1298/4787/files/Web_Banner-2_1400x.progressive.png.jpg?v=1588688871" fluid />

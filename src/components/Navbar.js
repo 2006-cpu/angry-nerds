@@ -4,6 +4,9 @@ import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FiUser, FiShoppingCart } from "react-icons/fi";
+import {
+  useHistory
+} from 'react-router-dom';
 
 import ReactDOM from 'react-dom';
 import { NavLink } from 'react-router-dom';
@@ -18,6 +21,7 @@ const Navigation = (props) => {
 
 
   const {token, setToken, user, setUser} = props;
+  const history = useHistory();
 
   //for the logout
   function clearCurrentUser() {
@@ -29,7 +33,16 @@ const Navigation = (props) => {
     console.log("See Ya!", "You Have Succesfully Logged Out!", "success");
     setUser({});
     setToken('');
+    history.push('/users/login');
   }
+
+  useEffect(() => {
+    if(!token) {
+        const theToken = localStorage.getItem('token');
+        setToken(theToken);
+
+    }
+  }, []);
 
 
     return <div><Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -62,7 +75,7 @@ const Navigation = (props) => {
         </>
 
         : <>
-        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>Cart{<FiShoppingCart/>}</Navbar.Brand></Link>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>{user.username}Cart{<FiShoppingCart/>}</Navbar.Brand></Link>
         <Nav.Link>
          <a onClick={handleLogout}className="nav-link" /* href="#" */>Logout</a>
         </Nav.Link>
