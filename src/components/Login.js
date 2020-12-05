@@ -19,6 +19,8 @@ const LoginComponent = (props) => {
 
     const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
+    const [ loginMessage, setLoginMessage ] = useState('');
+    const [ alertShow, setAlertShow ] = useState(false);
 
     const {token, setToken, user, setUser} = props;
     const history = useHistory();
@@ -36,14 +38,19 @@ const LoginComponent = (props) => {
             setPassword('');
 
             console.log(`Welcome ${username}`)
+            console.log('Here is the user data', data);
+            console.log('Here is the success message:', data.message);
+            setLoginMessage(data.message);
             localStorage.setItem('token', data.token);
             setToken(data.token);
+            setAlertShow(true);
 
             const user = await callApi(
                 {token: data.token, url:'/api/users/me'}
             )
             if(user && user.username) {
                 setUser(user)
+                console.log("Here is the user:", user);
             }
 
 
@@ -52,6 +59,9 @@ const LoginComponent = (props) => {
         }
     }
 
+    const messageHandler = () => {
+        return <Alert variant="danger" show={alertShow}><Alert.Heading>{loginMessage}</Alert.Heading></Alert>
+    }
 
     useEffect(() => {
         if(token) {
@@ -63,10 +73,14 @@ const LoginComponent = (props) => {
     return <> 
        <Image src="https://cdn.shopify.com/s/files/1/1298/4787/files/Web_Banner-2_1400x.progressive.png.jpg?v=1588688871" fluid />
 
+        
        <Form onSubmit={loginHandler}>
+        
+           <h1 className="messageAlert">{messageHandler()}</h1>
+            
             <Form.Group controlId="formBasicEmail">
                 <Form.Label>Username</Form.Label>
-                <Form.Control type="text" value={username} onChange={(event) => {setUsername(event.target.value)}} placeholder="Enter Username" />
+                <Form.Control type="text" value={username} onChange={(event) => {setUsername(event.target.value)}} placeholder="Enter Username" required/>
                 <Form.Text className="text-muted">
                 Please Enter Your Username
                 </Form.Text>
@@ -74,7 +88,7 @@ const LoginComponent = (props) => {
 
             <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" value={password} onChange={(event) => {setPassword(event.target.value)}}placeholder="Password" />
+                <Form.Control type="password" value={password} onChange={(event) => {setPassword(event.target.value)}}placeholder="Password" required />
                 <Form.Text className="text-muted">
                 Please Enter Your Password
                 </Form.Text>
