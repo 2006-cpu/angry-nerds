@@ -88,6 +88,7 @@ usersRouter.post('/login', async (req, res, next) => {
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (isMatch === true) {
+
             let token = jwt.sign(user, JWT_SECRET);
 
             res.send({ message: "You Have Successfully Logged In!", token});
@@ -97,8 +98,8 @@ usersRouter.post('/login', async (req, res, next) => {
         } else if (isMatch === false) {
             res.send({message: "Username or Password Does Not Match"})
 
-        } 
-        
+        }
+
     } catch (error) {
         next (error);
     }
@@ -121,9 +122,7 @@ usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
         const orders = await getOrdersByUser(1);
         console.log("user order", orders)
         res.send(orders)
-        // if(req.user.id === userId){
-        //     res.send(orders);
-        // }
+        
 
     } catch (error) {
         next(error)

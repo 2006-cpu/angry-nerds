@@ -75,7 +75,7 @@ const {client} = require("./index")
             FROM products
             JOIN order_products ON products.id=order_products."orderId"
             WHERE order_products."orderId"=$1;
-            `, [cart.id])
+            `, [id])
 
             cart.products = products
             console.log("cart products", cart)
@@ -84,7 +84,6 @@ const {client} = require("./index")
             throw error;
         }
     }
-
 
 //Checkout DB adapters
 async function updateOrder({id, ...fields}) {
