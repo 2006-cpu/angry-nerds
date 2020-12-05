@@ -35,7 +35,6 @@ const App = () => {
 console.log('this is the fetchId ', fetchId)
   },[fetchId])
 
-
   return <Router>
     <div className="App">
       <Navigation user={user} setUser={setUser} token={token} setToken={setToken} />

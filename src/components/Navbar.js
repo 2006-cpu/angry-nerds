@@ -3,6 +3,12 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Alert from 'react-bootstrap/Alert';
+import { FiUser, FiShoppingCart } from "react-icons/fi";
+import {
+  useHistory
+} from 'react-router-dom';
+
 import ReactDOM from 'react-dom';
 import { NavLink } from 'react-router-dom';
 
@@ -16,6 +22,7 @@ const Navigation = (props) => {
 
 
   const {token, setToken, user, setUser} = props;
+  const history = useHistory();
 
   //for the logout
   function clearCurrentUser() {
@@ -27,8 +34,17 @@ const Navigation = (props) => {
     console.log("See Ya!", "You Have Succesfully Logged Out!", "success");
     setUser({});
     setToken('');
+    history.push('/users/login');
   }
 
+  useEffect(() => {
+    if(!token) {
+        const theToken = localStorage.getItem('token');
+        setToken(theToken);
+    }
+  }, []);
+
+{console.log("this is the user:", user)}
 
     return <div><Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
     <NavLink to="/home">
@@ -51,8 +67,8 @@ const Navigation = (props) => {
       { !token
       ? <>
       <Nav.Link>
-          <NavLink to="/users/login"><Navbar.Brand>Login</Navbar.Brand></NavLink>
-          <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>Cart</Navbar.Brand></Link>
+      <NavLink to="/users/login"><Navbar.Brand>Login{<FiUser/>}</Navbar.Brand></NavLink>
+      <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>Cart{<FiShoppingCart/>}</Navbar.Brand></Link>
         </Nav.Link>
         <Nav.Link eventKey={2}>
           <NavLink to="/users/register"><Navbar.Brand>Register</Navbar.Brand></NavLink>
@@ -60,9 +76,9 @@ const Navigation = (props) => {
         </>
 
         : <>
-        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>Cart</Navbar.Brand></Link>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/orders/cart"><Navbar.Brand>My Cart{<FiShoppingCart/>}</Navbar.Brand></Link>
         <Nav.Link>
-         <a onClick={handleLogout}className="nav-link" /* href="#" */>Logout</a>
+         <a onClick={handleLogout}className="nav-link">Logout</a>
         </Nav.Link>
         </>
 

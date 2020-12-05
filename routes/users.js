@@ -48,9 +48,9 @@ usersRouter.post('/register', async (req, res, next) => {
     try{
         const _user = await getUserByUsername(username);
         if (_user) {
-            res.send({message: 'A user by that username already exists'});
+            res.send({message: 'Error: The Requested Username Already Exists.  Please Enter A Valid Username'});
         } else if (password.length < 8) {
-            res.send({message: 'Password Too Short!'})
+            res.send({message: 'Error: Your Password Must Be At Least 8 Characters In Length!'})
         } else {
             const user = await createUser({
                 firstName, 
@@ -74,27 +74,32 @@ usersRouter.post('/register', async (req, res, next) => {
 //====Users -- POST/USER LOGIN  API route
 usersRouter.post('/login', async (req, res, next) => {
     const {username, password} = req.body;
+
     if(!username || !password) {
         next({
             name: "you are not registered error",
-            message: "Username or Password are not matching, please try again"
+            message: "Username or Password are not matching.  Please try again"
         })
-    }
+    } 
+    
     try {
         const user = await getUserByUsername(username);
-        console.log('getUserByUsername', user )
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (isMatch) {
-            console.log('matching password!!');
+
+        if (isMatch === true) {
+
             let token = jwt.sign(user, JWT_SECRET);
 
-            res.send({ message: "you're logged in!", token});
-            // delete user.password;
+            res.send({ message: "You Have Successfully Logged In!", token});
+         
             return user;
-        }else if (!isMatch) {
-            console.log('username or password does not match');
+
+        } else if (isMatch === false) {
+            res.send({message: "Username or Password Does Not Match"})
+
         }
+
     } catch (error) {
         next (error);
     }
@@ -117,9 +122,7 @@ usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
         const orders = await getOrdersByUser(1);
         console.log("user order", orders)
         res.send(orders)
-        // if(req.user.id === userId){
-        //     res.send(orders);
-        // }
+        
 
     } catch (error) {
         next(error)
@@ -127,3 +130,5 @@ usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
 } )
 
 module.exports = usersRouter;
+
+
