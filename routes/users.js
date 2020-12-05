@@ -85,14 +85,14 @@ usersRouter.post('/login', async (req, res, next) => {
         console.log('getUserByUsername', user )
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (isMatch === true) {
+        if (isMatch) {
             console.log('matching password!!');
             let token = jwt.sign(user, JWT_SECRET);
 
             res.send({ message: "you're logged in!", token});
             // delete user.password;
             return user;
-        }else if ([isMatch === false]) {
+        }else if (!isMatch) {
             console.log('username or password does not match');
         }
     } catch (error) {
