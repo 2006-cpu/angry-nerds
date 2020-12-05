@@ -48,9 +48,9 @@ usersRouter.post('/register', async (req, res, next) => {
     try{
         const _user = await getUserByUsername(username);
         if (_user) {
-            res.send({message: 'Error: The Requested Username Already Exists.  Please Enter A Valid Username'});
+            res.send({message: 'Sorry, looks like something went wrong. Please correct the following and submit again: - User Already Exists'});
         } else if (password.length < 8) {
-            res.send({message: 'Error: Your Password Must Be At Least 8 Characters In Length!'})
+            res.send({message: 'Sorry, looks like something went wrong. Please correct the following and submit again: - Your Password Must Be At Least 8 Characters In Length!'})
         } else {
             const user = await createUser({
                 firstName, 

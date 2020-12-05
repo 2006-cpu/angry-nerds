@@ -11,10 +11,6 @@ import {
 
 import {callApi} from '../api'
 
-import {
-    Link
-  } from 'react-router-dom';
-
 const LoginComponent = (props) => {
 
     const [ username, setUsername ] = useState('');
@@ -36,10 +32,6 @@ const LoginComponent = (props) => {
             
             setUsername('');
             setPassword('');
-
-            console.log(`Welcome ${username}`)
-            console.log('Here is the user data', data);
-            console.log('Here is the success message:', data.message);
             setLoginMessage(data.message);
             localStorage.setItem('token', data.token);
             setToken(data.token);
@@ -50,10 +42,7 @@ const LoginComponent = (props) => {
             )
             if(user && user.username) {
                 setUser(user)
-                console.log("Here is the user:", user);
             }
-
-
         } catch(error) {
             console.log(error);
         }

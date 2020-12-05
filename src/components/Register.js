@@ -3,8 +3,8 @@ import axios from 'axios';
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import Alert from 'react-bootstrap/Alert';
 
-import {callApi} from '../api'
 import {
     useHistory
 } from 'react-router-dom';
@@ -18,6 +18,8 @@ const RegisterComponent = (props) => {
     const [ emailSecHalf, setEmailSecHalf ] = useState('');
     const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
+    const [ loginMessage, setLoginMessage ] = useState('');
+    const [ alertShow, setAlertShow ] = useState(false);
 
     const {token, setToken, user, setUser} = props;
 
@@ -27,39 +29,36 @@ const RegisterComponent = (props) => {
     const registerHandler = async (event) => {
         try {
             event.preventDefault();
-            console.log(emailFirstHalf+'@'+emailSecHalf+'.com')
 
             const response = await axios.post(`/api/users/register`, {firstName, lastName, email: emailFirstHalf+'@'+emailSecHalf+'.com', username, password, isAdmin: false, imageURL: null})
 
             const {data} = response;
+
+            setLoginMessage(data.message);
+            setAlertShow(true);
             
             if(data) {
-                console.log("Here is token from register:", data.token);
+              
                 setFirstName('');
                 setLastName('');
                 setUsername('');
                 setPassword('');
-
-                console.log(`Welcome ${username}`)
-                console.log(`input password ${password}`)
                 localStorage.setItem('token', data.token);
                 setToken(data.token);
 
-                //const user = await callApi(
-                    //{token: data.token, url:'/api/users/me'}
-                //)
                 if(user && user.username) {
-                    console.log("We have successfully created an account!!!");
                     setUser(user);
                 }
+
             }
-
-
         } catch(error) {
             console.log(error);
         }
     }
 
+    const messageHandler = () => {
+        return <Alert variant="danger" show={alertShow}><Alert.Heading>{loginMessage}</Alert.Heading></Alert>
+    }
 
     useEffect(() => {
         if(token) {
@@ -69,6 +68,8 @@ const RegisterComponent = (props) => {
     }, [token]);
 
     return <> 
+
+        <h1 className="messageAlert">{messageHandler()}</h1>
        
        <Form onSubmit={registerHandler}>
             <Form.Group style={{margin: '1rem'}}>
