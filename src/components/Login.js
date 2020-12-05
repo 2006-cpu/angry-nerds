@@ -33,8 +33,11 @@ const LoginComponent = (props) => {
             setUsername('');
             setPassword('');
             setLoginMessage(data.message);
-            localStorage.setItem('token', data.token);
-            setToken(data.token);
+            if(data.token) {
+                localStorage.setItem('token', data.token);
+                setToken(data.token);
+            }
+
             setAlertShow(true);
 
             const user = await callApi(

@@ -37,7 +37,7 @@ const RegisterComponent = (props) => {
             setLoginMessage(data.message);
             setAlertShow(true);
             
-            if(data) {
+            if(data.token) {
               
                 setFirstName('');
                 setLastName('');
