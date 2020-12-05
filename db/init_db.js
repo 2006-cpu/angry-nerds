@@ -100,7 +100,7 @@ async function populateInitialData() {
     // creating default dummy data for products
     const productsToCreate = [
       { name: 'Les Paul Tribute Plus', description: 'A high-end Epiphone', price: 800, inStock: true , category: 'guitar'},
-      { name: 'Meris: Enzo', description: 'From Meris: Enzo is a multi-voice synthesizer that will track your guitar for tight monosynth leads, complex chord polyphony, or multi-note sequenced arpeggiation... all without the need for a special pickup. Also not limited to guitar, use Enzo on any instrument whether drum machine, vocals or additional synths.', price: 299, inStock: true , category: 'piano'},
+      { name: 'Meris: Enzo', description: 'From Meris: Enzo is a multi-voice synthesizer that will track your guitar for tight monosynth leads, complex chord polyphony, or multi-note sequenced arpeggiation...', price: 299, inStock: true , category: 'piano'},
       { name: 'Gibson Custom 1965 Les Paul Standard', description: 'A solid body electric guitar', price: 500, inStock: true , category: 'drums'},
       { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, inStock: true , category: 'guitar'},
       { name: 'Fender American Professional II', description: 'Jazz Bass roasted pine', price: 2200, inStock: true , category: 'guitar'},
