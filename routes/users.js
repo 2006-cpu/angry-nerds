@@ -97,12 +97,8 @@ usersRouter.post('/login', async (req, res, next) => {
         } else if (isMatch === false) {
             res.send({message: "Username or Password Does Not Match"})
 
-        } /* else if(!password) {
-            res.send({
-                name: "Incorrect Password Error",
-                message: "YOU'VE ENTERED AN INCORRECT PASSWORD. PLEASE TRY AGAIN."
-            })
-        } */
+        } 
+        
     } catch (error) {
         next (error);
     }
