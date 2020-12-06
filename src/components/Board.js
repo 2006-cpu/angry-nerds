@@ -4,13 +4,17 @@ import Button from 'react-bootstrap/Button'
 
 import {getAllProducts} from '../api'
 
+import {getCurrentUser, getCurrentToken} from '../auth'
+import {ProductInput} from './index'
+
 import {Prod} from './index'
 
 const MainBoard = (props) => {
-    const {setFetchId} = props
+    const {setFetchId, user} = props
     const [productRender, setProductRender] = useState([])
     const [selectedId, setSelectedId] = useState('')
     const [categorysel, setCategorysel] = useState('')
+    const [adminToggle, setAdminToggle] = useState(false)
     
 
     async function fetchProducts(){
@@ -31,7 +35,11 @@ const MainBoard = (props) => {
       },[selectedId]);
       console.log('set render ',productRender)
 
-    return <><div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
+    return <><div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
+      {user && user.isAdmin ? <Button onClick={() => {setAdminToggle(!adminToggle)}} style={{margin:'.4rem'}} variant="primary" size="lg" block>
+{adminToggle ? 'Cancel' : 'Post New Product'}
+  </Button> : null}
+  {adminToggle ? <ProductInput setAdminToggle={setAdminToggle} /> : null}
         <h3 style={{marginTop: '.4rem', marginLeft: '1rem'}}>You Are Now Viewing {categorysel ? `All ${categorysel}s` : 'All Items'}</h3>
         {categorysel ? <Button style={{marginTop: '.4rem', marginRight: '1rem'}} onClick={() => {setCategorysel('')}}>Unfilter Products</Button> : null}
         </div>

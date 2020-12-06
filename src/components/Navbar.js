@@ -18,19 +18,18 @@ import {
   Link
 } from 'react-router-dom';
 
+import {getCurrentUser, getCurrentToken, clearCurrentToken, clearCurrentUser} from '../auth'
+
 const Navigation = (props) => {
 
 
   const {token, setToken, user, setUser} = props;
   const history = useHistory();
 
-  //for the logout
-  function clearCurrentUser() {
-    localStorage.removeItem('token');
-  }
 
   const handleLogout = () => {
     clearCurrentUser();
+    clearCurrentToken()
     console.log("See Ya!", "You Have Succesfully Logged Out!", "success");
     setUser({});
     setToken('');
@@ -40,6 +39,7 @@ const Navigation = (props) => {
   useEffect(() => {
     if(!token) {
         const theToken = localStorage.getItem('token');
+        setUser(getCurrentUser())
         setToken(theToken);
     }
   }, []);
@@ -54,13 +54,29 @@ const Navigation = (props) => {
     <Navbar.Collapse id="responsive-navbar-nav">
       <Nav className="mr-auto">
         <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products">Products</Link>
+{user && user.isAdmin ? 
         <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-          <NavDropdown.Item>Action</NavDropdown.Item>
-          <NavDropdown.Item>Another action</NavDropdown.Item>
-          <NavDropdown.Item>Something</NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item>Separated link</NavDropdown.Item>
+          {user && user.isAdmin ? <NavDropdown.Item>
+            <Nav.Link>
+          <NavLink to="/users">
+            Registered Users
+            </NavLink>
+        </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Action</NavDropdown.Item> }
+          {user && user.isAdmin ? <NavDropdown.Item>
+            <Nav.Link>
+          <NavLink to="/users/add">
+            Add Users
+            </NavLink>
+        </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Another Action</NavDropdown.Item> }
+          {user && user.isAdmin ? <NavDropdown.Item>
+            <Nav.Link>
+          <NavLink to="/orders">
+            All Orders
+            </NavLink>
+        </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Another Action</NavDropdown.Item> }
         </NavDropdown>
+         : null}
+
       </Nav>
       <Nav>
 
