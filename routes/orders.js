@@ -66,12 +66,18 @@ ordersRouter.use(async (req, res, next) => {
 
 
     ordersRouter.get('/cart', requireUser, async ( req, res, next ) => {
-        // const { userId } = req.user;
-        //getCartByUser(req.user.id)
-        // console.log('requser', req.user)
+        const {orderId} = req.params
+        //i think we need two routes linked to the same page, cart, and using orders/1/etc
+        //because where do we get the id passed in
         try {
-            const cart = await getCartByUser(req.user.id);
-            res.send(cart);
+            if(req.user){
+                const cart = await getCartByUser(req.user.id);
+                res.send(cart);
+
+            } else {
+                const cart = await getOrderById(orderId);
+                res.send(cart);
+            }
 
         } catch(error) {
             next(error);

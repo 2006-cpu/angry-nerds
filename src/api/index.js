@@ -69,3 +69,29 @@ export const callApi = async ({method, body, url, token}) => {
       console.error(error)
   }
 }
+
+export async function createOrder(status, userId, datePlaced) {
+  try {
+    const { data } = await axios.post('/api/orders', {status, userId, datePlaced});
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function addProductToOrder(orderId, prodId, price, quantity) {
+  
+  const bodyParameters = {
+    orderId,
+    prodId,
+    price,
+    quantity
+ };
+  try {
+    const { data } = await axios.post(`/api/orders/${orderId}/products`, bodyParameters);
+    console.log("addProductToOrder", data)
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

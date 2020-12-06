@@ -3,13 +3,51 @@ import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import Button from 'react-bootstrap/Button'
-//remember to remove useParams if it is not being used
+
 import {Link, useParams} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import {createOrder, addProductToOrder} from '../api'
+
 const Prod = (props) => {
+    // const {orderId} = useParams();
     const {setSelectedId, setCategorysel} = props
     const {id, name, description, price, imageurl, instock, category} = props.product
+
+    const [quantity, setQuantity] = useState('');
+
+    // const [order, setOrder] = useState([]);
+    // const [orderId, setOrderId] = useState('');
+
+    const handleCart = async (event) => {
+      try {
+
+        // setOrder('')
+        // if(!order){
+          const newOrder = await createOrder();
+          const orderId = newOrder.id
+        // }
+        
+        setQuantity('1')
+        // const productOrder = await addProductToOrder(orderId, id, price, quantity)
+        console.log("OID", orderId)
+        console.log("PRODID", id)
+        console.log("price", price)
+        console.log("quant", quantity)
+         
+        // console.log('OP hello', productOrder)
+        
+        // orders.products = productOrder
+        // setProducts(orders.products)
+
+      } catch (error) {
+          console.error(error)
+      }
+  } 
+
+  // useEffect(() => {
+  //   handleCart()
+  // },[]);
     
     return <Card style={{ width: '18rem', height: '40rem', margin: '1rem', 
     boxShadow: '0 6px 10px -5px' }} onClick={() => {
@@ -29,7 +67,7 @@ const Prod = (props) => {
     </ListGroup>
     <div style={{height: '4rem'}}>
     <Card.Body>
-        {instock ? <Button style={{float: 'left'}} variant="primary" size="sm">Add To Cart</Button>
+        {instock ? <Button style={{float: 'left'}} variant="primary" size="sm" onClick={handleCart}>Add To Cart</Button>
          : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }
       
       <Button style={{float: 'right'}} variant="secondary" size="sm" onClick={() => {setCategorysel(category)}} >Similar Items</Button>
