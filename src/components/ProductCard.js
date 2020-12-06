@@ -3,8 +3,7 @@ import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import Button from 'react-bootstrap/Button'
-//remember to remove useParams if it is not being used
-import {Link, useParams} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FiShoppingCart } from "react-icons/fi";
 
