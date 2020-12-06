@@ -11,6 +11,8 @@ import {
 
 import {callApi} from '../api'
 
+import {storeCurrentUser, storeCurrentToken} from '../auth'
+
 const LoginComponent = (props) => {
 
     const [ username, setUsername ] = useState('');
@@ -34,7 +36,7 @@ const LoginComponent = (props) => {
             setPassword('');
             setLoginMessage(data.message);
             if(data.token) {
-                localStorage.setItem('token', data.token);
+                storeCurrentToken(data.token)
                 setToken(data.token);
             }
 
@@ -45,6 +47,7 @@ const LoginComponent = (props) => {
             )
             if(user && user.username) {
                 setUser(user)
+                storeCurrentUser(user)
             }
         } catch(error) {
             console.log(error);
