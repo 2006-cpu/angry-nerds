@@ -5,8 +5,12 @@ const {
     getAllProducts,
     getProductById,
     getProductsByCategory,
-    createProduct
+    createProduct,
 } = require('../db/products')
+
+const {
+    getUserById
+} = require('../db/users');
 
 const {
     destroyProduct
@@ -60,7 +64,7 @@ const {
     });
 
 /* ------------------------------------------------------------ */
-/* THIS IS THE GET /products/:productId/orders ROUTER */
+/* THIS IS THE GET /products/:productId/orders ROUTER for Admins */
 
 productsRouter.get('/:productId/orders', async (req,res,next) => {
     try {
@@ -90,6 +94,7 @@ productsRouter.get('/:productId/orders', async (req,res,next) => {
 /* THIS IS THE DELETE/products/:productId ROUTER for admins only */
 productsRouter.delete('/:productId', async (req,res,next) => {
     try {
+      const productById = await getProductById(productId)
       const {productId} = req.params;
       const prefix = 'Bearer ';
       const auth = req.header('Authorization');

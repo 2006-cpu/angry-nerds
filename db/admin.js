@@ -73,6 +73,5 @@ const updateUser = async ({id, ...fields})=>{
 
 module.exports = {
     destroyProduct,
-    updateProduct,
     updateUser
 }
