@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 
 const {
     getUserByUsername, 
+    getUserById,
     createUser,
     getAllUsers
 } = require('../db/users');
@@ -48,9 +49,9 @@ usersRouter.post('/register', async (req, res, next) => {
     try{
         const _user = await getUserByUsername(username);
         if (_user) {
-            res.send({message: 'Error: The Requested Username Already Exists.  Please Enter A Valid Username'});
+            res.send({message: 'Sorry, looks like something went wrong. Please correct the following and submit again: - User Already Exists'});
         } else if (password.length < 8) {
-            res.send({message: 'Error: Your Password Must Be At Least 8 Characters In Length!'})
+            res.send({message: 'Sorry, looks like something went wrong. Please correct the following and submit again: - Your Password Must Be At Least 8 Characters In Length!'})
         } else {
             const user = await createUser({
                 firstName, 
@@ -74,13 +75,6 @@ usersRouter.post('/register', async (req, res, next) => {
 //====Users -- POST/USER LOGIN  API route
 usersRouter.post('/login', async (req, res, next) => {
     const {username, password} = req.body;
-
-    if(!username || !password) {
-        next({
-            name: "you are not registered error",
-            message: "Username or Password are not matching.  Please try again"
-        })
-    } 
     
     try {
         const user = await getUserByUsername(username);
@@ -98,23 +92,34 @@ usersRouter.post('/login', async (req, res, next) => {
         } else if (isMatch === false) {
             res.send({message: "Username or Password Does Not Match"})
 
-        }
+        } 
 
     } catch (error) {
         next (error);
+        res.send({message: "Please Enter A Valid Username & Password "})
+        
     }
 })
 
 //====Users -- GET/users/me (*) API route
-usersRouter.get('/me', async(req, res, next) => {
-    const {id} = req.user;
-    
+usersRouter.get('/me', requireUser,  async(req, res, next) => {
     try {
-        res.send({id})
+        res.send(req.user)
     }catch (error) {
         next (error);
     }
 })
+
+usersRouter.get('/:userId', requireUser, async (req, res, next ) => {
+    const { userId } = req.params;
+    try {
+        const user = await getOrdersById(userId);
+        res.send(user)
+
+    } catch (error) {
+        next(error)
+    }
+} )
 
 usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
     const { userId } = req.params;
