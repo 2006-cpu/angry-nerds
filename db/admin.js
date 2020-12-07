@@ -2,22 +2,30 @@ const {client} = require("./index")
 const { getOrderById } = require('../db/orders');
 
 /* THIS IS FOR THE updateProduct ADAPTER */
-/* async function updateProduct(product) {
-    const {name, description, price, inStock, imageURL, category} = product;
+/* NEEDS WORK */
 
-    try {
-        const { rows: [product] } = await client.query(`
-            UPDATE products
-            SET name = $2, description = $3, price = $4, inStock = $5, imageURL = $6, category = $7
-            WHERE id = $1
-            RETURNING *;
-        `, [name, description, price, inStock, imageURL, category])
-
-        return product;
-    } catch (error) {
-        throw error;
+async function updateProduct({ id, name, description, price, imageurl, inStock, category }) {
+    const fields = { name, description, price, imageurl, inStock, category }
+    const setString = Object.keys(fields).map(
+      (key, index) => `${key}=$${index + 1}`
+    ).join(', ');
+    if (setString.length === 0) {
+      return;
     }
-} */
+    try {
+      const { rows: [product] } = await client.query(`
+    UPDATE products
+    SET ${setString}
+    WHERE id=${id}
+    RETURNING *
+    `, Object.values(fields))
+  
+      return product;
+  
+    } catch (error) {
+      throw error;
+    }
+  };
 
 /* THIS IS FOR THE destroyProduct ADAPTER */
 async function destroyProduct({id}) {
@@ -72,6 +80,7 @@ const updateUser = async ({id, ...fields})=>{
 };
 
 module.exports = {
+    updateProduct,
     destroyProduct,
     updateUser
 }

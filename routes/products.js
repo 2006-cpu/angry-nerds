@@ -13,7 +13,8 @@ const {
 } = require('../db/users');
 
 const {
-    destroyProduct
+    destroyProduct,
+    updateProduct
 } = require('../db/admin');
 
 /* ------------------------------------------------------------ */
@@ -56,10 +57,12 @@ const {
         try {
             console.log('this is the params ', category)
             const productById = await getProductsByCategory({category});
-            res.send(productById);
+            res.send("hello");
+            console.log(productById)
 
         } catch(error) {
             next(error);
+            console.log(productById)
         }
     });
 
@@ -116,5 +119,25 @@ productsRouter.delete('/:productId', async (req,res,next) => {
       next(error);
     }
 });
+
+
+
+/* ------------------------------------------------------------ */
+/* THIS IS THE PATCH /products/:productId (*admin) Only admins can update a product */
+/* WORKS */
+
+productsRouter.patch('/:productId', async (req, res, next) => {
+    const { productId } = req.params;
+  
+    try {     
+            const updatedProduct = await updateProduct({id: productId, ...req.body});
+            res.send(updatedProduct);    
+            
+    } catch (error) {
+        next(error);
+    }
+  });
+
+
 
 module.exports = productsRouter;
