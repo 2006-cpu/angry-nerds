@@ -1,7 +1,7 @@
 const express = require('express');
 const ordersRouter = express.Router();
 
-const { requireAdmin, requireUser } = require("./utils");
+const { requireAdmin, requireUser } = require('./utils');
 
 const {
     getAllOrders,
@@ -61,6 +61,54 @@ const { addProductToOrder } = require('../db/order_products');
             next(error)
         }
     } )
+
+
+//=====PATCH /orders/:orderId (**):Update an order, notably change status
+    ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
+        const {getOrderById} = req.params;
+        const {id, status} = req.body;
+
+        try{
+            
+            const order = await getOrderById(id);
+            if(order && order.user.id !== req.user.id){
+                res.send({
+                    name: "UnauthorizedUserError",
+                    message: "You are not allowed to update the status of the order until you signed in."
+                })
+            }else {
+                const updatedStatus = await updateOrder(status)
+                    res.send(updatedStatus)
+            }
+        } catch({name, message}){
+            next({
+                name:"updatedOrderMessage",
+                message:"Great News! Your order status has been updated!"
+            })}
+        })
+
+
+//=====DELETE /orders/:orderId (**):Update the order's status to cancelled
+    ordersRouter.delete('/:orderId', requireUser, async (req, res, next) => {
+        const {getOrderById} = req.params;
+        const {id, status} = req.body;
+
+        try{
+            const order = await getOrderById(id);
+            
+            if(order && order.user.id !== req.user.id){
+                req.send({
+                    name: "UnauthorizedUserError",
+                    message: "You are not allowed to update the status of the order until you signed in."
+                })
+            } else {
+                const deletedOrder = await cancelOrder(status)
+                res.send(deletedOrder)
+            }
+        } catch (error){
+            next (error)
+        }
+    })
 
 
 module.exports = ordersRouter;
