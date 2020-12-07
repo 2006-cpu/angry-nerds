@@ -7,7 +7,7 @@ import {Prod, SelectedProd} from './index'
 
 const SelectedBoard = (props) => {
     const {productId} = useParams()
-    const {fetchId} = props
+    const {fetchId, user} = props
     const [initialRender, setInitialRender] = useState([])
     const [selectedId, setSelectedId] = useState(fetchId)
     const [selected, setSelected] = useState({})
@@ -32,7 +32,7 @@ const SelectedBoard = (props) => {
 
     return<div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', height: '55.5rem'}}>
     <div>
-        <SelectedProd selected={selected} />
+        <SelectedProd selected={selected} user={user} />
         </div> 
     <div style={{display: 'flex', borderLeft: '1px solid grey', 
      backgroundColor: 'lightgrey', float: 'right', flexDirection: 'column', overflow: 'scroll'}}>
