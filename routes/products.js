@@ -6,7 +6,11 @@ const {
     getProductById,
     getProductsByCategory,
     createProduct,
-} = require('../db/products')
+} = require('../db/products');
+
+const {
+    getOrderByProduct
+} = require('../db/orders');
 
 const {
     getUserById
@@ -63,6 +67,19 @@ const {
         } catch(error) {
             next(error);
             console.log(productById)
+        }
+    });
+
+/* ------------------------------------------------------------ */
+/* THIS IS THE GET /products/:productId/orders (*admin) Get a list of all orders which have that product in them */
+
+    productsRouter.get('/:productId/orders', async (req, res, next) => {
+        const { productId } = req.params;
+        try {
+            const theOrders = await getOrderByProduct({id: productId});
+            res.send(theOrders);
+        } catch (error) {
+            next(error);
         }
     });
 
