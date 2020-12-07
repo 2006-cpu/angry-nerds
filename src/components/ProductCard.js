@@ -14,7 +14,7 @@ const Prod = (props) => {
     const {setSelectedId, setCategorysel} = props
     const {id, name, description, price, imageurl, instock, category} = props.product
 
-    const [quantity, setQuantity] = useState('');
+    const [quantity, setQuantity] = useState(1);
 
     // const [order, setOrder] = useState([]);
     // const [orderId, setOrderId] = useState('');
@@ -22,20 +22,23 @@ const Prod = (props) => {
     const handleCart = async (event) => {
       try {
 
+        //trying to just be able to add products into 1st order
+                
         // setOrder('')
         // if(!order){
-          const newOrder = await createOrder();
-          const orderId = newOrder.id
+          // const newOrder = await createOrder();
+          // const orderId = newOrder.id
+          const orderId = 1
         // }
-        
-        setQuantity('1')
-        // const productOrder = await addProductToOrder(orderId, id, price, quantity)
+        // const productId = id
+        setQuantity(1)
+        const productOrder = await addProductToOrder(orderId, id, price, quantity)
         console.log("OID", orderId)
         console.log("PRODID", id)
         console.log("price", price)
         console.log("quant", quantity)
          
-        // console.log('OP hello', productOrder)
+        console.log('OP hello', productOrder)
         
         // orders.products = productOrder
         // setProducts(orders.products)
