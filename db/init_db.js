@@ -123,7 +123,7 @@ async function populateInitialOrders() {
     const seedOrders = [
       {status:'created', userId:'1', datePlaced:'2020-06-22 18:10:25-07'},
       {status:'created', userId:'2', datePlaced:'2011-06-22 10:10:25-07'},
-      {status:'created', userId:'3', datePlaced:'2019-06-22 11:10:25-07'}
+      {status:'cancelled', userId:'3', datePlaced:'2019-06-22 11:10:25-07'}
     ]
     const orders = await Promise.all(seedOrders.map(createOrder));
     console.log('orders created');
