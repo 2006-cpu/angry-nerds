@@ -10,6 +10,26 @@ export async function getAllProducts() {
   }
 }
 
+export async function getAllUsers() {
+  try {
+    const { data } = await axios.get('/api/users');
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getUserById(id) {
+  try {
+    console.log("UserId: id", id)
+    const { data } = await axios.get(`/api/users/${id}`);
+    console.log("UserId:", data)
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getProductById(id) {
   try {
     const { data } = await axios.get(`/api/products/${id}`);

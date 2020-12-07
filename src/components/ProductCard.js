@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button'
 
 import {Link, useParams} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FiShoppingCart } from "react-icons/fi";
 
 import {createOrder, addProductToOrder} from '../api'
 
@@ -70,7 +71,7 @@ const Prod = (props) => {
     </ListGroup>
     <div style={{height: '4rem'}}>
     <Card.Body>
-        {instock ? <Button style={{float: 'left'}} variant="primary" size="sm" onClick={handleCart}>Add To Cart</Button>
+      {instock ? <Button style={{float: 'left'}} variant="primary" size="sm" onClick={handleCart}>{<FiShoppingCart/>}Add To Cart</Button>
          : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }
       
       <Button style={{float: 'right'}} variant="secondary" size="sm" onClick={() => {setCategorysel(category)}} >Similar Items</Button>

@@ -14,7 +14,9 @@ import {
   SelectedBoard,
   Order,
   HomePage,
-  Cart
+  Cart, 
+  UserBoard,
+  SelectedUser
 } from './index'
 
 
@@ -22,20 +24,21 @@ import LoginComponent from './Login';
 import RegisterComponent from './Register';
 
 
+import {getCurrentUser, getCurrentToken} from '../auth'
+
 
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
 
   const [products, setProducts] = useState([]);
-  const [ token, setToken ] = useState('');
-  const [ user, setUser ] = useState( {} )
+  const [ token, setToken ] = useState(getCurrentToken());
+  const [ user, setUser ] = useState(getCurrentUser())
 
 
 
   useEffect(() => {
 console.log('this is the fetchId ', fetchId)
   },[fetchId])
-
 
   return <Router>
     <div className="App">
@@ -45,12 +48,21 @@ console.log('this is the fetchId ', fetchId)
           <HomePage setFetchId={setFetchId} />
         </Route>
         <Route path="/products">
-          <MainBoard setFetchId={setFetchId} />
+          <MainBoard setFetchId={setFetchId} user={user} />
         </Route>
         <Route path="/product/:productId">
-          <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} />
+          <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} user={user} />
         </Route>
-        
+        {user && user.isAdmin ?  
+        <Route path="/users">
+          <UserBoard user={user} />
+        </Route>
+        : null}
+        {user && user.isAdmin ?  
+        <Route path="/user/:userId">
+          <SelectedUser user={user} />
+        </Route>
+        : null}
         <Route path="/orders/cart">
           <Cart />
         </Route>
