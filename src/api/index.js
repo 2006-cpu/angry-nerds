@@ -99,11 +99,11 @@ export async function createOrder(status, userId, datePlaced) {
   }
 }
 
-export async function addProductToOrder(orderId, prodId, price, quantity) {
+export async function addProductToOrder(orderId, productId, price, quantity) {
   
   const bodyParameters = {
     orderId,
-    prodId,
+    productId,
     price,
     quantity
  };
