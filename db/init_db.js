@@ -52,7 +52,7 @@ async function createTables() {
           imageURL VARCHAR(255) DEFAULT NULL,
           username VARCHAR (255) UNIQUE NOT NULL,
           password VARCHAR (255) UNIQUE NOT NULL,
-          "isAdmin" BOOLEAN DEFAULT false
+          isAdmin BOOLEAN DEFAULT false
         );
       CREATE TABLE orders(
       id SERIAL PRIMARY KEY,

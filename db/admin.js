@@ -2,7 +2,6 @@ const {client} = require("./index")
 const { getOrderById } = require('../db/orders');
 
 /* THIS IS FOR THE updateProduct ADAPTER */
-/* NEEDS WORK */
 
 async function updateProduct({ id, name, description, price, imageurl, inStock, category }) {
     const fields = { name, description, price, imageurl, inStock, category }
@@ -28,6 +27,7 @@ async function updateProduct({ id, name, description, price, imageurl, inStock, 
   };
 
 /* THIS IS FOR THE destroyProduct ADAPTER */
+/* 12/7 -> NEED TO TEST */
 async function destroyProduct({id}) {
     try {
         const order = await getOrderById(id);
@@ -56,7 +56,7 @@ async function destroyProduct({id}) {
 /* THIS IS FOR THE updateUser ADAPTER */
 const updateUser = async ({id, ...fields})=>{
     const setString = Object.keys(fields).map(
-        (key, index) => `"${ key }"=$${ index + 1}`
+        (key, index) => `${ key }=$${ index + 1}`
     ).join(', ');
     
     const objVal = Object.values(fields)
