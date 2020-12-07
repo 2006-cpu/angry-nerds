@@ -95,6 +95,18 @@ productsRouter.patch('/:productId', async (req, res, next) => {
     }
   });
 
+/* ------------------------------------------------------------ */
+/* THIS IS THE POST /products (*admin) Only admins can create a new product */
+
+  productsRouter.post('/', async (req, res, next) => {
+    try {     
+            const creatingProduct = await createProduct({...req.body});
+            res.send(creatingProduct); 
+    } catch (error) {
+        next(error);
+    }
+  });
+
 
 
 module.exports = productsRouter;

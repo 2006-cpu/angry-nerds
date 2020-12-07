@@ -1,6 +1,7 @@
 const {client} = require("./index")
 const { getOrderById } = require('../db/orders');
 
+
 /* THIS IS FOR THE updateProduct ADAPTER */
 
 async function updateProduct({ id, name, description, price, imageurl, inStock, category }) {
