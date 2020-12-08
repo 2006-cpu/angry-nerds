@@ -54,21 +54,21 @@ const Navigation = (props) => {
     <Navbar.Collapse id="responsive-navbar-nav">
       <Nav className="mr-auto">
         <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products">Products</Link>
-{user && user.isAdmin ? 
+{user && user.isadmin ? 
         <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-          {user && user.isAdmin ? <NavDropdown.Item>
+          {user && user.isadmin ? <NavDropdown.Item>
             <Nav.Link>
           <NavLink to="/users">
             Registered Users
             </NavLink>
         </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Action</NavDropdown.Item> }
-          {user && user.isAdmin ? <NavDropdown.Item>
+          {user && user.isadmin ? <NavDropdown.Item>
             <Nav.Link>
           <NavLink to="/users/add">
             Add Users
             </NavLink>
         </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Another Action</NavDropdown.Item> }
-          {user && user.isAdmin ? <NavDropdown.Item>
+          {user && user.isadmin ? <NavDropdown.Item>
             <Nav.Link>
           <NavLink to="/orders">
             All Orders
