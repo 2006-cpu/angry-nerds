@@ -16,7 +16,6 @@ const { addProductToOrder } = require('../db/order_products');
         try {
             const orders = await getAllOrders();
             res.send(orders);
-            // return orders;
 
         } catch (error) {
             next(error)
@@ -25,8 +24,6 @@ const { addProductToOrder } = require('../db/order_products');
 
 
     ordersRouter.get('/cart', async ( req, res, next ) => {
-        // const { userId } = req.params;
-        //getCartByUser(req.user.id)
         try {
             const cart = await getCartByUser(1);
             console.log("user req", req.user)

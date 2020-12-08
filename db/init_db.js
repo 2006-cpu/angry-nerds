@@ -4,7 +4,7 @@ const {client} = require('./index');
 const {createProduct, getAllProducts} = require('./products')
 const {createUser} = require('./users')
 const {createOrder, getAllOrders} = require('./orders');
-// const { getAllProducts } = require('../src/api');
+
 const {addProductToOrder} = require('./order_products')
 
 async function dropTables() {
@@ -13,6 +13,7 @@ async function dropTables() {
 //drop tables in correct order
   try {
     await client.query(`
+    DROP TABLE IF EXISTS reviews
     DROP TABLE IF EXISTS order_products;
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS users;
@@ -27,10 +28,6 @@ async function dropTables() {
 async function createTables() {
 
   try {
-    //client.connect();
-    //await dropTables()
-
-    // build tables in correct order
     
     console.log("Starting to build tables...")
     
@@ -66,6 +63,12 @@ async function createTables() {
         "orderId" INTEGER REFERENCES orders(id),
         price INTEGER NOT NULL,
         quantity INTEGER NOT NULL DEFAULT (0)
+      );
+      CREATE TABLE reviews(
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(100) NOT NULL,
+        "userId" INTEGER REFERENCES users(id),
+        "productId" INTEGER REFERENCES products(id)
       );
     `);
 
