@@ -16,13 +16,15 @@ import {
   HomePage,
   Cart, 
   UserBoard,
-  SelectedUser
+  SelectedUser,
+  AdminUserAdd,
+  OrderBoard
 } from './index'
 
 
 import LoginComponent from './Login';
 import RegisterComponent from './Register';
-import {callApi} from '../api';
+
 
 import {getCurrentUser, getCurrentToken} from '../auth'
 
@@ -30,9 +32,9 @@ import {getCurrentUser, getCurrentToken} from '../auth'
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
 
-  const [products, setProducts] = useState([]);
   const [ token, setToken ] = useState(getCurrentToken());
   const [ user, setUser ] = useState(getCurrentUser())
+
 
 
   useEffect(() => {
@@ -60,6 +62,16 @@ console.log('this is the fetchId ', fetchId)
         {user && user.isAdmin ?  
         <Route path="/user/:userId">
           <SelectedUser user={user} />
+        </Route>
+        : null}
+        {user && user.isAdmin ?  
+        <Route path="/users/add">
+          <AdminUserAdd user={user} />
+        </Route>
+        : null}
+        {user && user.isAdmin ?  
+        <Route path="/orders">
+          <OrderBoard user={user} />
         </Route>
         : null}
         <Route path="/orders/cart">

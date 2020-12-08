@@ -13,6 +13,10 @@ const {
     getAllUsers
 } = require('../db/users');
 
+const {
+    updateUser
+} = require('../db/admin');
+
 usersRouter.use((req, res, next) => {
     console.log("A request is being made to /users");
     next();
@@ -124,7 +128,7 @@ usersRouter.get('/:userId', requireUser, async (req, res, next ) => {
 usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
     const { userId } = req.params;
     try {
-        const orders = await getOrdersByUser(1);
+        const orders = await getOrdersByUser(req.user.id);
         console.log("user order", orders)
         res.send(orders)
         
@@ -133,6 +137,21 @@ usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
         next(error)
     }
 } )
+
+
+/* ------------------------------------------------------------ */
+/* THIS IS THE PATCH /users/:userId (*admin) Only admins can update a user */
+
+usersRouter.patch('/:userId', async (req, res, next) => {
+    const { userId } = req.params;
+    const { firstName, lastName, email, imageurl, username, password, isAdmin } = req.body
+      try {     
+          const updatedUser = await updateUser({id: userId, firstName, lastName, email, imageurl, username, password, isAdmin});
+          res.send(updatedUser);
+      } catch (error) {
+        next(error);
+    }
+  });
 
 module.exports = usersRouter;
 

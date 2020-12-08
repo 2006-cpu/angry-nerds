@@ -52,7 +52,7 @@ async function createTables() {
           imageURL VARCHAR(255) DEFAULT NULL,
           username VARCHAR (255) UNIQUE NOT NULL,
           password VARCHAR (255) UNIQUE NOT NULL,
-          "isAdmin" BOOLEAN DEFAULT false
+          isAdmin BOOLEAN DEFAULT false
         );
       CREATE TABLE orders(
       id SERIAL PRIMARY KEY,
@@ -100,11 +100,7 @@ async function populateInitialData() {
     // creating default dummy data for products
     const productsToCreate = [
       { name: 'Les Paul Tribute Plus', description: 'A high-end Epiphone', price: 800, inStock: true , category: 'guitar'},
-<<<<<<< HEAD
-      { name: 'Meris: Enzo', description: 'From Meris: Enzo is a multi-voice synthesizer that will track your guitar for tight monosynth leads, complex chord polyphony, or multi-note sequenced arpeggiation...', price: 299, inStock: true , category: 'piano'},
-=======
       { name: 'Meris: Enzo', description: 'From Meris: Enzo is a multi-voice synthesizer that will track your guitar for tight monosynth leads, complex chord polyphony, or multi-note sequenced arpeggiation... ', price: 299, inStock: true , category: 'piano'},
->>>>>>> 35598227f23f0efefa7a8da24dc767c55119039b
       { name: 'Gibson Custom 1965 Les Paul Standard', description: 'A solid body electric guitar', price: 500, inStock: true , category: 'drums'},
       { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, inStock: true , category: 'guitar'},
       { name: 'Fender American Professional II', description: 'Jazz Bass roasted pine', price: 2200, inStock: true , category: 'guitar'},
@@ -126,7 +122,7 @@ async function populateInitialOrders() {
   try {
     const seedOrders = [
       {status:'created', userId:'1', datePlaced:'2020-06-22 18:10:25-07'},
-      {status:'created', userId:'2', datePlaced:'2011-06-22 10:10:25-07'},
+      {status:'cancelled', userId:'2', datePlaced:'2011-06-22 10:10:25-07'},
       {status:'created', userId:'3', datePlaced:'2019-06-22 11:10:25-07'}
     ]
     const orders = await Promise.all(seedOrders.map(createOrder));
