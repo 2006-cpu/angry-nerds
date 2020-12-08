@@ -1,18 +1,19 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import StripeCheckout from 'react-stripe-checkout';
 
 import {
     CardElement,
     Elements,
     useElements,
-    useStripe
+    useStripe,
+    StripeCheckout
 } from '@stripe/react-stripe-js';
 
 import {loadStripe} from '@stripe/stripe-js';
 
-const requiredStripe = require('stripe')(process.env.stripe_SECRET)
+const requiredStripe = require('stripe')(process.env.stripe_SECRET);
 const stripePromise = loadStripe(process.env.stripe_SECRET);
+
 console.log('stripe: ',stripe)
 
 const [error, setError] = useState(null);
