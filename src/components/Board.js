@@ -36,7 +36,7 @@ const MainBoard = (props) => {
       console.log('set render ',productRender)
 
     return <><div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
-      {user && user.isAdmin ? <Button onClick={() => {setAdminToggle(!adminToggle)}} style={{margin:'.4rem'}} variant="primary" size="lg" block>
+      {user && user.isadmin ? <Button onClick={() => {setAdminToggle(!adminToggle)}} style={{margin:'.4rem'}} variant="primary" size="lg" block>
 {adminToggle ? 'Cancel' : 'Post New Product'}
   </Button> : null}
   {adminToggle ? <ProductInput setAdminToggle={setAdminToggle} /> : null}
