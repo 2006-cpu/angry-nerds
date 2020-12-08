@@ -10,7 +10,7 @@ async function createUser({firstName, lastName, email, imageURL, username, passw
         );
     try{
         const {rows:[user]} = await client.query(`
-        INSERT INTO users (firstName, lastName, email, imageURL, username, password, "isAdmin")
+        INSERT INTO users (firstName, lastName, email, imageURL, username, password, isAdmin)
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING *;
         `,[firstName, lastName, email, imageURL, username, hashedPassword, isAdmin]);
