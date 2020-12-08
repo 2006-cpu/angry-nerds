@@ -11,12 +11,14 @@ const SelectedProd = (props) => {
   const {user} = props
     const {id, name, description, price, imageurl, instock, category} = props.selected
     const [editingProduct, setEditingProduct] = useState(false)
+    const [reviewDisplay, setReviewDisplay] = useState(false)
     const [newName, setNewName] = useState('')
     const [newDescription, setNewDescription] = useState('')
     const [newPrice, setNewPrice] = useState('')
     const [newInStock, setNewInStock] = useState(false)
     const [newImageURL, setNewImageURL] = useState(null)
     const [newCategory, setNewCategory] = useState('')
+    const [reviewBody, setReviewBody] = useState('')
 
     const submittedProduct = async () => {
       try{
@@ -28,11 +30,26 @@ const SelectedProd = (props) => {
       }
   }
 
+  const submittedReview = async () => {
+    try{
+        //const newProduct = await apiFuncName({name, description, price, inStock, imageURL, category})
+        console.log('review: ', reviewBody)
+    }catch(error){
+        console.error(error)
+    }
+}
+
   const handleSubmit = (event) => {
       event.preventDefault()
       submittedProduct()
       setEditingProduct(false)
   }
+
+  const reviewSubmit = (event) => {
+    event.preventDefault()
+    submittedReview()
+    setReviewDisplay(false)
+}
 
     return <Card style={{ width: '71rem', height: '52rem', margin: '1rem', 
     boxShadow: '0 6px 10px -5px', backgroundColor: '#e6faff' }}>
@@ -78,13 +95,17 @@ const SelectedProd = (props) => {
     <Card.Body>
       {instock ? <Button style={{float: 'left'}} variant="primary" size="sm">Add To Cart</Button>
          : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }  
-      {user && user.isAdmin ? <>
+      {user && user.isadmin ? <>
       <Button style={{float: 'right'}} variant="danger" size="sm">Delete Listing</Button>
       <Button style={{float: 'right', marginRight: '1rem'}} onClick={() => {setEditingProduct(!editingProduct)}}variant="info" size="sm">Edit Listing</Button></>
-       : <Button style={{float: 'right'}} variant="secondary" size="sm">Similar Items</Button> }   
+       : <Button style={{float: 'right'}} onClick={() => {setReviewDisplay(!reviewDisplay)}} variant="secondary" size="sm">Leave A Review</Button> }   
       
     </Card.Body>
     </div>
+    {reviewDisplay ? <div style={{display: 'flex'}}>
+    <Form.Control value={reviewBody} type="text" placeholder="Enter Review Here" onChange={(e) => {setReviewBody(e.target.value)}} />
+    <Button type="submit" onClick={reviewSubmit} variant="success">Enter</Button>
+    </div> : null}
   </Card>
 }
 

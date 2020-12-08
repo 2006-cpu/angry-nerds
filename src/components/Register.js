@@ -9,6 +9,8 @@ import {
     useHistory
 } from 'react-router-dom';
 
+import {storeCurrentToken} from '../auth'
+
 
 const RegisterComponent = (props) => {
 
@@ -30,7 +32,7 @@ const RegisterComponent = (props) => {
         try {
             event.preventDefault();
 
-            const response = await axios.post(`/api/users/register`, {firstName, lastName, email: emailFirstHalf+'@'+emailSecHalf+'.com', username, password, isAdmin: false, imageURL: null})
+            const response = await axios.post(`/api/users/register`, {firstName, lastName, email: emailFirstHalf+'@'+emailSecHalf+'.com', username, password, isadmin: false, imageURL: null})
 
             const {data} = response;
 
@@ -43,7 +45,7 @@ const RegisterComponent = (props) => {
                 setLastName('');
                 setUsername('');
                 setPassword('');
-                localStorage.setItem('token', data.token);
+                storeCurrentToken(data.token)
                 setToken(data.token);
 
                 if(user && user.username) {
