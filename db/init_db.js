@@ -52,7 +52,7 @@ async function createTables() {
           imageURL VARCHAR(255) DEFAULT NULL,
           username VARCHAR (255) UNIQUE NOT NULL,
           password VARCHAR (255) UNIQUE NOT NULL,
-          "isAdmin" BOOLEAN DEFAULT false
+          isAdmin BOOLEAN DEFAULT false
         );
       CREATE TABLE orders(
       id SERIAL PRIMARY KEY,
@@ -122,7 +122,7 @@ async function populateInitialOrders() {
   try {
     const seedOrders = [
       {status:'created', userId:'1', datePlaced:'2020-06-22 18:10:25-07'},
-      {status:'created', userId:'2', datePlaced:'2011-06-22 10:10:25-07'},
+      {status:'cancelled', userId:'2', datePlaced:'2011-06-22 10:10:25-07'},
       {status:'created', userId:'3', datePlaced:'2019-06-22 11:10:25-07'}
     ]
     const orders = await Promise.all(seedOrders.map(createOrder));
