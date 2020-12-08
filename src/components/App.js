@@ -16,7 +16,9 @@ import {
   HomePage,
   Cart, 
   UserBoard,
-  SelectedUser
+  SelectedUser,
+  AdminUserAdd,
+  OrderBoard
 } from './index'
 
 
@@ -60,6 +62,16 @@ console.log('this is the fetchId ', fetchId)
         {user && user.isAdmin ?  
         <Route path="/user/:userId">
           <SelectedUser user={user} />
+        </Route>
+        : null}
+        {user && user.isAdmin ?  
+        <Route path="/users/add">
+          <AdminUserAdd user={user} />
+        </Route>
+        : null}
+        {user && user.isAdmin ?  
+        <Route path="/orders">
+          <OrderBoard user={user} />
         </Route>
         : null}
         <Route path="/orders/cart">

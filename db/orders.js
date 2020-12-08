@@ -44,6 +44,22 @@ const {client} = require("./index")
         }
     }
 
+    /* THIS IS FOR THE getOrderByProduct ADAPTER */
+    async function getOrderByProduct({id}) {
+        try {
+          const { rows: orders } = await client.query(`
+            SELECT orders.*, order_products."productId"
+            FROM order_products 
+            INNER JOIN orders ON orders.id=order_products."orderId"
+            WHERE "productId"=${id} 
+          `);
+      
+          return orders;
+        } catch (error) {
+          throw error;
+        }
+      }
+
     /* THIS IS FOR THE createOrder ADAPTER */
     async function createOrder({ status, userId, datePlaced }) {
         try {
@@ -156,6 +172,7 @@ module.exports = {
     getOrderById,
     getAllOrders,
     getOrdersByUser,
+    getOrderByProduct,
     createOrder,
     getCartByUser,
     updateOrder,
