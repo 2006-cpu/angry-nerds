@@ -95,7 +95,7 @@ const SelectedProd = (props) => {
     <Card.Body>
       {instock ? <Button style={{float: 'left'}} variant="primary" size="sm">Add To Cart</Button>
          : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }  
-      {user && user.isAdmin ? <>
+      {user && user.isadmin ? <>
       <Button style={{float: 'right'}} variant="danger" size="sm">Delete Listing</Button>
       <Button style={{float: 'right', marginRight: '1rem'}} onClick={() => {setEditingProduct(!editingProduct)}}variant="info" size="sm">Edit Listing</Button></>
        : <Button style={{float: 'right'}} onClick={() => {setReviewDisplay(!reviewDisplay)}} variant="secondary" size="sm">Leave A Review</Button> }   
