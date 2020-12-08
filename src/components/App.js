@@ -24,7 +24,7 @@ import {
 
 import LoginComponent from './Login';
 import RegisterComponent from './Register';
-import {callApi} from '../api';
+
 
 import {getCurrentUser, getCurrentToken} from '../auth'
 
@@ -32,9 +32,9 @@ import {getCurrentUser, getCurrentToken} from '../auth'
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
 
-  const [products, setProducts] = useState([]);
   const [ token, setToken ] = useState(getCurrentToken());
   const [ user, setUser ] = useState(getCurrentUser())
+
 
 
   useEffect(() => {

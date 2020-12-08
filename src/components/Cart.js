@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {useParams} from 'react-router-dom'
 import { getCart } from '../api';
-import {Order} from './index'
 
 
 const Cart = (props) => {
-    const {orderId} = useParams();
 
     const [orders, setOrders] = useState([]);
-    const [products, setProducts] = useState([]);
 
     const fetchOrders = () => {
         getCart().then(
@@ -22,9 +18,6 @@ const Cart = (props) => {
     useEffect(() => {
         fetchOrders()
       },[]);
-      console.log('orders', orders)
-
-    //   const productsList = orders.products
 
     return <div >
     <h1>My Cart</h1>
@@ -34,13 +27,16 @@ const Cart = (props) => {
         return (
             <div>
                 <h3>{product.name}</h3>
-                <h3>{product.price}</h3>
+                <h4>${product.price}</h4>
             </div>
         )
     })}
 
     </div>
-                
+
+    {/* <h3>Total: $#</h3>  
+    <button>Checkout</button> */}
+
     </div>
 }
 

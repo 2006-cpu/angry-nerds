@@ -86,10 +86,12 @@ const {client} = require("./index")
             AND "userId" = $1
             `, [ id ])
 
+            console.log("cartid", cart)
+
             const { rows: products} = await client.query(`
             SELECT products.*
             FROM products
-            JOIN order_products ON products.id=order_products."orderId"
+            JOIN order_products ON products.id=order_products."productId"
             WHERE order_products."orderId"=$1;
             `, [id])
 
