@@ -30,7 +30,7 @@ const SelectedUser = (props) => {
     
     return <>
     <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
-      {admin && admin.isAdmin ? <Button onClick={() => {setAdminToggle(!adminToggle)}} style={{margin:'.4rem'}} variant="primary" size="lg" block>
+      {admin && admin.isadmin ? <Button onClick={() => {setAdminToggle(!adminToggle)}} style={{margin:'.4rem'}} variant="primary" size="lg" block>
         
   {adminToggle ? 'Cancel' : 'Edit User Info'}</Button> : null}
 
@@ -56,7 +56,7 @@ const SelectedUser = (props) => {
         {selected.imageURL} Sample imageURL
     </div>
     <div style={{ textAlign: 'center'}}>
-        {selected.isAdmin} Sample "isAdmin"
+        {selected.isadmin} Sample "isAdmin"
     </div>
   </div>
     </>
