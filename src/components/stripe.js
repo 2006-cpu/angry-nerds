@@ -1,73 +1,65 @@
 import React, {useState} from 'react';
-import Axios from 'axios';
-
+import axios from 'axios';
 import StripeCheckout from 'react-stripe-checkout';
+
 import {
     CardElement,
     Elements,
     useElements,
     useStripe
 } from '@stripe/react-stripe-js';
-import axios from 'axios';
+
 import {loadStripe} from '@stripe/stripe-js';
 
-const stripe = require('stripe')(process.env.stripe_SECRET)
-const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
+const requiredStripe = require('stripe')(process.env.stripe_SECRET)
+const stripePromise = loadStripe(process.env.stripe_SECRET);
 console.log('stripe: ',stripe)
 
+const [error, setError] = useState(null);
+const stripe = useStripe();
+const elements = useElements();
 
 const stripeCheckout = () => {
+console.log('stripeCheckout: ', stripeCheckout)
 
-const Card_Element = {
-    style: {
-        base: {
-            color: '#32325d',
-            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-            fontSmoothing: 'antialiased',
-            fontSize: '16px',
-            '::placeholder': {
-              color: '#aab7c4'
-        }
-    },
-    invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a'
+
+    const handleChange = (event) => {
+        if (event.error) {
+            setError(error.message);
+        } else {
+            setError(null);
         }
     }
-};
-console.log('card_elements', Card_Element)
 
-
-const handleClick = async (event) => {
-    try{
+///handle form submission
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const stripe = await stripePromise;
-        const response = await axios.post ('/orders/cart/checkout');
-        const session = await response.json();
-        const result = await stripe.redirectToCheckout({
-            sessionId: session.id,
-        })
-    } catch (error) {
-        console.error(error)
-    }
+        const card = elements.getElement(cardElement);
+        const result = await stripe.createToken(card);
+        if (result.error) {
+            setError(error.message);
+        }else {
+            setError(null);
+            stripeTokenHandler(result.token);
+        }
+   
+
     return (
-        <button role ="" onClick = {handleClick}>
-            Checkout
-        </button>
+        <form onSubmit={handleSubmit}>
+            <div className = "form">
+                <label for="card-element">
+                    Credit or debit card
+                </label>
+                <CardElement
+                    id="card-element"
+                    options={CardElement}
+                    onChange={handleChange}
+                    />
+                    <div className = "card-errors" role="alert">{error}</div>
+            </div>
+            <button type="submit">Submit Payment</button>
+        </form>
     )
-    }
 }
-
-// const paymentIntent = await stripe.paymentIntents.create({
-//     amount: 5000,
-//     currency: 'usd',
-//     payment_method_types: ['card'],
-//     receipt_email: 'cl_test@example.com'
-
-// })
-// console.log('paymentIntent: ', paymentIntent)
-// return paymentIntent;
-
-
 
 export default stripeCheckout;
