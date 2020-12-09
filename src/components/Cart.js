@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 // import ReactDOM from 'react-dom';
 import {loadStripe} from '@stripe/stripe-js';
 // import axios from 'axios';
-const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
+const stripePromise = loadStripe(process.env.stripe_Publishable);
 
 const Cart = (props) => {
 
