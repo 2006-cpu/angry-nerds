@@ -64,12 +64,6 @@ async function createTables() {
         price INTEGER NOT NULL,
         quantity INTEGER NOT NULL DEFAULT (0)
       );
-      CREATE TABLE reviews(
-        id SERIAL PRIMARY KEY,
-        title VARCHAR(100) NOT NULL,
-        "userId" INTEGER REFERENCES users(id),
-        "productId" INTEGER REFERENCES products(id)
-      );
     `);
 
 
@@ -102,14 +96,14 @@ async function populateInitialData() {
   try {
     // creating default dummy data for products
     const productsToCreate = [
-      { name: 'Les Paul Tribute Plus', description: 'A high-end Epiphone', price: 800, inStock: true , category: 'guitar'},
-      { name: 'Meris: Enzo', description: 'From Meris: Enzo is a multi-voice synthesizer that will track your guitar for tight monosynth leads, complex chord polyphony, or multi-note sequenced arpeggiation... ', price: 299, inStock: true , category: 'piano'},
-      { name: 'Gibson Custom 1965 Les Paul Standard', description: 'A solid body electric guitar', price: 500, inStock: true , category: 'drums'},
-      { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, inStock: true , category: 'guitar'},
-      { name: 'Fender American Professional II', description: 'Jazz Bass roasted pine', price: 2200, inStock: true , category: 'guitar'},
-      { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, inStock: true , category: 'guitar'},
-      { name: 'Marshall Reverse Jubilee 20W Head', description: '20W 2525H has two footswitchable channels', price: 1500, inStock: true , category: 'drums'},
-      { name: 'Tone King Imperial MKII 20W 1x12 Combo Lacquered Tweed', description: 'all tube circuitry, traditional spring reverb and a highly resonant cabinet', price: 3500, inStock: true , category: 'microphone'},
+      { name: 'Epiphone Les Paul 1960 Tribute Plus Faded Cherry Sunburst 2015', description: 'A high-end Epiphone', price: 600, imageURL:'https://cdn.shopify.com/s/files/1/0343/4368/2183/products/media_70cf2e04-f127-4efe-ae88-dd80f7197c8e_2000x.jpg?v=1606160021', inStock: true , category: 'guitar'},
+      { name: 'Meris: Enzo', description: 'From Meris: Enzo is a multi-voice synthesizer that will track your guitar for tight monosynth leads, complex chord polyphony, or multi-note sequenced arpeggiation... ', price: 299, imageURL: 'https://cdn.shopify.com/s/files/1/0343/4368/2183/products/cqtjcph3bwukjcxzpdwd_2000x.jpg?v=1594474704', inStock: true , category: 'piano'},
+      { name: 'Gibson Custom 1959 Les Paul Standard', description: 'A solid body electric guitar', price: 500, imageURL:'https://cdn.shopify.com/s/files/1/0343/4368/2183/products/media_99e44014-9c43-49ef-bc71-529e81e3c57f_2000x.jpg?v=1602034195', inStock: true , category: 'drums'},
+      { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, imageURL:'https://cdn.shopify.com/s/files/1/0343/4368/2183/products/01139807001_2000x.jpg?v=1605308707', inStock: true , category: 'guitar'},
+      { name: 'Fender American Professional II', description: 'Jazz Bass roasted pine', price: 2200, imageURL:'https://cdn.shopify.com/s/files/1/0343/4368/2183/products/media_c05bfb67-036e-4feb-87cf-65055b6457f0_2000x.jpg?v=1602203506', inStock: true , category: 'guitar'},
+      { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, imageURL:'https://cdn.shopify.com/s/files/1/0343/4368/2183/products/01139807001_2000x.jpg?v=1605308707',inStock: true , category: 'guitar'},
+      { name: 'Marshall Reverse Jubilee 20W Head', description: '20W 2525H has two footswitchable channels', price: 1500, imageURL: "https://cdn.shopify.com/s/files/1/0343/4368/2183/products/media_16df905f-1f5d-48d0-b47b-df9c90c625a2_2000x.jpg?v=1598553363", inStock: true , category: 'drums'},
+      { name: 'Tone King Imperial MKII 20W 1x12 Combo Lacquered Tweed', description: 'all tube circuitry, traditional spring reverb and a highly resonant cabinet', price: 3500, imageURL: "https://cdn.shopify.com/s/files/1/0343/4368/2183/products/fhpjoppbzucmtjslespp_2000x.jpg?v=1594409821", inStock: true , category: 'microphone'},
     ]
     const products = await Promise.all(productsToCreate.map(createProduct));
     console.log('Products Created');
