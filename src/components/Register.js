@@ -4,7 +4,7 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert';
-
+import './Register.css';
 import {
     useHistory
 } from 'react-router-dom';
@@ -57,7 +57,7 @@ const RegisterComponent = (props) => {
     }
 
     const messageHandler = () => {
-        return <Alert variant="danger" show={alertShow}><Alert.Heading>{loginMessage}</Alert.Heading></Alert>
+        return <Alert className="registerAlert" variant="danger" show={alertShow}><Alert.Heading>{loginMessage}</Alert.Heading></Alert>
     }
 
     useEffect(() => {
@@ -71,10 +71,10 @@ const RegisterComponent = (props) => {
 
         <h1 className="messageAlert">{messageHandler()}</h1>
        
-       <Form onSubmit={registerHandler}>
+       <Form className="registerForm" onSubmit={registerHandler}>
             <Form.Group style={{margin: '1rem'}}>
                 <Form.Label>First Name</Form.Label>
-                <Form.Control type="text" value={firstName} onChange={(event) => {setFirstName(event.target.value)}} placeholder="First Name" required/>
+                <Form.Control className="registerInput" type="text" value={firstName} onChange={(event) => {setFirstName(event.target.value)}} placeholder="First Name" required/>
                 <Form.Text className="text-muted">
                 Please Input your First Name
                 </Form.Text>
@@ -82,7 +82,7 @@ const RegisterComponent = (props) => {
 
             <Form.Group style={{margin: '1rem'}}>
                 <Form.Label>Last Name</Form.Label>
-                <Form.Control type="text" value={lastName} onChange={(event) => {setLastName(event.target.value)}} placeholder="Last Name" required/>
+                <Form.Control className="registerInput" type="text" value={lastName} onChange={(event) => {setLastName(event.target.value)}} placeholder="Last Name" required/>
                 <Form.Text className="text-muted">
                 Please Input your Last Name
                 </Form.Text>
@@ -91,9 +91,9 @@ const RegisterComponent = (props) => {
             <Form.Group style={{margin: '1rem'}}>
                 <Form.Label>Email</Form.Label>
                 <div style={{display: 'flex'}}>
-                <Form.Control type="text" value={emailFirstHalf} onChange={(event) => {setEmailFirstHalf(event.target.value)}} placeholder="example" required/>
+                <Form.Control className="registerInput" type="text" value={emailFirstHalf} onChange={(event) => {setEmailFirstHalf(event.target.value)}} placeholder="example" required/>
                 <Form.Text className="text-muted">@</Form.Text>
-                <Form.Control type="text" value={emailSecHalf} onChange={(event) => {setEmailSecHalf(event.target.value)}} placeholder="handle" required/>
+                <Form.Control className="registerInput" type="text" value={emailSecHalf} onChange={(event) => {setEmailSecHalf(event.target.value)}} placeholder="handle" required/>
                 <Form.Text className="text-muted">.com</Form.Text>
                 </div>
                 <Form.Text className="text-muted">
@@ -103,7 +103,7 @@ const RegisterComponent = (props) => {
 
             <Form.Group style={{margin: '1rem'}}>
                 <Form.Label>Username</Form.Label>
-                <Form.Control type="text" value={username} onChange={(event) => {setUsername(event.target.value)}} placeholder="Enter Username" required/>
+                <Form.Control className="registerInput" type="text" value={username} onChange={(event) => {setUsername(event.target.value)}} placeholder="Enter Username" required/>
                 <Form.Text className="text-muted">
                 Please Create Your Username
                 </Form.Text>
@@ -111,7 +111,7 @@ const RegisterComponent = (props) => {
 
             <Form.Group style={{margin: '1rem'}}>
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" value={password} minLength="8" maxLength="15" onChange={(event) => {setPassword(event.target.value)}}placeholder="Password" required/>
+                <Form.Control className="registerInput" type="password" value={password} minLength="8" maxLength="15" onChange={(event) => {setPassword(event.target.value)}}placeholder="Password" required/>
                 <Form.Text className="text-muted">
                 Please Create Your Password
                 </Form.Text>
