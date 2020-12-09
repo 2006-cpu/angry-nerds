@@ -67,7 +67,7 @@ const LoginComponent = (props) => {
     }, [token]);
 
     return <> 
-       <Image src="https://cdn.shopify.com/s/files/1/1298/4787/files/Web_Banner-2_1400x.progressive.png.jpg?v=1588688871" fluid />
+       <Image className="loginImg" src="https://cdn.shopify.com/s/files/1/1298/4787/files/Web_Banner-2_1400x.progressive.png.jpg?v=1588688871" fluid />
 
         
        <Form className="loginForm" onSubmit={loginHandler}>
