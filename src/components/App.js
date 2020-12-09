@@ -76,13 +76,13 @@ console.log('this is the fetchId ', fetchId)
         : null}
         <Route path="/orders/cart">
           <Cart />
-        <Route path='/stripeCheckout'>
-          <stripeCheckout />
+        {/* <Route path='/Checkout'>
+          
+        </Route> */}
         </Route>
-        </Route>
-        <Route path="/thank-you">
+        {/* <Route path="/thank-you">
           <thankYou />
-        </Route>
+        </Route> */}
         <Route path="/orders/:orderId">
           <Order />
         </Route>

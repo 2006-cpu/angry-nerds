@@ -1,39 +1,40 @@
-const stripe = require('stripe')(process.env.stripe_Publishable);
 const express = require('express');
 const app = express();
-stripeRouter.use(express.static('.'));
+const stripe = require('stripe')(process.env.stripe_Publishable);
+// stripeRouter.use(express.static('.'));
 
 
 
-stripeRouter.post('/cart/checkout', async (req, res) => {
-    const {name, id, price, quantity} = req.body,
+app.post('/create-checkout-sessions', async (req, res) => {
+    const {name,productId, price, quantity, imageURL} = req.body,
 
     const session = await stripe.checkout.sessions.create ({
-        payment_method_types: ['card','wallet'],
+        payment_method_types: ['card'],
         line_items: [
             {
                 price_data: {
                     currency: 'usd',
                     product_data: {
-                        name: 'product name',
-                        images: ['https://icon-library.com/images/no-image-available-icon/no-image-available-icon-8.jpg'],
+                        name: 'guitar',
+                        Id: 'xxxx',
+                        images: 'imageURL',
                     },
-                    unit_amount: 2000,
+                    unit_amount: '$XXXX',
                 },
-                quantity: 1,
+                quantity: '1',
             },
         ],
         mode: 'payment',
-        success_url: 'https://codalorians.com/thankyou',
+        success_url: 'http://localhost:3000/thankyou.html',
         cancel_url: 'https://codalorians.com/cancel',
     });
     res.json ({id: session.id});
 })
 
 ///==> set token Id at checkout
-    stripeRouter.post('/charge', async (req,res) => {
+    // stripeRouter.post('/charge', async (req,res) => {
 
-    })
+    // })
 
 
 
@@ -82,6 +83,7 @@ stripeRouter.post('/cart/checkout', async (req, res) => {
 // console.log('card_elements', Card_Element)
 // }
 
-module.exports = stripeRouter;
+app.listen(5000, () => console.log(`Listening on port ${5000}!`));
+// module.exports = stripeRouter;
 
 // app.listen(3000, () => console.log(`Listening on port ${3000}!`));

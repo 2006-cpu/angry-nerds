@@ -11,17 +11,17 @@ import {
 
 import {loadStripe} from '@stripe/stripe-js';
 
-const requiredStripe = require('stripe')(process.env.stripe_SECRET);
-const stripePromise = loadStripe(process.env.stripe_SECRET);
+const requiredStripe = require('stripe')(process.env.stripe_Publishable);
+const stripePromise = loadStripe(process.env.stripe_Publishable);
 
 console.log('stripe: ',stripe)
 
 const [error, setError] = useState(null);
-const stripe = useStripe();
+const stripe = useStripe(stripePromise);
 const elements = useElements();
 
-const stripeCheckout = () => {
-console.log('stripeCheckout: ', stripeCheckout)
+const checkout = () => {
+console.log('checkout: ', checkout)
 
 
     const handleChange = (event) => {
@@ -63,4 +63,4 @@ console.log('stripeCheckout: ', stripeCheckout)
     )
 }
 
-export default stripeCheckout;
+export default Checkout;
