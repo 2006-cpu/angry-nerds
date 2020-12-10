@@ -13,3 +13,4 @@ export {default as SelectedUser} from './AdminSelectedUser'
 export {default as UserEdit} from './AdminUserEdit'
 export {default as AdminUserAdd} from './AdminUserAdd'
 export {default as OrderBoard} from './AdminOrderPg'
+export {default as Footer} from './Footer';

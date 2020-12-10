@@ -4,8 +4,9 @@ const {client} = require('./index');
 const {createProduct, getAllProducts} = require('./products')
 const {createUser} = require('./users')
 const {createOrder, getAllOrders} = require('./orders');
-// const { getAllProducts } = require('../src/api');
-const {addProductToOrder} = require('./order_products')
+
+const {addProductToOrder} = require('./order_products');
+const { makeReview } = require('./reviews');
 
 async function dropTables() {
   console.log('Dropping All Tables...');
@@ -13,6 +14,7 @@ async function dropTables() {
 //drop tables in correct order
   try {
     await client.query(`
+    DROP TABLE IF EXISTS reviews
     DROP TABLE IF EXISTS order_products;
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS users;
@@ -27,10 +29,6 @@ async function dropTables() {
 async function createTables() {
 
   try {
-    //client.connect();
-    //await dropTables()
-
-    // build tables in correct order
     
     console.log("Starting to build tables...")
     
@@ -67,6 +65,13 @@ async function createTables() {
         price INTEGER NOT NULL,
         quantity INTEGER NOT NULL DEFAULT (0)
       );
+    CREATE TABLE reviews(
+      id SERIAL PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      content VARCHAR(255) DEFAULT NULL,
+      "userId" INTEGER REFERENCES users(id),
+      "productId" INTEGER REFERENCES products(id)
+    );
     `);
 
 
@@ -99,14 +104,16 @@ async function populateInitialData() {
   try {
     // creating default dummy data for products
     const productsToCreate = [
-      { name: 'Les Paul Tribute Plus', description: 'A high-end Epiphone', price: 800, inStock: true , category: 'guitar'},
-      { name: 'Meris: Enzo', description: 'From Meris: Enzo is a multi-voice synthesizer that will track your guitar for tight monosynth leads, complex chord polyphony, or multi-note sequenced arpeggiation... ', price: 299, inStock: true , category: 'piano'},
-      { name: 'Gibson Custom 1965 Les Paul Standard', description: 'A solid body electric guitar', price: 500, inStock: true , category: 'drums'},
-      { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, inStock: true , category: 'guitar'},
-      { name: 'Fender American Professional II', description: 'Jazz Bass roasted pine', price: 2200, inStock: true , category: 'guitar'},
-      { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, inStock: true , category: 'guitar'},
-      { name: 'Marshall Reverse Jubilee 20W Head', description: '20W 2525H has two footswitchable channels', price: 1500, inStock: true , category: 'drums'},
-      { name: 'Tone King Imperial MKII 20W 1x12 Combo Lacquered Tweed', description: 'all tube circuitry, traditional spring reverb and a highly resonant cabinet', price: 3500, inStock: true , category: 'microphone'},
+      { name: 'Epiphone Les Paul 1960 Tribute Plus Faded Cherry Sunburst 2015', description: 'A high-end Epiphone', price: 600, imageURL:'https://cdn.shopify.com/s/files/1/0343/4368/2183/products/media_70cf2e04-f127-4efe-ae88-dd80f7197c8e_2000x.jpg?v=1606160021', inStock: true , category: 'guitar'},
+      { name: 'Meris: Enzo', description: 'From Meris: Enzo is a multi-voice synthesizer that will track your guitar for tight monosynth leads, complex chord polyphony, or multi-note sequenced arpeggiation... ', price: 299, imageURL: 'https://cdn.shopify.com/s/files/1/0343/4368/2183/products/cqtjcph3bwukjcxzpdwd_2000x.jpg?v=1594474704', inStock: true , category: 'effectpedal'},
+      { name: 'Gibson Custom 1959 Les Paul Standard', description: 'A solid body electric guitar', price: 500, imageURL:'https://cdn.shopify.com/s/files/1/0343/4368/2183/products/media_99e44014-9c43-49ef-bc71-529e81e3c57f_2000x.jpg?v=1602034195', inStock: true , category: 'guitar'},
+      { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, imageURL:'https://cdn.shopify.com/s/files/1/0343/4368/2183/products/01139807001_2000x.jpg?v=1605308707', inStock: true , category: 'guitar'},
+      { name: 'Fender American Professional II', description: 'Jazz Bass roasted pine', price: 2200, imageURL:'https://cdn.shopify.com/s/files/1/0343/4368/2183/products/media_c05bfb67-036e-4feb-87cf-65055b6457f0_2000x.jpg?v=1602203506', inStock: true , category: 'guitar'},
+      { name: 'Fender American Professional II', description: '3-Tone Sunburst', price: 2200, imageURL:'https://cdn.shopify.com/s/files/1/0343/4368/2183/products/01139807001_2000x.jpg?v=1605308707',inStock: true , category: 'guitar'},
+      { name: 'Marshall Reverse Jubilee 20W Head', description: '20W 2525H has two footswitchable channels', price: 1500, imageURL: "https://cdn.shopify.com/s/files/1/0343/4368/2183/products/media_16df905f-1f5d-48d0-b47b-df9c90c625a2_2000x.jpg?v=1598553363", inStock: true , category: 'amplifier'},
+      { name: 'Tone King Imperial MKII 20W 1x12 Combo Lacquered Tweed', description: 'all tube circuitry, traditional spring reverb and a highly resonant cabinet', price: 3500, imageURL: "https://cdn.shopify.com/s/files/1/0343/4368/2183/products/fhpjoppbzucmtjslespp_2000x.jpg?v=1594409821", inStock: true , category: 'amplifier'},
+      { name: 'Meris Hedra 3-Voice Rhythmic Pitch Shifter', description: 'Hedra is a 3-voice rhythmic pitch shifter capable of adding 3 harmony voices to your instrument. ', price: 299, imageURL: "https://cdn.shopify.com/s/files/1/0343/4368/2183/products/gc0kojdw4cpyaor6f5oa_2000x.jpg?v=1594792891", inStock: true , category: 'effectpedal'},
+      { name: 'Sonor AQ2 Safari 10/13/16/6x13 4pc. Drum Kit Titanium Quartz', description: 'With the AQ2 Series drums you can sound like the pros.', price: 699, imageURL: "https://cdn.shopify.com/s/files/1/0343/4368/2183/products/media_70304f5a-b380-4b47-bb6d-93801376139b_2000x.jpg?v=1607448394", inStock: true , category: 'drums'}
     ]
     const products = await Promise.all(productsToCreate.map(createProduct));
     console.log('Products Created');
@@ -180,6 +187,20 @@ async function populateInitialOrderProducts() {
   }
 }
 
+async function populateInitialReviews() {
+  console.log('Starting to create initial reviews...')
+  try {
+    const seedReviews = [{productId: "1", title:"Too Cool!", content:"This worked perfectly for my home setup", userId:"1"}]
+    const reviews = await Promise.all(seedReviews.map(makeReview));
+   console.log(reviews);
+    console.log("Finished making reviews...")
+  } catch (error) {
+    console.error('Error making reviews...')
+    throw error;
+  }
+
+}
+
 async function buildTables(){
   try{
 client.connect()
@@ -196,5 +217,6 @@ buildTables()
   .then(populateInitialData)
   .then(populateInitialOrders)
   .then(populateInitialOrderProducts)
+  .then(populateInitialReviews)
   .catch(console.error)
   .finally(() => client.end());

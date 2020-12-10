@@ -34,7 +34,6 @@ async function destroyProduct({id}) {
         const order = await getOrderById(id);
         if(order.status === 
             'completed'){
-                console.log("The order has a status of completed")
                 return;
             }
         await client.query(`

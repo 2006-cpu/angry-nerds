@@ -17,6 +17,7 @@ import {
   Cart, 
   UserBoard,
   SelectedUser,
+  Footer,
   AdminUserAdd,
   OrderBoard
 } from './index'
@@ -88,6 +89,7 @@ console.log('this is the fetchId ', fetchId)
       </Route>
       <Redirect to="/home" />
       </Switch>
+      <Footer />
     </div></Router>
 }
 
