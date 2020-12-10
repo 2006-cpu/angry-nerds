@@ -40,7 +40,7 @@ const MainBoard = (props) => {
 {adminToggle ? 'Cancel' : 'Post New Product'}
   </Button> : null}
   {adminToggle ? <ProductInput setAdminToggle={setAdminToggle} /> : null}
-        <h3 style={{marginTop: '.4rem', marginLeft: '1rem'}}>You Are Now Viewing {categorysel ? `All ${categorysel}s` : 'All Items'}</h3>
+        <h3 style={{marginTop: '.5rem', marginLeft: '1rem'}}>You Are Now Viewing {categorysel ? `All ${categorysel}s` : 'All Items'}</h3>
         {categorysel ? <Button style={{marginTop: '.4rem', marginRight: '1rem'}} onClick={() => {setCategorysel('')}}>Unfilter Products</Button> : null}
         </div>
         <div style={{display: 'flex', flexWrap: 'wrap'}}>
@@ -53,7 +53,10 @@ const MainBoard = (props) => {
         }
     }
 })}
-    </div></>
+    </div>
+    <div style={{height: '2.5rem', bottom: '0', left: '0', right: '0', backgroundColor: '#B0E0E6', paddingBottom: '1.5rem', marginTop: '3rem'}}>
+      <div style={{textAlign: 'center', paddingTop: '.5rem'}}>Page 1</div>
+      </div></>
 }
 
 export default MainBoard;
