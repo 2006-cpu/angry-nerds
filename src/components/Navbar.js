@@ -56,7 +56,7 @@ const Navigation = (props) => {
       <Nav className="mr-auto">
         <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products">Products</Link>
 {user && user.isadmin ? 
-        <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+        <NavDropdown title="Admin Tools" id="collasible-nav-dropdown">
           {user && user.isadmin ? <NavDropdown.Item>
             <Nav.Link>
           <NavLink to="/users">

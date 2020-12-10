@@ -15,9 +15,7 @@ const SelectedUser = (props) => {
 
     async function fetchProducts(){
       try{
-        console.log('param ', userId)
         const chosenOne = await getUserById(userId)
-        console.log('chosen array ', chosenOne)
         setSelected(chosenOne)
       }catch(error){
         console.log(error)

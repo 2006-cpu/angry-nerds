@@ -3,7 +3,7 @@ import Carousel from 'react-bootstrap/Carousel'
 
 import {getAllProducts} from '../api'
 
-import {Prod} from './index'
+import {Prod, Footer} from './index'
 
 const HomePage = (props) => {
     const {setFetchId} = props
@@ -68,30 +68,14 @@ const HomePage = (props) => {
       <div style={{paddingTop: '1rem', borderTop: '1px solid black', float:'bottom'}}><div>Popular Items</div>
 
       <div style={{ backgroundColor: 'lightgray', borderTop: '1px solid black',
-      display: 'flex', flexDirection: 'row', flexShrink: '0', overflow: 'scroll', width: '100%', height: '100%'}}>
+      display: 'flex', flexDirection: 'row', flexShrink: '0', overflowX: 'scroll', width: '100%', height: '100%'}}>
       {productRender.map((product) => {
-          return <div style={{width: '18rem', margin: '1rem'}}>
+          return <div style={{width: '18rem', margin: '.2rem'}}>
                 <Prod key={product.id} product={product} setSelectedId={setSelectedId} />
               </div>})}
       </div>
-
+<Footer />
       </div>
-
-      {/* THIS IS FOR THE FOOTER - needs to be styled*/}
-
-      <div className="footer-container">
-        <div className="bottom-container-inner">
-            <span className="bottom-link-items">C 2020</span>
-            <span className="bottom-link-items">Privacy</span>
-            <span className="bottom-link-items">Terms</span>
-            <span className="bottom-link-items">Accessibility</span>
-            <span className="bottom-link-items">Sitemap</span>
-            <span className="bottom-link-items">Do Not Sell My Personal Information</span>
-        </div>
-      </div>
-
-
-
 </div>
 
 }

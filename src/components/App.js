@@ -17,6 +17,7 @@ import {
   Cart, 
   UserBoard,
   SelectedUser,
+  Footer,
   AdminUserAdd,
   OrderBoard
 } from './index'
@@ -79,6 +80,9 @@ const App = () => {
         <Route path="/orders/cart">
           <Cart orders={orders} setOrders={setOrders} token={token} />
         </Route>
+        {/* <Route path="/thank-you">
+          <thankYou />
+        </Route> */}
         <Route path="/orders/:orderId">
           <Order />
         </Route>
