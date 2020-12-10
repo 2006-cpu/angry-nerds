@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { getCart, deleteOrderProduct } from '../api';
-
+import Button from 'react-bootstrap/Button'
+import ReactDOM from 'react-dom';
+import {loadStripe} from '@stripe/stripe-js';
+// import axios from 'axios';
+const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
 
 const Cart = (props) => {
 
@@ -52,6 +56,33 @@ const Cart = (props) => {
         }
     }
 
+    const handleClick = async (event) => {
+        // console.log('handleClick: ', handleClick)
+        try{
+        const stripe = await stripePromise;
+        console.log('stripe:', stripe)
+        const response = await fetch ('/create-checkout-session', {method: 'POST'});
+        console.log('response: ', response);
+        //WHERE IS MY SESSION?
+        const session = await response.json()
+        console.log('sessionCreated!!: ', session)
+        //WHERE IS MY RESULT??
+        const result = await stripe.redirectToCheckout({
+            sessionId: session.id,
+        });
+        console.log('get Stripe Session Result', result)
+        if (result.error) {
+            return ({
+                name:'page load error',
+                message: 'I am sorry, looks like the page is under constructions. We are working hard to fix the issue, please come back and try again later!'
+            })
+        }
+    } catch (error) {
+        console.error (error)
+    }
+}
+    
+
     return <div >
     <h1>My Cart</h1>
     <div>
@@ -67,9 +98,8 @@ const Cart = (props) => {
     })}
 
     </div>
-
-    <h3>Total: ${total}</h3>  
-    <button>Checkout</button>
+    {/* <h3>Total: $XX</h3>   */}
+    <Button style={{float: 'left'}} variant="primary" size="sm" role="/checkout/session" onClick={handleClick}>Checkout</Button>
 
     </div>
 }
