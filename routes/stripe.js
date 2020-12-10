@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
+require('dotenv').config('./.env');
 const stripe = require('stripe')(process.env.stripe_Publishable);
-// stripeRouter.use(express.static('.'));
+appRouter.use(express.static('.'));
 
 
 
@@ -28,15 +29,22 @@ app.post('/create-checkout-sessions', async (req, res) => {
         success_url: 'http://localhost:3000/thankyou.html',
         cancel_url: 'https://codalorians.com/cancel',
     });
-    res.json ({id: session.id});
+    res.json({id: session.id});
 })
 
 ///==> set token Id at checkout
-    // stripeRouter.post('/charge', async (req,res) => {
+app.post('/charge', async (req,res) => {
 
-    // })
+    const token = await stripe.tokens.create ({
+        card: {
+            number: '6767676767676767',
+            exp_month: 10,
+            exp_year: 2030,
+            cvc: '870',
+        }
+    });
 
-
+})
 
 
 
