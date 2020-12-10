@@ -115,3 +115,18 @@ export async function addProductToOrder(orderId, productId, price, quantity) {
     throw error;
   }
 }
+
+export async function deleteOrderProduct(orderProductId) {
+  // console.log("OPID", orderProductId)
+  // const auth = {
+  //     headers: { Authorization: `Bearer ${token}` }
+  // };
+  
+  try {
+      const {data} = await axios.delete(`/api/order_products/${orderProductId}`);
+      console.log("delete orderProduct", data)
+      return data;
+  } catch (error) {
+      console.error(error);
+  }
+}
