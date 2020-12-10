@@ -21,9 +21,7 @@ export async function getAllUsers() {
 
 export async function getUserById(id) {
   try {
-    console.log("UserId: id", id)
     const { data } = await axios.get(`/api/users/${id}`);
-    console.log("UserId:", data)
     return data;
   } catch (error) {
     throw error;
@@ -33,8 +31,6 @@ export async function getUserById(id) {
 export async function getProductById(id) {
   try {
     const { data } = await axios.get(`/api/products/${id}`);
-    console.log("productId: id", id)
-    console.log("productId:", data)
     return data;
   } catch (error) {
     throw error;
@@ -43,9 +39,7 @@ export async function getProductById(id) {
 
 export async function getProductByCategory(category) {
   try {
-    console.log("product category", category)
     const { data } = await axios.get(`/api/products/${category}`);
-    console.log("category array", data)
     return data;
   } catch (error) {
     throw error;
