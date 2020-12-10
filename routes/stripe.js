@@ -6,10 +6,10 @@ appRouter.use(express.static('.'));
 
 
 
-app.post('/create-checkout-sessions', async (req, res) => {
+app.post('/create-checkout-session', async (req, res) => {
     const {name,productId, price, quantity, imageURL} = req.body,
 
-    const session = await stripe.checkout.sessions.create ({
+    const session = await stripe.checkout.session.create ({
         payment_method_types: ['card'],
         line_items: [
             {
@@ -92,6 +92,6 @@ app.post('/charge', async (req,res) => {
 // }
 
 app.listen(5000, () => console.log(`Listening on port ${5000}!`));
-// module.exports = stripeRouter;
+module.exports = appRouter;
 
 // app.listen(3000, () => console.log(`Listening on port ${3000}!`));
