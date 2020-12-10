@@ -86,7 +86,19 @@ const {
 /* ------------------------------------------------------------ */
 /* THIS IS THE DELETE/products/:productId ROUTER for admins only */
 
-
+productsRouter.delete('/:productId', async (req, res, next) => {
+    const {productId} = req.params;
+    const id = Number(productId);
+    try {
+        
+        const product = await destroyProduct({id});
+        res.send({ message: "You Have Deleted the Product From listing"});
+        res.send(product);
+        
+    } catch (error) {
+        next(error);
+    }
+})
 /* ------------------------------------------------------------ */
 /* THIS IS THE PATCH /products/:productId (*admin) Only admins can update a product */
 
