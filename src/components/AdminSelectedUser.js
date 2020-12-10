@@ -15,9 +15,7 @@ const SelectedUser = (props) => {
 
     async function fetchProducts(){
       try{
-        console.log('param ', userId)
         const chosenOne = await getUserById(userId)
-        console.log('chosen array ', chosenOne)
         setSelected(chosenOne)
       }catch(error){
         console.log(error)
@@ -30,7 +28,7 @@ const SelectedUser = (props) => {
     
     return <>
     <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
-      {admin && admin.isAdmin ? <Button onClick={() => {setAdminToggle(!adminToggle)}} style={{margin:'.4rem'}} variant="primary" size="lg" block>
+      {admin && admin.isadmin ? <Button onClick={() => {setAdminToggle(!adminToggle)}} style={{margin:'.4rem'}} variant="primary" size="lg" block>
         
   {adminToggle ? 'Cancel' : 'Edit User Info'}</Button> : null}
 
@@ -56,7 +54,7 @@ const SelectedUser = (props) => {
         {selected.imageURL} Sample imageURL
     </div>
     <div style={{ textAlign: 'center'}}>
-        {selected.isAdmin} Sample "isAdmin"
+        {selected.isadmin} Sample "isAdmin"
     </div>
   </div>
     </>

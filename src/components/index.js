@@ -15,3 +15,4 @@ export {default as thankYou} from './Thank_you';
 export {default as UserEdit} from './AdminUserEdit'
 export {default as AdminUserAdd} from './AdminUserAdd'
 export {default as OrderBoard} from './AdminOrderPg'
+export {default as Footer} from './Footer';

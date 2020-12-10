@@ -17,6 +17,7 @@ import {
   Cart, 
   UserBoard,
   SelectedUser,
+  Footer,
   AdminUserAdd,
   OrderBoard
 } from './index'
@@ -54,22 +55,22 @@ console.log('this is the fetchId ', fetchId)
         <Route path="/product/:productId">
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} user={user} />
         </Route>
-        {user && user.isAdmin ?  
+        {user && user.isadmin ?  
         <Route path="/users">
           <UserBoard user={user} />
         </Route>
         : null}
-        {user && user.isAdmin ?  
+        {user && user.isadmin ?  
         <Route path="/user/:userId">
           <SelectedUser user={user} />
         </Route>
         : null}
-        {user && user.isAdmin ?  
+        {user && user.isadmin ?  
         <Route path="/users/add">
           <AdminUserAdd user={user} />
         </Route>
         : null}
-        {user && user.isAdmin ?  
+        {user && user.isadmin ?  
         <Route path="/orders">
           <OrderBoard user={user} />
         </Route>
@@ -94,6 +95,7 @@ console.log('this is the fetchId ', fetchId)
       </Route>
       <Redirect to="/home" />
       </Switch>
+      <Footer />
     </div></Router>
 }
 
