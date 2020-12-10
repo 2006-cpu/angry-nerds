@@ -77,7 +77,13 @@ console.log('this is the fetchId ', fetchId)
         : null}
         <Route path="/orders/cart">
           <Cart />
+        {/* <Route path='/Checkout'>
+          
+        </Route> */}
         </Route>
+        {/* <Route path="/thank-you">
+          <thankYou />
+        </Route> */}
         <Route path="/orders/:orderId">
           <Order />
         </Route>

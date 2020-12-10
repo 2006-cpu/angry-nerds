@@ -37,6 +37,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
     "react-stripe-checkout": "^2.6.3",
+    "stripe": "^8.127.0",
     "util": "^0.12.3"
   },
   "devDependencies": {
