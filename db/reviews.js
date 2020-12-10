@@ -15,6 +15,30 @@ async function getAllProductReviews() {
 	}
 };
 
+/* THIS IS TO create reviews  */
+async function makeReview( {title, content, userId, productId} ) {
+	try{
+		const {rows: [review] } = await client.query(`
+		INSERT INTO reviews (title, content, "userId", "productId")
+		VALUES ($1, $2, $3, $4)
+		RETURNING *;
+		`, [title, content, userId, productId]);
+
+		const {rows: [user] } = await client.query(`
+		SELECT reviews.*, users.username AS creatorName
+		FROM users
+		JOIN reviews ON reviews."userId"=users.id
+		WHERE reviews."userId"=${userId}
+		`)
+		return user;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+}
+
+
 module.exports = {
-    getAllProductReviews
+	getAllProductReviews,
+	makeReview
 }
