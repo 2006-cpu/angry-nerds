@@ -27,21 +27,25 @@ import LoginComponent from './Login';
 import RegisterComponent from './Register';
 
 
-import {getCurrentUser, getCurrentToken} from '../auth'
+import {getCurrentUser, getCurrentToken, getCurrentCart, storeCurrentCart} from '../auth'
 
 import { getCart } from '../api';
 
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
 
-  const [ orders, setOrders ] = useState([]);
+  const [ orders, setOrders ] = useState(getCurrentCart());
   const [ token, setToken ] = useState(getCurrentToken());
   const [ user, setUser ] = useState(getCurrentUser())
 
 
 
   useEffect(() => {
-    console.log('user is ', user)
+    if(!token){
+      const returning = getCurrentCart();
+      if (!returning){
+      storeCurrentCart([])
+    }}
   },[token])
 
   return <Router>
