@@ -1,7 +1,7 @@
 const express = require('express');
 const reviewsRouter = express.Router();
 
-const { getAllProductReviews } = require('../db/reviews');
+const { getAllProductReviews, makeReview } = require('../db/reviews');
 
 
 
@@ -20,18 +20,16 @@ reviewsRouter.get('/', async (req, res, next ) => {
     }
 } )
 
-
 /* ------------------------------------------------------------ */
 /* THIS IS THE POST /reviews ROUTER TO MAKE NEW REVIEWS */
-/* productsRouter.post('/', async (req, res, next) => {
+
+reviewsRouter.post('/', async (req, res, next) => {
     try {     
-            const creatingProduct = await createProduct({...req.body});
-            res.send(creatingProduct); 
+            const creatingreview = await makeReview({...req.body});
+            res.send(creatingreview); 
     } catch (error) {
         next(error);
     }
-  }); */
-
-
+  });
 
 module.exports = reviewsRouter;
