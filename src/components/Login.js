@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
+import './Login.css';
 import {
     useHistory
 } from 'react-router-dom';
@@ -55,7 +56,7 @@ const LoginComponent = (props) => {
     }
 
     const messageHandler = () => {
-        return <Alert variant="danger" show={alertShow}><Alert.Heading>{loginMessage}</Alert.Heading></Alert>
+        return <Alert className="loginAlerts" variant="danger" show={alertShow}><Alert.Heading>{loginMessage}</Alert.Heading></Alert>
     }
 
     useEffect(() => {
@@ -66,16 +67,16 @@ const LoginComponent = (props) => {
     }, [token]);
 
     return <> 
-       <Image src="https://cdn.shopify.com/s/files/1/1298/4787/files/Web_Banner-2_1400x.progressive.png.jpg?v=1588688871" fluid />
+       <Image className="loginImg" src="https://cdn.shopify.com/s/files/1/1298/4787/files/Web_Banner-2_1400x.progressive.png.jpg?v=1588688871" fluid />
 
         
-       <Form onSubmit={loginHandler}>
+       <Form className="loginForm" onSubmit={loginHandler}>
         
            <h1 className="messageAlert">{messageHandler()}</h1>
             
             <Form.Group controlId="formBasicEmail">
                 <Form.Label>Username</Form.Label>
-                <Form.Control type="text" value={username} onChange={(event) => {setUsername(event.target.value)}} placeholder="Enter Username" required/>
+                <Form.Control className="loginInput" type="text" value={username} onChange={(event) => {setUsername(event.target.value)}} placeholder="Enter Username" required/>
                 <Form.Text className="text-muted">
                 Please Enter Your Username
                 </Form.Text>
@@ -83,30 +84,15 @@ const LoginComponent = (props) => {
 
             <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" value={password} onChange={(event) => {setPassword(event.target.value)}}placeholder="Password" required />
+                <Form.Control className="loginInput" type="password" value={password} onChange={(event) => {setPassword(event.target.value)}}placeholder="Password" required />
                 <Form.Text className="text-muted">
                 Please Enter Your Password
                 </Form.Text>
             </Form.Group>
-            <Button variant="primary" type="submit">
-                Submit
+            <Button className="loginBtn" variant="primary" type="submit">
+                Login
             </Button>
         </Form>
-
-        {/* THIS IS FOR THE FOOTER - needs to be styled*/}
-
-        <div className="footer-container">
-            <div className="bottom-container-inner">
-                <span className="bottom-link-items">C 2020</span>
-                <span className="bottom-link-items">Privacy</span>
-                <span className="bottom-link-items">Terms</span>
-                <span className="bottom-link-items">Accessibility</span>
-                <span className="bottom-link-items">Sitemap</span>
-                <span className="bottom-link-items">Do Not Sell My Personal Information</span>
-            </div>
-        </div>
-
-
 
     </>
 
