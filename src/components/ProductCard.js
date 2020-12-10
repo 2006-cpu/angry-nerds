@@ -37,16 +37,16 @@ const Prod = (props) => {
       }
   } 
     
-    return <Card style={{ width: '18rem', height: '40rem', margin: '1rem', 
+    return <Card style={{ width: '14rem', height: '38rem', margin: '1rem', 
     boxShadow: '0 6px 10px -5px' }} onClick={() => {
         setSelectedId(id)
         }}>
     <Card.Img variant="top" src={imageurl ? imageurl : "https://icon-library.com/images/no-image-available-icon/no-image-available-icon-8.jpg"} />
     <Card.Body>
 <Card.Title><Link to={`/product/${id}`}>{name}</Link></Card.Title>
-      <Card.Text>
+      <div style={{overflowY: 'auto', fontSize: '.85rem'}}>
         {description}
-      </Card.Text>
+      </div>
     </Card.Body>
     <ListGroup className="list-group-flush">
 <ListGroupItem>{category}</ListGroupItem>
@@ -54,10 +54,10 @@ const Prod = (props) => {
     </ListGroup>
     <div style={{height: '4rem'}}>
     <Card.Body>
-      {instock ? <Button style={{float: 'left'}} variant="primary" size="sm" onClick={handleCart}>{<FiShoppingCart/>}Add To Cart</Button>
-         : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }
+      {instock ? <Button style={{float: 'left', fontSize: '.70rem'}} variant="primary" size="sm" onClick={handleCart}>{<FiShoppingCart/>}Add To Cart</Button>
+         : <Button style={{float: 'left', fontSize: '.70rem'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }
       
-      <Button style={{float: 'right'}} variant="secondary" size="sm" onClick={() => {setCategorysel(category)}} >Similar Items</Button>
+      <Button style={{float: 'right', fontSize: '.70rem'}} variant="secondary" size="sm" onClick={() => {setCategorysel(category)}} >Similar Items</Button>
     </Card.Body>
     </div>
   </Card>
