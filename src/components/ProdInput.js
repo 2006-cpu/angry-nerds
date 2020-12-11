@@ -15,12 +15,13 @@ const ProductInput = (props) => {
     const [inStock, setInStock] = useState(false)
     const [imageURL, setImageURL] = useState(null)
     const [category, setCategory] = useState('')
+    const [missing, setMissing] = useState('')
     const history = useHistory();
 
     const addProduct = async (event) => {
         try {
             event.preventDefault();
-            //const newProduct = await apiFuncName({name, description, price, inStock, imageURL, category})
+            if(name && description && price && category){
             console.log('name: ', name, ',description: ', description, ',price: ', price, ',inStock: ',
              inStock, ',imageURL: ', imageURL, ',category: ', category)
 
@@ -29,6 +30,7 @@ const ProductInput = (props) => {
  
              const {data} = response;
              console.log("Here is data from the form:", data);
+             setMissing('')
              setName('');
              setDescription('');
              setPrice('');
@@ -37,6 +39,8 @@ const ProductInput = (props) => {
              if(response) {
                 setAdminToggle(true)
                 history.push('/products');
+             }} else{
+                 setMissing('Missing Fields Above')
              }
  
         }catch(error){
@@ -79,7 +83,10 @@ const ProductInput = (props) => {
                         setInStock(true)
                     }else{
                         setInStock(e.target.value)}}} label="In Stock? " />
-            <Button type="submit" /* onClick={handleSubmit} */ style={{marginLeft: '1rem', marginTop: '1rem'}} variant="success">Enter</Button>
+                        <div style={{display: 'flex'}}>
+                        <Button type="submit" /* onClick={handleSubmit} */ style={{marginLeft: '1rem', marginTop: '1rem'}} variant="success">Enter</Button>
+                        <h4 style={{paddingLeft: '3rem', paddingTop: '1.3rem', color: 'red'}}>{missing}</h4>
+            </div>
             </Form.Group>
         </Form>
     </div>

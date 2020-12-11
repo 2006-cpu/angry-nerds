@@ -20,12 +20,19 @@ const SelectedProd = (props) => {
     const [newImageURL, setNewImageURL] = useState(null)
     const [newCategory, setNewCategory] = useState('')
     const [reviewBody, setReviewBody] = useState('')
+    const [missing, setMissing] = useState('')
 
     const submittedProduct = async () => {
       try{
           //const newProduct = await apiFuncName({name, description, price, inStock, imageURL, category})
+          if(newName && newDescription && newPrice && newCategory){
           console.log('name: ', newName, ',description: ', newDescription, ',price: ', newPrice, ',inStock: ',
           newInStock, ',imageURL: ', newImageURL, ',category: ', newCategory)
+      setEditingProduct(false)
+          
+        } else{
+          setMissing('Missing Fields Above')
+        }
       }catch(error){
           console.error(error)
       }
@@ -33,8 +40,10 @@ const SelectedProd = (props) => {
 
   const submittedReview = async () => {
     try{
+      if(reviewBody){
         //const newProduct = await apiFuncName({name, description, price, inStock, imageURL, category})
         console.log('review: ', reviewBody)
+    setReviewDisplay(false)}
     }catch(error){
         console.error(error)
     }
@@ -43,13 +52,11 @@ const SelectedProd = (props) => {
   const handleSubmit = (event) => {
       event.preventDefault()
       submittedProduct()
-      setEditingProduct(false)
   }
 
   const reviewSubmit = (event) => {
     event.preventDefault()
     submittedReview()
-    setReviewDisplay(false)
 }
 
 /* THIS IS TO HARD DELETE A PRODUCT */
@@ -64,32 +71,35 @@ const SelectedProd = (props) => {
   }
 
 
-    return <Card style={{ width: '71rem', height: '52rem', margin: '1rem', 
+    return <Card style={{ width: '60rem', maxWidth: '100%', height: '52rem', margin: '1rem', 
     boxShadow: '0 6px 10px -5px', backgroundColor: '#e6faff' }}>
     {editingProduct ?
      <div>
      <Form.Group style={{marginLeft: '1rem', marginRight: '1rem', marginTop: '1rem', height: '45.9rem'}}>
  <h4 style={{paddingLeft: '1rem'}}>Product Name</h4>
-<Form.Control value={newName} type="text" placeholder="" onChange={(e) => {setNewName(e.target.value)}} />
+<Form.Control value={newName} type="text" placeholder={name} onChange={(e) => {setNewName(e.target.value)}} />
 <br />
  <h4 style={{paddingLeft: '1rem'}}>Description</h4>
-<Form.Control value={newDescription} type="text" placeholder="" onChange={(e) => {setNewDescription(e.target.value)}} />
+<Form.Control value={newDescription} type="text" placeholder={description} onChange={(e) => {setNewDescription(e.target.value)}} />
 
 <h4 style={{paddingLeft: '1rem'}}>Price</h4>
-<Form.Control value={newPrice} type="integer" placeholder="" onChange={(e) => {setNewPrice(e.target.value)}} />
+<Form.Control value={newPrice} type="integer" placeholder={price} onChange={(e) => {setNewPrice(e.target.value)}} />
 
 <h4 style={{paddingLeft: '1rem'}}>image URL</h4>
-<Form.Control value={newImageURL} type="text" placeholder="" onChange={(e) => {setNewImageURL(e.target.value)}} />
+<Form.Control value={newImageURL} type="text" placeholder={imageurl} onChange={(e) => {setNewImageURL(e.target.value)}} />
 
 <h4 style={{paddingLeft: '1rem'}}>Category</h4>
-<Form.Control value={newCategory} type="text" placeholder="" onChange={(e) => {setNewCategory(e.target.value)}} />
+<Form.Control value={newCategory} type="text" placeholder={category} onChange={(e) => {setNewCategory(e.target.value)}} />
 
  <Form.Check type="checkbox" style={{marginLeft: '1rem', marginTop: '1rem'}}  onChange={(e) => {
      if(e.target.value === 'on'){
       setNewInStock(true)
      }else{
       setNewInStock(e.target.value)}}} label="In Stock? " />
+      <div style={{display: 'flex'}}>
 <Button type="submit" onClick={handleSubmit} style={{marginLeft: '1rem', marginTop: '1rem'}} variant="success">Enter</Button>
+<h4 style={{paddingLeft: '3rem', paddingTop: '1.3rem', color: 'red'}}>{missing}</h4>
+</div>
 </Form.Group>
  </div> 
      : <><Card.Img style={{width: '23rem', backgroundColor: '#e6faff'}}variant="top" src={imageurl ? imageurl : "https://icon-library.com/images/no-image-available-icon/no-image-available-icon-8.jpg"} />
@@ -110,7 +120,7 @@ const SelectedProd = (props) => {
          : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }  
       {user && user.isadmin ? <>
       <Button id={id} onClick={(event) => {event.preventDefault()}, handleProductDelete} style={{float: 'right'}} variant="danger" size="sm">Delete Listing</Button>
-      <Button style={{float: 'right', marginRight: '1rem'}} onClick={() => {setEditingProduct(!editingProduct)}}variant="info" size="sm">Edit Listing</Button></>
+      <Button style={{float: 'right', marginRight: '1rem'}} onClick={() => {setEditingProduct(!editingProduct)}}variant="info" size="sm">{editingProduct ? 'Cancel':'Edit Listing'}</Button></>
        : <Button style={{float: 'right'}} onClick={() => {setReviewDisplay(!reviewDisplay)}} variant="secondary" size="sm">Leave A Review</Button> }   
       
     </Card.Body>

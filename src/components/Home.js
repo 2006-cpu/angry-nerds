@@ -72,7 +72,6 @@ const HomePage = (props) => {
       display: 'flex', /* flexWrap: 'wrap', */ flexDirection: 'row', /* padding: '1rem 7.5rem 7.5rem 17rem', */ flexShrink: '0', overflowX: 'scroll', width: '100%', height: '100%'}}>
       {productRender.map((product) => {
   const added = inCart.some(cartProd => cartProd.id === product.id)
-  console.log(' product with id ',product.id, 'bool ', added )
   if(added){
     return <div style={{width: '18rem', margin: '.2rem'}}>
     <Prod key={product.id} product={product} setSelectedId={setSelectedId}inCart={true} />
