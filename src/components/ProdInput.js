@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import axios from 'axios';
 import {createProduct} from '../api'
+import {
+    useHistory
+} from 'react-router-dom';
 
 
 const ProductInput = (props) => {
-    const {setAdminToggle} = props
+    const [adminToggle, setAdminToggle] = useState(false);
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [inStock, setInStock] = useState(false)
     const [imageURL, setImageURL] = useState(null)
     const [category, setCategory] = useState('')
+    const history = useHistory();
 
     const addProduct = async (event) => {
         try {
@@ -21,7 +24,7 @@ const ProductInput = (props) => {
             console.log('name: ', name, ',description: ', description, ',price: ', price, ',inStock: ',
              inStock, ',imageURL: ', imageURL, ',category: ', category)
 
-/* 
+
              const response = await createProduct(name, description, price, inStock, imageURL, category)
  
              const {data} = response;
@@ -30,14 +33,12 @@ const ProductInput = (props) => {
              setDescription('');
              setPrice('');
              setInStock(true);
-             setCategory(''); */
-             /* 
-             if(data.token) {
-                 storeCurrentToken(data.token)
-                 setToken(data.token);
+             setCategory('');
+             if(response) {
+                setAdminToggle(true)
+                history.push('/products');
              }
-  */
-
+ 
         }catch(error){
             console.error(error)
         }
@@ -45,11 +46,15 @@ const ProductInput = (props) => {
 
     /* createProduct(product) */
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        addProduct(event)
-        setAdminToggle(false)
-    }
+    useEffect(() => {
+        if(!setAdminToggle(false)) {
+            setAdminToggle(true);
+            console.log("loook")
+            console.log('this is the result of adminToggle', adminToggle)
+            return
+        }
+        
+    }, [adminToggle]);
 
     return <div>
         <Form className="adminProductAdd" onSubmit={addProduct}>
@@ -61,7 +66,7 @@ const ProductInput = (props) => {
             <Form.Control value={description} type="text" placeholder="" onChange={(e) => {setDescription(e.target.value)}} />
 
             <h4 style={{paddingLeft: '1rem'}}>Price</h4>
-            <Form.Control value={price} type="integer" placeholder="" onChange={(e) => {setPrice(e.target.value)}} />
+            <Form.Control value={price} type="text" placeholder="" onChange={(e) => {setPrice(e.target.value)}} />
 
             <h4 style={{paddingLeft: '1rem'}}>image URL</h4>
             <Form.Control value={imageURL} type="text" placeholder="" onChange={(e) => {setImageURL(e.target.value)}} />
