@@ -47,7 +47,6 @@ const MainBoard = (props) => {
         <div style={{display: 'flex', flexWrap: 'wrap'}}>
 {productRender.map((product) => {
   const added = inCart.some(cartProd => cartProd.id === product.id)
-  console.log(' product with id ',product.id, 'bool ', added )
   if(added){
     if (categorysel === ''){
     return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={true} />}
