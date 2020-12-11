@@ -32,7 +32,7 @@ const MainBoard = (props) => {
     
     useEffect(() => {
     fetchProducts()
-      },[selectedId]);
+      },[]);
       console.log('set render ',productRender)
 
     return <><div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>

@@ -8,11 +8,13 @@ import {Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FiShoppingCart } from "react-icons/fi";
 
-import {createOrder, addProductToOrder} from '../api'
+import {createOrder, addProductToOrder, getProductById} from '../api'
+import {getCurrentCart, getCurrentToken, storeCurrentCart} from '../auth'
 
 const Prod = (props) => {
     const {setSelectedId, setCategorysel} = props
     const {id, name, description, price, imageurl, instock, category} = props.product
+    const [loggedIn, setLoggedIn] = useState(getCurrentToken())
 
     const [quantity, setQuantity] = useState(1);
 
@@ -21,17 +23,22 @@ const Prod = (props) => {
 
     const handleCart = async (event) => {
       try {
-                
-        if(!order){
-          const newOrder = await createOrder();
-          setOrder(newOrder)
-          const orderId = newOrder.id
-          setOrderId(orderId)
-        }
-
-        setQuantity(1)
-        const productOrder = await addProductToOrder(orderId, id, price, quantity)
-
+          if(loggedIn){     
+             if(!order){
+              const newOrder = await createOrder();
+              setOrder(newOrder)
+              const orderId = newOrder.id
+              setOrderId(orderId)
+              }
+              setQuantity(1)
+              const productOrder = await addProductToOrder(orderId, id, price, quantity)
+         } else if(!loggedIn){
+           console.log('we good')
+           const grabbedCart = getCurrentCart();
+           const grabbedProduct = await getProductById(id)
+           grabbedCart.push(grabbedProduct)
+           storeCurrentCart(grabbedCart)
+         }
       } catch (error) {
           console.error(error)
       }
