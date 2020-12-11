@@ -109,3 +109,12 @@ export async function addProductToOrder(orderId, productId, price, quantity) {
     throw error;
   }
 }
+
+export async function createProduct(name, description, inStock, imageURL, category) {
+  try {
+    const { data } = await axios.post('/api/products', {name, description, inStock, imageURL, category});
+    return data;
+  } catch(error) {
+    throw error;
+  }
+}

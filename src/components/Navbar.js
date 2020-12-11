@@ -23,13 +23,14 @@ import {getCurrentUser, getCurrentToken, clearCurrentToken, clearCurrentUser} fr
 const Navigation = (props) => {
 
 
-  const {token, setToken, user, setUser} = props;
+  const {token, setToken, user, setUser, setOrders} = props;
   const history = useHistory();
 
 
   const handleLogout = () => {
     clearCurrentUser();
-    clearCurrentToken()
+    clearCurrentToken();
+    setOrders([])
     console.log("See Ya!", "You Have Succesfully Logged Out!", "success");
     setUser({});
     setToken('');
