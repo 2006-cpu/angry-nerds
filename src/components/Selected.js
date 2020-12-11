@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import Button from 'react-bootstrap/Button'
+import {destroyProduct} from '../api'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -51,6 +52,18 @@ const SelectedProd = (props) => {
     setReviewDisplay(false)
 }
 
+/* THIS IS TO HARD DELETE A PRODUCT */
+  const handleProductDelete = async (event) => {
+
+    try {
+      await destroyProduct(event.target.id);
+
+    } catch(error) {
+      console.error(error)
+    }
+  }
+
+
     return <Card style={{ width: '71rem', height: '52rem', margin: '1rem', 
     boxShadow: '0 6px 10px -5px', backgroundColor: '#e6faff' }}>
     {editingProduct ?
@@ -96,7 +109,7 @@ const SelectedProd = (props) => {
       {instock ? <Button style={{float: 'left'}} variant="primary" size="sm">Add To Cart</Button>
          : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }  
       {user && user.isadmin ? <>
-      <Button style={{float: 'right'}} variant="danger" size="sm">Delete Listing</Button>
+      <Button id={id} onClick={(event) => {event.preventDefault()}, handleProductDelete} style={{float: 'right'}} variant="danger" size="sm">Delete Listing</Button>
       <Button style={{float: 'right', marginRight: '1rem'}} onClick={() => {setEditingProduct(!editingProduct)}}variant="info" size="sm">Edit Listing</Button></>
        : <Button style={{float: 'right'}} onClick={() => {setReviewDisplay(!reviewDisplay)}} variant="secondary" size="sm">Leave A Review</Button> }   
       

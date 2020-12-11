@@ -59,22 +59,32 @@ const Navigation = (props) => {
         <NavDropdown title="Admin Tools" id="collasible-nav-dropdown">
           {user && user.isadmin ? <NavDropdown.Item>
             <Nav.Link>
-          <NavLink to="/users">
-            Registered Users
-            </NavLink>
-        </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Action</NavDropdown.Item> }
-          {user && user.isadmin ? <NavDropdown.Item>
-            <Nav.Link>
-          <NavLink to="/users/add">
-            Add Users
-            </NavLink>
+              <NavLink to="/users">
+                Registered Users
+                </NavLink>
+            </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Action</NavDropdown.Item> }
+
+              {user && user.isadmin ? <NavDropdown.Item>
+                <Nav.Link>
+              <NavLink to="/users/add">
+                Add Users
+                </NavLink>
+            </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Another Action</NavDropdown.Item> }
+
+              {user && user.isadmin ? <NavDropdown.Item>
+                <Nav.Link>
+              <NavLink to="/orders">
+                All Orders
+              </NavLink>
         </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Another Action</NavDropdown.Item> }
-          {user && user.isadmin ? <NavDropdown.Item>
-            <Nav.Link>
-          <NavLink to="/orders">
-            All Orders
-            </NavLink>
+
+              {user && user.isadmin ? <NavDropdown.Item>
+                <Nav.Link>
+              <NavLink to="/products">
+                Edit Products
+              </NavLink>
         </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Another Action</NavDropdown.Item> }
+
         </NavDropdown>
          : null}
 

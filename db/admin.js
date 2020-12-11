@@ -28,20 +28,20 @@ async function updateProduct({ id, name, description, price, imageurl, inStock, 
   };
 
 /* THIS IS FOR THE destroyProduct ADAPTER */
-/* 12/7 -> NEED TO TEST */
+
 async function destroyProduct({id}) {
     try {
-        const order = await getOrderById(id);
-        if(order.status === 
-            'completed'){
-                return;
-            }
-        await client.query(`
-        DELETE from order_products
+        const {rows: order_products} = await client.query(`
+        DELETE FROM order_products
         WHERE "productId"=$1
+        AND "orderId" NOT IN
+        (SELECT orders.id FROM orders
+        JOIN order_products ON orders.id = order_products."orderId"
+        WHERE orders.status = 'complete'
+        AND order_products."productId" = ${id})
         RETURNING *;
         `, [id]);
-
+        console.log(order_products)
         const { rows: [product] } = await client.query (`
         DELETE from products
         WHERE id=$1
