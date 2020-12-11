@@ -118,3 +118,13 @@ export async function createProduct(name, description, price, inStock, imageURL,
     throw error;
   }
 }
+
+export async function destroyProduct(id) {
+  try {
+    const {data} = await axios.delete(`/api/products/${id}`)
+    console.log('The result of deleting:', data)
+    return data
+  } catch (error) {
+    throw error;
+  }
+}
