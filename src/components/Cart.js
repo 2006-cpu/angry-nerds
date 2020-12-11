@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import ReactDOM from 'react-dom';
 import {loadStripe} from '@stripe/stripe-js';
 import {Footer} from './index'
+import { getCurrentCart } from '../auth';
 // import axios from 'axios';
 const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
 
@@ -11,15 +12,29 @@ const Cart = (props) => {
     const {orders, setOrders, token} = props
     const [total, setTotal] = useState(0)
 
-    const fetchOrders = async () => {
+    const fetchOrder = async () => {
         try{
             if(token){
-        const obtainedOrders = await getCart()
-        setOrders(obtainedOrders.products);
-        const allOrders = obtainedOrders.products
-        console.log('allOrders ', allOrders)
+        const obtainedOrder = await getCart()
+        setOrders(obtainedOrder.products);
+        const allProducts = obtainedOrder.products
+        console.log('allProducts ', allProducts)
         let priceArr = []
-        allOrders.forEach(product => {
+        allProducts.forEach(product => {
+               priceArr.push(Number(product.price))
+            })
+            console.log('arr ', priceArr)
+            let newTotal = 0
+            for (let i=0; i<priceArr.length; i++){
+                newTotal+=priceArr[i]
+            }
+            setTotal(newTotal)
+    } else if (!token){
+        setOrders(getCurrentCart())
+        const allProducts = orders
+        console.log('allProducts ', allProducts)
+        let priceArr = []
+        allProducts.forEach(product => {
                priceArr.push(Number(product.price))
             })
             console.log('arr ', priceArr)
@@ -34,7 +49,7 @@ const Cart = (props) => {
         }
       }
     useEffect(() => {
-        fetchOrders()
+        fetchOrder()
         if(!orders){
             setOrders([])
         }
@@ -69,14 +84,18 @@ const Cart = (props) => {
 
     return <div style={{margin: '1.5rem'}} >
     <h1>My Cart</h1>
-    <div>
+    <div style={{overflowY: 'auto', marginBottom: '14rem'}}>
     
     {orders ? orders.map((product) => {
         return (
-            <div style={{backgroundColor: 'lightGrey', border: '1px solid grey',
+            <div style={{display: 'flex', backgroundColor: 'lightGrey', border: '1px solid grey',
              marginTop: '1rem', padding: '1rem', borderRadius: '15px'}}>
+                 <img src={`${product.imageurl}`} style={{width: '10rem', border: '1px solid grey',
+                  borderRadius: '15px', marginRight: '2rem'}}></img>
+                 <div>
                 <h3>{product.name}</h3>
                 <h4>${product.price}</h4>
+                </div>
             </div>
         )
     }) : <div>Your Cart is Currently Empty!</div>}
