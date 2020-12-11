@@ -55,14 +55,14 @@ const App = () => {
         <Route path="/home">
           <HomePage setFetchId={setFetchId} orders={orders} />
         </Route>
-        <Route path="/products">
+        <Route exact path="/products">
           <MainBoard setFetchId={setFetchId} user={user} orders={orders} />
         </Route>
         <Route path="/product/:productId">
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} user={user} orders={orders} />
         </Route>
         {user && user.isadmin ?  
-        <Route path="/users">
+        <Route exact path="/users">
           <UserBoard user={user} />
         </Route>
         : null}
@@ -77,7 +77,7 @@ const App = () => {
         </Route>
         : null}
         {user && user.isadmin ?  
-        <Route path="/orders">
+        <Route exact path="/orders">
           <OrderBoard user={user} />
         </Route>
         : null}
