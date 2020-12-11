@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 
 import {getAllProducts} from '../api'
 
-import {getCurrentUser, getCurrentToken} from '../auth'
+import {getCurrentUser, getCurrentToken, getCurrentCart} from '../auth'
 import {ProductInput} from './index'
 
 import {Prod} from './index'
@@ -15,6 +15,7 @@ const MainBoard = (props) => {
     const [selectedId, setSelectedId] = useState('')
     const [categorysel, setCategorysel] = useState('')
     const [adminToggle, setAdminToggle] = useState(false)
+    const [inCart, setInCart] = useState(getCurrentCart())
     
 
     async function fetchProducts(){
@@ -45,13 +46,23 @@ const MainBoard = (props) => {
         </div>
         <div style={{display: 'flex', flexWrap: 'wrap'}}>
 {productRender.map((product) => {
+  const added = inCart.some(cartProd => cartProd.id === product.id)
+  console.log(' product with id ',product.id, 'bool ', added )
+  if(added){
     if (categorysel === ''){
-    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} />}
+    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={true} />}
     else if (categorysel !== ''){
         if(product.category === categorysel){
-            return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} />
+            return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={true} />
         }
-    }
+    }} else if(!added){
+      if (categorysel === ''){
+      return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={false} />}
+      else if (categorysel !== ''){
+          if(product.category === categorysel){
+              return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={false} />
+          }
+      }}
 })}
     </div>
     <div style={{height: '2.5rem', bottom: '0', left: '0', right: '0', backgroundColor: '#B0E0E6', paddingBottom: '1.5rem', marginTop: '3rem'}}>

@@ -12,9 +12,10 @@ import {createOrder, addProductToOrder, getProductById} from '../api'
 import {getCurrentCart, getCurrentToken, storeCurrentCart} from '../auth'
 
 const Prod = (props) => {
-    const {setSelectedId, setCategorysel} = props
+    const {setSelectedId, setCategorysel, setNewOrder, inCart} = props
     const {id, name, description, price, imageurl, instock, category} = props.product
     const [loggedIn, setLoggedIn] = useState(getCurrentToken())
+    const [addedToCart, setAddedToCart] = useState(false)
 
     const [quantity, setQuantity] = useState(1);
 
@@ -23,6 +24,7 @@ const Prod = (props) => {
 
     const handleCart = async (event) => {
       try {
+        setAddedToCart(true)
           if(loggedIn){     
              if(!order){
               const newOrder = await createOrder();
@@ -38,6 +40,7 @@ const Prod = (props) => {
            const grabbedProduct = await getProductById(id)
            grabbedCart.push(grabbedProduct)
            storeCurrentCart(grabbedCart)
+           setNewOrder(grabbedCart)
          }
       } catch (error) {
           console.error(error)
@@ -61,8 +64,10 @@ const Prod = (props) => {
     </ListGroup>
     <div style={{height: '4rem'}}>
     <Card.Body>
-      {instock ? <Button style={{float: 'left', fontSize: '.70rem'}} variant="primary" size="sm" onClick={handleCart}>{<FiShoppingCart/>}Add To Cart</Button>
-         : <Button style={{float: 'left', fontSize: '.70rem'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }
+      {instock ? (inCart || addedToCart) ?  <Button style={{float: 'left', fontSize: '.70rem'}} variant="secondary" size="sm" disabled>Added To Cart</Button> :
+      <Button style={{float: 'left', fontSize: '.70rem'}} variant="primary" size="sm" onClick={handleCart}>{<FiShoppingCart/>}Add To Cart</Button>
+               
+         : <Button style={{float: 'left', fontSize: '.70rem'}} variant="secondary" size="sm" disabled>Out of Stock</Button> }
       
       <Button style={{float: 'right', fontSize: '.70rem'}} variant="secondary" size="sm" onClick={() => {setCategorysel(category)}} >Similar Items</Button>
     </Card.Body>

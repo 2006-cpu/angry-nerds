@@ -18,7 +18,7 @@ import {
   Link
 } from 'react-router-dom';
 
-import {getCurrentUser, getCurrentToken, clearCurrentToken, clearCurrentUser} from '../auth'
+import {getCurrentUser, getCurrentToken, clearCurrentToken, clearCurrentUser, clearCurrentCart} from '../auth'
 
 const Navigation = (props) => {
 
@@ -30,6 +30,7 @@ const Navigation = (props) => {
   const handleLogout = () => {
     clearCurrentUser();
     clearCurrentToken();
+    clearCurrentCart();
     setOrders([])
     console.log("See Ya!", "You Have Succesfully Logged Out!", "success");
     setUser({});
