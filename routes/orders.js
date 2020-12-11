@@ -9,6 +9,7 @@ const {
     getAllOrders,
     getCartByUser,
     createOrder,
+    cancelOrder
 } = require('../db/orders');
 const { addProductToOrder } = require('../db/order_products');
 const { getUserById } = require('../db/users');

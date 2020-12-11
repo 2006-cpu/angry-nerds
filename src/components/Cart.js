@@ -3,36 +3,81 @@ import { getCart, deleteOrderProduct } from '../api';
 import Button from 'react-bootstrap/Button'
 import ReactDOM from 'react-dom';
 import {loadStripe} from '@stripe/stripe-js';
+import {Footer} from './index'
+import { getCurrentCart, getCurrentToken } from '../auth';
+import { getProductById } from '../api'
+import CartProduct from './CartCard'
 // import axios from 'axios';
 const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
 
 const Cart = (props) => {
-
-    const [orders, setOrders] = useState([]);
+    const {orders, setOrders, token} = props
+    const [total, setTotal] = useState(0)
+    const [editOrders, setEditOrders] = useState(0)
+    const [loggedIn, setLoggedIn] = useState(getCurrentToken())
+    const [quantity, setQuantity] = useState(1);
+ ///////////////
+    // const [orders, setOrders] = useState([]);
     const [orderId, setOrderId] = useState(0)
-    const [total, setTotal] = useState(0);
+    // const [total, setTotal] = useState(0);
 
-    const fetchOrders = () => {
-        getCart().then(
-            orders => {
-            setOrders(orders.products)
-            setOrderId(orders.id)
-            console.log('orderId', orderId)
-            // .then(
-            //     product => {
-            //         // let totalP = 0;
-            //         // totalP = product.price + total
-            //         setTotal(product.price)
-            //     }
-            // )
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    // const fetchOrders = () => {
+    //     getCart().then(
+    //         orders => {
+    //         setOrders(orders.products)
+    //         setOrderId(orders.id)
+    //         console.log('orderId', orderId)
+    //         // .then(
+    //         //     product => {
+    //         //         // let totalP = 0;
+    //         //         // totalP = product.price + total
+    //         //         setTotal(product.price)
+    //         //     }
+    //         // )
+    //     })
+    //     .catch(error => {
+    //         console.error(error);
+    //     });
+
+    ///////////////////////////////
+    const fetchOrder = async () => {
+        try{
+            if(token){
+        const obtainedOrder = await getCart()
+        setOrders(obtainedOrder.products);
+        const allProducts = obtainedOrder.products
+        console.log('allProducts ', allProducts)
+        let priceArr = []
+        allProducts.forEach(product => {
+               priceArr.push(Number(product.price))
+            })
+            console.log('arr ', priceArr)
+            let newTotal = 0
+            for (let i=0; i<priceArr.length; i++){
+                newTotal+=priceArr[i]
+            }
+            setTotal(newTotal)
+    } else if (!token){
+        setOrders(getCurrentCart())
+        const allProducts = orders
+        console.log('allProducts ', allProducts)
+        let priceArr = []
+        allProducts.forEach(product => {
+               priceArr.push(Number(product.price))
+            })
+            console.log('arr ', priceArr)
+            let newTotal = 0
+            for (let i=0; i<priceArr.length; i++){
+                newTotal+=priceArr[i]
+            }
+            setTotal(newTotal)
+    }
+        }catch(error){
+        console.error(error)
+        }
       }
-    useEffect(() => {
-        fetchOrders()
-      },[]);
+       
+   
     
     // const fetchPrices = () => {
     //     orders.map((product) => {
@@ -55,6 +100,13 @@ const Cart = (props) => {
             console.error(error)
         }
     }
+
+    useEffect(() => {
+        fetchOrder()
+        if(!orders){
+            setOrders([])
+        }
+      },[total]);
 
     const handleClick = async (event) => {
         // console.log('handleClick: ', handleClick)
@@ -83,23 +135,24 @@ const Cart = (props) => {
 }
     
 
-    return <div >
+    return <div style={{margin: '1.5rem'}} >
     <h1>My Cart</h1>
-    <div>
+    <div style={{overflowY: 'auto', marginBottom: '14rem'}}>
     
-    {orders.map((product) => {
+    {orders ? orders.map((product) => {
         return (
-            <div>
-                <h3>{product.name}</h3>
-                <h4>${product.price}</h4>
-                <button onClick={deleteOP}>Remove</button>
-            </div>
+            <CartProduct key={product.id} product={product} setEditOrders={setEditOrders} editOrders={editOrders} setTotal={setTotal}/>
         )
-    })}
+    }) : <div>Your Cart is Currently Empty!</div>}
 
     </div>
-    {/* <h3>Total: $XX</h3>   */}
-    <Button style={{float: 'left'}} variant="primary" size="sm" role="/checkout/session" onClick={handleClick}>Checkout</Button>
+
+    {<div style={{position: 'fixed', bottom: '0', left: '0', right: '0', backgroundColor: '#B0E0E6', paddingBottom: '1.5rem'}}>
+       <h3 style={{borderTop: '1px solid black', marginLeft: '1rem', marginRight: '1rem', padding: '1rem' }}>Total: ${total}</h3>  
+       <button style={{marginLeft: '2rem', padding: '1rem', backgroundColor: '#20B2AA', borderRadius: '13px', 
+       border: '1px solid black', boxShadow: '0 5px 5px -5px'}} role="/checkout/session" onClick={handleClick}>Checkout</button> 
+       <Footer />
+    </div>}
 
     </div>
 }
