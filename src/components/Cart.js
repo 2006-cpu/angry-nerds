@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { getCart } from '../api';
-import Button from 'react-bootstrap/Button'
+// import Button from 'react-bootstrap/Button'
+import {ElementsConsumer,CardElement} from '@stripe/react-stripe-js';
+import CardSelection from "./CreditCardSection";
 import ReactDOM from 'react-dom';
 import {loadStripe} from '@stripe/stripe-js';
+import {Elements} from '@stripe/react-stripe-js'
 import {Footer} from './index'
+import CheckoutForm from './stripeCheckoutForm';
 // import axios from 'axios';
 const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
 
@@ -39,8 +43,9 @@ const Cart = (props) => {
             setOrders([])
         }
       },[]);
-
-    const handleClick = async (event) => {
+    
+    
+      const handleClick = async (event) => {
         // console.log('handleClick: ', handleClick)
         try{
         const stripe = await stripePromise;
@@ -90,7 +95,13 @@ const Cart = (props) => {
        <Footer />
     </div>}
 
+       <Elements stripe={stripePromise}>
+           <CheckoutForm />
+       </Elements>
+
     </div>
 }
 
+
+  
 export default Cart;

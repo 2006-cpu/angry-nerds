@@ -18,7 +18,7 @@ app.post('/create-checkout-session', async (req, res) => {
                     product_data: {
                         name: 'guitar',
                         Id: 'xxxx',
-                        images: 'imageURL',
+                        // images: 'imageURL',
                     },
                     unit_amount: '$XXXX',
                 },
@@ -26,8 +26,8 @@ app.post('/create-checkout-session', async (req, res) => {
             },
         ],
         mode: 'payment',
-        success_url: 'http://localhost:3000/thankyou.html',
-        cancel_url: 'https://codalorians.com/cancel',
+        success_url: 'https://fathomless-retreat-94739.herokuapp.com/thank_you.html',
+        cancel_url: 'https://fathomless-retreat-94739.herokuapp.com/cancel.html',
     });
     res.json({id: session.id});
 })

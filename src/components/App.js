@@ -80,6 +80,9 @@ const App = () => {
         <Route path="/orders/cart">
           <Cart orders={orders} setOrders={setOrders} token={token} />
         </Route>
+        <Route path="/orders/checkout">
+          {/* <InjectedCheckoutForm /> */}
+        </Route>
         {/* <Route path="/thank-you">
           <thankYou />
         </Route> */}
