@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { getCart } from '../api';
-<<<<<<< HEAD
-=======
 import StripeCheckout from 'react-stripe-checkout';
->>>>>>> dev
 import {loadStripe} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js'
 import {Footer} from './index'
 import { getCurrentCart } from '../auth';
 import CartProduct from './CartCard'
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
 
 const Cart = (props) => {
@@ -58,37 +51,7 @@ const Cart = (props) => {
         if(!orders){
             setOrders([])
         }
-<<<<<<< HEAD
     },[total, orders]);
-
-    const handleClick = async (event) => {
-        // console.log('handleClick: ', handleClick)
-        try{
-        const stripe = await stripePromise;
-        console.log('stripe:', stripe)
-        const response = await fetch ('/create-checkout-session', {method: 'POST'});
-        console.log('response: ', response);
-        //WHERE IS MY SESSION?
-        const session = await response.json()
-        console.log('sessionCreated!!: ', session)
-        //WHERE IS MY RESULT??
-        const result = await stripe.redirectToCheckout({
-            sessionId: session.id,
-        });
-        console.log('get Stripe Session Result', result)
-        if (result.error) {
-            return ({
-                name:'page load error',
-                message: 'I am sorry, looks like the page is under constructions. We are working hard to fix the issue, please come back and try again later!'
-            })
-        }
-    } catch (error) {
-        console.error (error)
-    }}
-=======
-      },[]);
-    
->>>>>>> dev
     
     return <div style={{margin: '1.5rem'}} >
     <h1>My Cart</h1>
