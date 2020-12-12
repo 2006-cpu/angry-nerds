@@ -118,11 +118,13 @@ const SelectedProd = (props) => {
     <div style={{height: '4rem', backgroundColor: '#e6e6e6'}}>
     <Card.Body>
       {instock ? <Button style={{float: 'left'}} variant="primary" size="sm">Add To Cart</Button>
-         : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }  
+         : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> } 
+
       {user && user.isadmin ? <>
       <Button id={id} onClick={(event) => {event.preventDefault()}, handleProductDelete} style={{float: 'right'}} variant="danger" size="sm">Delete Listing</Button>
+
       <Button style={{float: 'right', marginRight: '1rem'}} onClick={() => {setEditingProduct(!editingProduct)}}variant="info" size="sm">{editingProduct ? 'Cancel':'Edit Listing'}</Button></>
-       : <Button style={{float: 'right'}} onClick={() => {setReviewDisplay(!reviewDisplay)}} variant="secondary" size="sm">Leave A Review</Button> }   
+       : <Button style={{float: 'right'}} /* onClick={() => {setReviewDisplay(!reviewDisplay)}} */ variant="secondary" size="sm">Leave A Review</Button> }   
       
     </Card.Body>
     </div>

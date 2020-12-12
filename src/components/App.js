@@ -25,6 +25,7 @@ import {
 
 import LoginComponent from './Login';
 import RegisterComponent from './Register';
+import ReviewComponent from './Reviews';
 
 
 import {getCurrentUser, getCurrentToken, getCurrentCart, storeCurrentCart} from '../auth'
@@ -33,7 +34,7 @@ import { getCart } from '../api';
 
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
-
+  console.log("Here is the result of fetchId:", fetchId);
   const [ orders, setOrders ] = useState(getCurrentCart());
   const [ token, setToken ] = useState(getCurrentToken());
   const [ user, setUser ] = useState(getCurrentUser())
@@ -96,6 +97,10 @@ const App = () => {
       <Route path="/users/register">
         <RegisterComponent token={token} setToken={setToken} user={user} setUser={setUser} />
       </Route>
+      <Route path="/reviews">
+        <ReviewComponent />
+      </Route>
+
       <Redirect to="/home" />
       </Switch>
     </div></Router>

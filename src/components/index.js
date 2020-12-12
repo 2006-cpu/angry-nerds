@@ -17,3 +17,4 @@ export {default as AdminUserAdd} from './AdminUserAdd'
 export {default as OrderBoard} from './AdminOrderPg'
 export {default as Footer} from './Footer';
 export {default as CartProduct} from './CartCard';
+/* export {default as Reviews} from './Reviews'; */
