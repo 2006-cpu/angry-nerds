@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
@@ -14,7 +15,8 @@ import {
   SelectedBoard,
   Order,
   HomePage,
-  Cart, 
+  Cart,
+  StripeCheckout,
   UserBoard,
   SelectedUser,
   Footer,
@@ -30,6 +32,10 @@ import RegisterComponent from './Register';
 import {getCurrentUser, getCurrentToken} from '../auth'
 
 import { getCart } from '../api';
+
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
 
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
@@ -81,7 +87,7 @@ const App = () => {
           <Cart orders={orders} setOrders={setOrders} token={token} />
         </Route>
         <Route path="/orders/checkout">
-          {/* <InjectedCheckoutForm /> */}
+          <stripeCheckout stripe={stripePromise}/>
         </Route>
         {/* <Route path="/thank-you">
           <thankYou />

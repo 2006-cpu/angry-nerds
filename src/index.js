@@ -13,9 +13,7 @@ import {
 
 ReactDOM.render(
   <Router>
-    {/* <React.strictMode> */}
       <App />
-    {/* </React.strictMode> */}
   </Router>,
   document.getElementById('root')
 );

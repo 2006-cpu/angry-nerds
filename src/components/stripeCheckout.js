@@ -1,81 +1,46 @@
-import React, {useState} from 'react';
-import axios from 'axios';
+import React from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 
-import {
-    CardElement,
-    Elements,
-    useElements,
-    useStripe,
-    // StripeCheckout
-} from '@stripe/react-stripe-js';
-
-import {loadStripe} from '@stripe/stripe-js';
-
-const requiredStripe = require('stripe')(process.env.stripe_Publishable);
-const stripePromise = loadStripe(process.env.stripe_Publishable);
+const stripeKey = require('stripe')('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
 
 
-
-const stripeTokenHandler = (token) => {
-    fetch('/stripe-token', {
+const stripeCheckout = async () => {
+    
+    const onToken = (token) => {
+    fetch('/save-stripe-token', {
         method: 'POST',
         body: JSON.stringify(token),
-    }).then(response => {
+      }).then(response => {
         response.json().then(data => {
-            alert ('checkout complete');
-        })
-    })
-
-}
-
-const stripe = useStripe(stripePromise);
-const elements = useElements();
-
-// const stripeTokenHandler()
-
-const checkout = () => {
-    // console.log('checkout: ', checkout)
-    const [error, setError] = useState(null);
-
-    const handleChange = (event) => {
-        if (event.error) {
-            setError(error.message);
-        } else {
-            setError(null);
-        }
+          alert(`We are in business, ${data.email}`);
+        });
+      });
     }
 
-///handle form submission
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const card = elements.getElement(CardElement);
-        const result = await stripe.createToken(card);
-        if (result.error) {
-            setError(error.message);
-        }else {
-            setError(null);
-            stripeTokenHandler(result.token);
-        }
-   
+    // render()
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <div className = "form">
-                <label for="card-element">
-                    Credit or debit card
-                </label>
-                <CardElement
-                    id="card-element"
-                    options={CardElement}
-                    onChange={handleChange}
-                    />
-                    <div className = "card-errors" role="alert">{error}</div>
-            </div>
-            <button type="submit">Submit Payment</button>
-        </form>
-    )
-}
+    {
+        return (
+            <StripeCheckout
+                stripeKey='pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX'
+                token={this.onToken}
+                panelLabel='Place Order'
+                amount={10000}
+                currency='USD'
+                billingAddress = {false}
+                shippingAddress = {false}
+                zipeCode = {false}
+                locale='auto'
+                email='info@codalorians.com'
+                allowRememberMe = {true}
+                opened={this.onOpened}
+                colosed={this.onClosed}
+                triggerEvent = 'onTouchTap'
+            >
+            </StripeCheckout>
+        )
+    }
 }
 
-export default checkout;
+export default stripeCheckout;
+
