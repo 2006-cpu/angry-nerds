@@ -128,3 +128,14 @@ export async function destroyProduct(id) {
     throw error;
   }
 }
+
+export async function makeReview( title, content, userId, productId ) {
+
+  try {
+    const { data } = await axios.post(`/api/${productId}/reviews`, {title, content, userId, productId} );
+    return data;
+  } catch(error) {
+    throw error;
+  }
+
+}
