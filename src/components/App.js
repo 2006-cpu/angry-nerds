@@ -98,7 +98,7 @@ const App = () => {
         <RegisterComponent token={token} setToken={setToken} user={user} setUser={setUser} />
       </Route>
       <Route path="/reviews">
-        <ReviewComponent />
+        <ReviewComponent user={user} setUser={setUser}/>
       </Route>
 
       <Redirect to="/home" />

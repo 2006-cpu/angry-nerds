@@ -23,13 +23,19 @@ const ReviewComponent = (props) => {
     const [ reviewMessage, setReviewMessage ] = useState('');
     const [ alertShow, setAlertShow ] = useState(false);
 
-    const {product} = props
-    /* const {id, name, description, price, imageurl, instock, category} = props.product */
+    const {product, user, setUser} = props
+    /* const {id} = props.product */
 
     /* const {token, setToken, user, setUser} = props; */
     const history = useHistory();
-
+    console.log("Here is the user information", user);
+    console.log("Here is the userId", user.id);
     
+    /* setUserId(user.id);
+    console.log("This is the result of savinguserId",userId) */
+
+
+
     const reviewHandler = async (event) => {
         try {
             event.preventDefault();
@@ -37,7 +43,10 @@ const ReviewComponent = (props) => {
             const response = await makeReview( title, content, userId, productId)
 
             const {data} = response;
-            
+            setUserId(user.id);
+            console.log("This is the result of settinf userId:", userId);
+            setProductId(product.id);
+            console.log("This is the result of setting the productId", productId);
             setFormTitle('');
             setFormContent('');
             setReviewMessage(data.message);
