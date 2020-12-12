@@ -29,6 +29,7 @@ const SelectedProd = (props) => {
     const [newCategory, setNewCategory] = useState('')
     const [reviewBody, setReviewBody] = useState('')
     const [missing, setMissing] = useState('')
+    const [ toggle, setToggle ] = useState(false);
     const history = useHistory();
 
     const submittedProduct = async () => {
@@ -74,12 +75,18 @@ const SelectedProd = (props) => {
 
     try {
       await destroyProduct(event.target.id);
+      setToggle(true);
 
     } catch(error) {
       console.error(error)
     }
   }
 
+  useEffect(() => {
+    if(!toggle === false) {
+      history.push('./');
+    }
+  }, [toggle])
 
     return <Card style={{ width: '60rem', maxWidth: '100%', height: '52rem', margin: '1rem', 
     boxShadow: '0 6px 10px -5px', backgroundColor: '#e6faff' }}>
