@@ -41,6 +41,9 @@ const Cart = (props) => {
                 }
                 setTotal(newTotal)
             }
+            if(!orders){
+                setOrders([])
+            }
         }catch(error){
         console.error(error)
         }
@@ -48,9 +51,6 @@ const Cart = (props) => {
 
     useEffect(() => {
         fetchOrder()
-        if(!orders){
-            setOrders([])
-        }
     },[total, orders]);
     
     return <div style={{margin: '1.5rem'}} >
