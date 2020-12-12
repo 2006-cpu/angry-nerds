@@ -37,8 +37,23 @@ async function makeReview( {title, content, userId, productId} ) {
 	}
 }
 
+async function getReviewsByProductId(id){
+    try{
+        const {rows: reviews} = await client.query(`
+        SELECT *
+        FROM reviews
+        WHERE "productId"=$1
+        `,[id])
+        return reviews;
+    }catch(error){
+        throw error;
+    }
+}
+
+
 
 module.exports = {
 	getAllProductReviews,
-	makeReview
+	makeReview,
+	getReviewsByProductId
 }

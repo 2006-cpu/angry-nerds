@@ -4,13 +4,13 @@ import Form from 'react-bootstrap/Form'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import Button from 'react-bootstrap/Button'
-import {destroyProduct} from '../api'
+import {destroyProduct, getUserById} from '../api'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const SelectedProd = (props) => {
   const {user} = props
-    const {id, name, description, price, imageurl, instock, category} = props.selected
+    const {id, name, description, price, imageurl, instock, category, reviews} = props.selected
     const [editingProduct, setEditingProduct] = useState(false)
     const [reviewDisplay, setReviewDisplay] = useState(false)
     const [newName, setNewName] = useState('')
@@ -70,8 +70,7 @@ const SelectedProd = (props) => {
     }
   }
 
-
-    return <Card style={{ width: '60rem', maxWidth: '100%', height: '52rem', margin: '1rem', 
+    return <><Card style={{ width: '60rem', maxWidth: '100%', height: '52rem', margin: '1rem', 
     boxShadow: '0 6px 10px -5px', backgroundColor: '#e6faff' }}>
     {editingProduct ?
      <div>
@@ -129,7 +128,17 @@ const SelectedProd = (props) => {
     <Form.Control value={reviewBody} type="text" placeholder="Enter Review Here" onChange={(e) => {setReviewBody(e.target.value)}} />
     <Button type="submit" onClick={reviewSubmit} variant="success">Enter</Button>
     </div> : null}
+
+    
   </Card>
+  <div style={{paddingBottom: '1rem'}}>
+      {reviews ? reviews.map(review => {
+        return <div style={{backgroundColor: '#e6faff', margin: '1rem', 
+        boxShadow: '0 6px 10px -5px', borderRadius: '15px'}}>
+          <div style={{padding: '1rem', marginLeft: '1rem'}}>"{review.title}" Said User #{review.userId}</div>
+          <div style={{padding: '1rem', marginLeft: '1rem'}}>"{review.content}"</div></div>
+      }) : null}
+    </div></>
 }
 
 
