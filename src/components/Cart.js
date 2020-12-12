@@ -16,30 +16,9 @@ const Cart = (props) => {
     const [editOrders, setEditOrders] = useState(0)
     const [loggedIn, setLoggedIn] = useState(getCurrentToken())
     const [quantity, setQuantity] = useState(1);
- ///////////////
-    // const [orders, setOrders] = useState([]);
     const [orderId, setOrderId] = useState(0)
     // const [total, setTotal] = useState(0);
 
-    // const fetchOrders = () => {
-    //     getCart().then(
-    //         orders => {
-    //         setOrders(orders.products)
-    //         setOrderId(orders.id)
-    //         console.log('orderId', orderId)
-    //         // .then(
-    //         //     product => {
-    //         //         // let totalP = 0;
-    //         //         // totalP = product.price + total
-    //         //         setTotal(product.price)
-    //         //     }
-    //         // )
-    //     })
-    //     .catch(error => {
-    //         console.error(error);
-    //     });
-
-    ///////////////////////////////
     const fetchOrder = async () => {
         try{
             if(token){
@@ -76,30 +55,6 @@ const Cart = (props) => {
         console.error(error)
         }
       }
-       
-   
-    
-    // const fetchPrices = () => {
-    //     orders.map((product) => {
-    //         let totalP = 0;
-    //         totalP = product.price + total
-    //         setTotal(totalP)
-    //     })
-    // }
-
-    const deleteOP = async (event) => {
-        event.preventDefault();
-        // activities.map(activity => {
-        //     setActivityId(activity.id)
-        // })
-        try {
-            const deleteOP = await deleteOrderProduct(orderId)
-            console.log("deleteOP", deleteOP)
-           
-        } catch (error) {
-            console.error(error)
-        }
-    }
 
     useEffect(() => {
         fetchOrder()

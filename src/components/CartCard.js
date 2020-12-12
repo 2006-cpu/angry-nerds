@@ -3,11 +3,11 @@ import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FiShoppingCart } from "react-icons/fi";
 
-import {createOrder, addProductToOrder, getProductById} from '../api'
+import {createOrder, addProductToOrder, getProductById, deleteOrderProduct} from '../api'
 import {getCurrentCart, getCurrentToken, storeCurrentCart} from '../auth'
 
 const CartProduct = (props) => {
-    const {product, setEditOrders, editOrders, setTotal} = props
+    const {product, setEditOrders, editOrders, setTotal, opid, setOpid} = props
     const {id, name, description, price, imageurl, instock, category} = props.product
     const [loggedIn, setLoggedIn] = useState(getCurrentToken())
 
@@ -15,16 +15,10 @@ const CartProduct = (props) => {
 
     const handleCart = async (event) => {
         try {
-            if(loggedIn){     
-               /*if(!order){
-                const newOrder = await createOrder();
-                setOrder(newOrder)
-                const orderId = newOrder.id
-                setOrderId(orderId)
-                }
-                setQuantity(1)
-                const productOrder = await addProductToOrder(orderId, id, price, quantity)*/
-           } else if(!loggedIn){
+            // if(loggedIn){   
+                //get order_product id
+                // const deleteOP = await deleteOrderProduct(opid)
+        //  } else if(!loggedIn){
              console.log('we good')
              const grabbedCart = getCurrentCart();
              console.log('clicked with id ', id)
@@ -52,7 +46,7 @@ const CartProduct = (props) => {
              setEditOrders(id)
              console.log('grabbed from localstorage after ', newCart)
              console.log('editcart', editOrders)
-           }
+        //    }
         } catch (error) {
             console.error(error)
         }
