@@ -8,16 +8,19 @@ const bcrypt = require('bcrypt');
 
 const {
     getUserByUsername, 
+    getUserById,
     createUser,
     getAllUsers
 } = require('../db/users');
+
+const {
+    updateUser
+} = require('../db/admin');
 
 usersRouter.use((req, res, next) => {
     console.log("A request is being made to /users");
     next();
 });
-
-const {getOrdersByUser} = require('../db/orders')
 
 
 usersRouter.get('/', async (req, res) => {
@@ -48,9 +51,9 @@ usersRouter.post('/register', async (req, res, next) => {
     try{
         const _user = await getUserByUsername(username);
         if (_user) {
-            res.send({message: 'A user by that username already exists'});
+            res.send({message: 'Sorry, looks like something went wrong. Please correct the following and submit again: - User Already Exists'});
         } else if (password.length < 8) {
-            res.send({message: 'Password Too Short!'})
+            res.send({message: 'Sorry, looks like something went wrong. Please correct the following and submit again: - Your Password Must Be At Least 8 Characters In Length!'})
         } else {
             const user = await createUser({
                 firstName, 
@@ -74,56 +77,80 @@ usersRouter.post('/register', async (req, res, next) => {
 //====Users -- POST/USER LOGIN  API route
 usersRouter.post('/login', async (req, res, next) => {
     const {username, password} = req.body;
-    if(!username || !password) {
-        next({
-            name: "you are not registered error",
-            message: "Username or Password are not matching, please try again"
-        })
-    }
+    
     try {
         const user = await getUserByUsername(username);
-        console.log('getUserByUsername', user )
 
         const isMatch = await bcrypt.compare(password, user.password);
+
         if (isMatch === true) {
-            console.log('matching password!!');
+
             let token = jwt.sign(user, JWT_SECRET);
 
-            res.send({ message: "you're logged in!", token});
-            // delete user.password;
+            res.send({ message: "You Have Successfully Logged In!", token});
+         
             return user;
-        }else if ([isMatch === false]) {
-            console.log('username or password does not match');
-        }
+
+        } else if (isMatch === false) {
+            res.send({message: "Username or Password Does Not Match"})
+
+        } 
+
     } catch (error) {
         next (error);
+        res.send({message: "Please Enter A Valid Username & Password "})
+        
     }
 })
 
 //====Users -- GET/users/me (*) API route
-usersRouter.get('/me', /* requireUser,  */async(req, res, next) => {
-    const {id} = req.user;
-    
+usersRouter.get('/me', requireUser,  async(req, res, next) => {
     try {
-        res.send({id})
+        res.send(req.user)
     }catch (error) {
         next (error);
     }
 })
 
-usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
+usersRouter.get('/:userId', async (req, res, next ) => {
     const { userId } = req.params;
     try {
-        const orders = await getOrdersByUser(1);
-        console.log("user order", orders)
-        res.send(orders)
-        // if(req.user.id === userId){
-        //     res.send(orders);
-        // }
+        const user = await getUserById(userId);
+        res.send(user)
 
     } catch (error) {
         next(error)
     }
 } )
 
+usersRouter.get('/:userId/orders', requireUser, async (req, res, next ) => {
+    const { userId } = req.params;
+    try {
+        const orders = await getOrdersByUser(req.user.id);
+        console.log("user order", orders)
+        res.send(orders)
+        
+
+    } catch (error) {
+        next(error)
+    }
+} )
+
+
+/* ------------------------------------------------------------ */
+/* THIS IS THE PATCH /users/:userId (*admin) Only admins can update a user */
+
+usersRouter.patch('/:userId', async (req, res, next) => {
+    const { userId } = req.params;
+    const { firstName, lastName, email, imageurl, username, password, isAdmin } = req.body
+      try {     
+          const updatedUser = await updateUser({id: userId, firstName, lastName, email, imageurl, username, password, isAdmin});
+          res.send(updatedUser);
+      } catch (error) {
+        next(error);
+    }
+  });
+
 module.exports = usersRouter;
+
+

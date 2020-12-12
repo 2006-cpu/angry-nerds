@@ -16,9 +16,6 @@ opRouter.patch('/:orderProductId', async ( req, res, next ) => {
     try {
         const { orderProductId } = req.params;
         
-        // const orderProduct = await getOrderProductById(orderProductId);
-        // const order = await getOrderById(orderProduct.orderId)
-        
         const {quantity, price} = req.body;
         const updatedOP = await updateOrderProduct({id: orderProductId, quantity, price})
        
@@ -33,9 +30,6 @@ opRouter.patch('/:orderProductId', async ( req, res, next ) => {
 opRouter.delete('/:orderProductId', async ( req, res, next ) => {
     try {
         const { orderProductId} = req.params;
-        
-        // const orderProduct = await getOrderProductById(orderProductId);
-        // const order = await getOrderById(orderProduct.orderId)
         
         const deletedOP = await destroyOrderProduct(orderProductId)
         res.send(deletedOP);

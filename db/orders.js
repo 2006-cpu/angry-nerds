@@ -44,6 +44,22 @@ const {client} = require("./index")
         }
     }
 
+    /* THIS IS FOR THE getOrderByProduct ADAPTER */
+    async function getOrderByProduct({id}) {
+        try {
+          const { rows: orders } = await client.query(`
+            SELECT orders.*, order_products."productId"
+            FROM order_products 
+            INNER JOIN orders ON orders.id=order_products."orderId"
+            WHERE "productId"=${id} 
+          `);
+      
+          return orders;
+        } catch (error) {
+          throw error;
+        }
+      }
+
     /* THIS IS FOR THE createOrder ADAPTER */
     async function createOrder({ status, userId, datePlaced }) {
         try {
@@ -70,12 +86,14 @@ const {client} = require("./index")
             AND "userId" = $1
             `, [ id ])
 
+            console.log("cartid", cart)
+
             const { rows: products} = await client.query(`
-            SELECT products.*
+            SELECT products.*, order_products.id AS "orderProductId"
             FROM products
-            JOIN order_products ON products.id=order_products."orderId"
+            JOIN order_products ON products.id=order_products."productId"
             WHERE order_products."orderId"=$1;
-            `, [cart.id])
+            `, [id])
 
             cart.products = products
             console.log("cart products", cart)
@@ -84,7 +102,6 @@ const {client} = require("./index")
             throw error;
         }
     }
-
 
 //Checkout DB adapters
 async function updateOrder({id, ...fields}) {
@@ -155,6 +172,7 @@ module.exports = {
     getOrderById,
     getAllOrders,
     getOrdersByUser,
+    getOrderByProduct,
     createOrder,
     getCartByUser,
     updateOrder,
