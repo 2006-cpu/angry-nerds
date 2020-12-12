@@ -36,6 +36,7 @@
     "react-icons": "^4.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
+    "react-stripe": "^0.1.0",
     "react-stripe-checkout": "^2.6.3",
     "stripe": "^8.128.0",
     "util": "^0.12.3"
