@@ -5,6 +5,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import { FiUser, FiShoppingCart } from "react-icons/fi";
+import { FaMandalorian } from "react-icons/fa";
 import {
   useHistory
 } from 'react-router-dom';
@@ -50,7 +51,7 @@ const Navigation = (props) => {
 
     return <div><Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
     <NavLink to="/home">
-      <Navbar.Brand>Codalorians</Navbar.Brand>
+      <Navbar.Brand>Codalorians {<FaMandalorian/>}</Navbar.Brand>
     </NavLink>
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
