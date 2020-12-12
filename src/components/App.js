@@ -100,9 +100,6 @@ const App = () => {
       <Route path="/users/register">
         <RegisterComponent token={token} setToken={setToken} user={user} setUser={setUser} />
       </Route>
-      <Route path="/reviews">
-        <ReviewComponent user={user} setUser={setUser}/>
-      </Route>
 
       <Redirect to="/home" />
       </Switch>
