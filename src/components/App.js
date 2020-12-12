@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
@@ -14,7 +15,7 @@ import {
   SelectedBoard,
   Order,
   HomePage,
-  Cart, 
+  Cart,
   UserBoard,
   SelectedUser,
   Footer,
@@ -25,15 +26,20 @@ import {
 
 import LoginComponent from './Login';
 import RegisterComponent from './Register';
+import ReviewComponent from './Reviews';
 
 
 import {getCurrentUser, getCurrentToken, getCurrentCart, storeCurrentCart} from '../auth'
 
 import { getCart } from '../api';
 
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+// const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
+
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
-
+  console.log("Here is the result of fetchId:", fetchId);
   const [ orders, setOrders ] = useState(getCurrentCart());
   const [ token, setToken ] = useState(getCurrentToken());
   const [ user, setUser ] = useState(getCurrentUser())
@@ -58,8 +64,11 @@ const App = () => {
         <Route exact path="/products">
           <MainBoard setFetchId={setFetchId} user={user} orders={orders} />
         </Route>
-        <Route path="/product/:productId">
+        <Route exact path="/product/:productId">
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} user={user} orders={orders} />
+        </Route>
+        <Route path="/product/:productId/reviews">
+          <ReviewComponent user={user} setUser={setUser}/>
         </Route>
         {user && user.isadmin ?  
         <Route exact path="/users">
@@ -96,6 +105,7 @@ const App = () => {
       <Route path="/users/register">
         <RegisterComponent token={token} setToken={setToken} user={user} setUser={setUser} />
       </Route>
+
       <Redirect to="/home" />
       </Switch>
     </div></Router>

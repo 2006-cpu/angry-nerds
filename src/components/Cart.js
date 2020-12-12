@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { getCart } from '../api';
+<<<<<<< HEAD
+=======
+import StripeCheckout from 'react-stripe-checkout';
+>>>>>>> dev
 import {loadStripe} from '@stripe/stripe-js';
+import {Elements} from '@stripe/react-stripe-js'
 import {Footer} from './index'
 import { getCurrentCart } from '../auth';
 import CartProduct from './CartCard'
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
 
 const Cart = (props) => {
@@ -50,6 +58,7 @@ const Cart = (props) => {
         if(!orders){
             setOrders([])
         }
+<<<<<<< HEAD
     },[total, orders]);
 
     const handleClick = async (event) => {
@@ -76,6 +85,10 @@ const Cart = (props) => {
     } catch (error) {
         console.error (error)
     }}
+=======
+      },[]);
+    
+>>>>>>> dev
     
     return <div style={{margin: '1.5rem'}} >
     <h1>My Cart</h1>
@@ -86,17 +99,22 @@ const Cart = (props) => {
             <CartProduct key={product.id} product={product} setEditOrders={setEditOrders} editOrders={editOrders} setTotal={setTotal}/>
         )
     }) : <div>Your Cart is Currently Empty!</div>}
-
+       
     </div>
 
     {<div style={{position: 'fixed', bottom: '0', left: '0', right: '0', backgroundColor: '#B0E0E6', paddingBottom: '1.5rem'}}>
        <h3 style={{borderTop: '1px solid black', marginLeft: '1rem', marginRight: '1rem', padding: '1rem' }}>Total: ${total}</h3>  
-       <button style={{marginLeft: '2rem', padding: '1rem', backgroundColor: '#20B2AA', borderRadius: '13px', 
-       border: '1px solid black', boxShadow: '0 5px 5px -5px'}} role="/checkout/session" onClick={handleClick}>Checkout</button> 
+ 
+           <StripeCheckout style={{marginLeft: '2rem', padding: '1rem', backgroundColor: '#20B2AA', borderRadius: '13px', 
+       border: '1px solid black', boxShadow: '0 5px 5px -5px'}} role="/checkout/session" />
+        
        <Footer />
     </div>}
 
+      
     </div>
 }
 
+
+  
 export default Cart;
