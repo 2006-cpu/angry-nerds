@@ -39,22 +39,22 @@ const SelectedUser = (props) => {
     margin: '1rem', marginLeft: '3rem', marginRight: '3rem',
     backgroundColor: '#F0FFFF', boxShadow: '0 6px 10px -5px'}} >
     <div style={{ textAlign: 'center'}}>
-        {selected.username} Sample Username
+        {selected.username}
     </div>
     <div style={{ textAlign: 'center'}}>
-        {selected.firstName} Sample First Name
+        {selected.firstName}
     </div>
     <div style={{ textAlign: 'center'}}>
-        {selected.lastName} Sample Last Name
+        {selected.lastName}
     </div>
     <div style={{ textAlign: 'center'}}>
-        {selected.email} Sample Email
+        {selected.email}
     </div>
     <div style={{ textAlign: 'center'}}>
-        {selected.imageURL} Sample imageURL
+        {selected.imageURL}
     </div>
     <div style={{ textAlign: 'center'}}>
-        {selected.isadmin} Sample "isAdmin"
+        {selected.isadmin}
     </div>
   </div>
     </>

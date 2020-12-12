@@ -64,6 +64,15 @@ export async function getAllOrders() {
   }
 }
 
+export async function getOrderById(orderId) {
+  try {
+    const { data } = await axios.get(`/api/orders/${orderId}`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const callApi = async ({method, body, url, token}) => {
   try {
       const options = {
