@@ -51,7 +51,7 @@ const Cart = (props) => {
         if(!orders){
             setOrders([])
         }
-    },[total]);
+    },[total, orders]);
     
     return <div style={{margin: '1.5rem'}} >
     <h1>My Cart</h1>
