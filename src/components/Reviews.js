@@ -13,20 +13,19 @@ import {
 
 import {callApi, getProductById, makeReview} from '../api'
 
-/* import {storeCurrentUser, storeCurrentToken} from '../auth' */
+import {getCurrentUser} from '../auth' 
 
 const ReviewComponent = (props) => {
+    const {productId} = useParams();
 
     const [ title, setFormTitle ] = useState('');
     const [ content, setFormContent ] = useState('');
     const [ userId, setUserId ] = useState('');
-    /* const [ productId, setProductId ] = useState(''); */
+    const [ user, setUser ] = useState(getCurrentUser())
     const [ reviewMessage, setReviewMessage ] = useState('');
     const [ alertShow, setAlertShow ] = useState(false);
-    const {productId} = useParams();
     const [ theSelectedProdId, setTheSelectedProdId ] = useState({});
     
-    const {product, user, setUser} = props;
 
     const productIdGrabber = async () => {
         try{
@@ -63,7 +62,7 @@ const ReviewComponent = (props) => {
             const response = await makeReview( title, content, userId, productId)
 
             const {data} = response;
-            console.log("This is the result of settinf userId:", userId);
+            console.log("This is the result:", data);
             /* setProductId(product.id);
             console.log("This is the result of setting the productId", productId); */
             setFormTitle('');

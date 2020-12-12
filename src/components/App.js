@@ -68,7 +68,7 @@ const App = () => {
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} user={user} orders={orders} />
         </Route>
         <Route path="/product/:productId/reviews">
-          <ReviewComponent user={user} setUser={setUser}/>
+          <ReviewComponent />
         </Route>
         {user && user.isadmin ?  
         <Route exact path="/users">
