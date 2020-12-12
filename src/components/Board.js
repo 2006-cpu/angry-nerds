@@ -8,6 +8,7 @@ import {getCurrentUser, getCurrentToken, getCurrentCart} from '../auth'
 import {ProductInput} from './index'
 
 import {Prod} from './index'
+import ReviewComponent from './Reviews';
 
 const MainBoard = (props) => {
     const {setFetchId, user} = props
@@ -49,7 +50,8 @@ const MainBoard = (props) => {
   const added = inCart.some(cartProd => cartProd.id === product.id)
   if(added){
     if (categorysel === ''){
-    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={true} />}
+    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={true} />,
+          <ReviewComponent product={product}/>}
     else if (categorysel !== ''){
         if(product.category === categorysel){
             return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={true} />

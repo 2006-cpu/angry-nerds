@@ -23,6 +23,9 @@ const ReviewComponent = (props) => {
     const [ reviewMessage, setReviewMessage ] = useState('');
     const [ alertShow, setAlertShow ] = useState(false);
 
+    const {product} = props
+    /* const {id, name, description, price, imageurl, instock, category} = props.product */
+
     /* const {token, setToken, user, setUser} = props; */
     const history = useHistory();
 
