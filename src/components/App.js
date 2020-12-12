@@ -29,7 +29,7 @@ import LoginComponent from './Login';
 import RegisterComponent from './Register';
 
 
-import {getCurrentUser, getCurrentToken} from '../auth'
+import {getCurrentUser, getCurrentToken, getCurrentCart, storeCurrentCart} from '../auth'
 
 import { getCart } from '../api';
 
@@ -40,14 +40,18 @@ const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlV
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
 
-  const [ orders, setOrders ] = useState([]);
+  const [ orders, setOrders ] = useState(getCurrentCart());
   const [ token, setToken ] = useState(getCurrentToken());
   const [ user, setUser ] = useState(getCurrentUser())
 
 
 
   useEffect(() => {
-    console.log('user is ', user)
+    if(!token){
+      const returning = getCurrentCart();
+      if (!returning){
+      storeCurrentCart([])
+    }}
   },[token])
 
   return <Router>
@@ -57,14 +61,14 @@ const App = () => {
         <Route path="/home">
           <HomePage setFetchId={setFetchId} orders={orders} />
         </Route>
-        <Route path="/products">
+        <Route exact path="/products">
           <MainBoard setFetchId={setFetchId} user={user} orders={orders} />
         </Route>
         <Route path="/product/:productId">
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} user={user} orders={orders} />
         </Route>
         {user && user.isadmin ?  
-        <Route path="/users">
+        <Route exact path="/users">
           <UserBoard user={user} />
         </Route>
         : null}
@@ -79,7 +83,7 @@ const App = () => {
         </Route>
         : null}
         {user && user.isadmin ?  
-        <Route path="/orders">
+        <Route exact path="/orders">
           <OrderBoard user={user} />
         </Route>
         : null}
