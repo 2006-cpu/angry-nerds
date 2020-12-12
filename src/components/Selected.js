@@ -4,7 +4,15 @@ import Form from 'react-bootstrap/Form'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import Button from 'react-bootstrap/Button'
-import {destroyProduct} from '../api'
+import {destroyProduct, makeReview} from '../api'
+import {
+  useHistory
+} from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -21,6 +29,8 @@ const SelectedProd = (props) => {
     const [newCategory, setNewCategory] = useState('')
     const [reviewBody, setReviewBody] = useState('')
     const [missing, setMissing] = useState('')
+    const [ toggle, setToggle ] = useState(false);
+    const history = useHistory();
 
     const submittedProduct = async () => {
       try{
@@ -40,6 +50,7 @@ const SelectedProd = (props) => {
 
   const submittedReview = async () => {
     try{
+        /* const newProduct = await makeReview({name, description, price, inStock, imageURL, category}) */
       if(reviewBody){
         //const newProduct = await apiFuncName({name, description, price, inStock, imageURL, category})
         console.log('review: ', reviewBody)
@@ -64,12 +75,18 @@ const SelectedProd = (props) => {
 
     try {
       await destroyProduct(event.target.id);
+      setToggle(true);
 
     } catch(error) {
       console.error(error)
     }
   }
 
+  useEffect(() => {
+    if(!toggle === false) {
+      history.push('./');
+    }
+  }, [toggle])
 
     return <Card style={{ width: '60rem', maxWidth: '100%', height: '52rem', margin: '1rem', 
     boxShadow: '0 6px 10px -5px', backgroundColor: '#e6faff' }}>
@@ -117,11 +134,13 @@ const SelectedProd = (props) => {
     <div style={{height: '4rem', backgroundColor: '#e6e6e6'}}>
     <Card.Body>
       {instock ? <Button style={{float: 'left'}} variant="primary" size="sm">Add To Cart</Button>
-         : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> }  
+         : <Button style={{float: 'left'}} href="#" variant="secondary" size="sm" disabled>Out of Stock</Button> } 
+
       {user && user.isadmin ? <>
       <Button id={id} onClick={(event) => {event.preventDefault()}, handleProductDelete} style={{float: 'right'}} variant="danger" size="sm">Delete Listing</Button>
+
       <Button style={{float: 'right', marginRight: '1rem'}} onClick={() => {setEditingProduct(!editingProduct)}}variant="info" size="sm">{editingProduct ? 'Cancel':'Edit Listing'}</Button></>
-       : <Button style={{float: 'right'}} onClick={() => {setReviewDisplay(!reviewDisplay)}} variant="secondary" size="sm">Leave A Review</Button> }   
+       : <Link style={{float: 'right'}} to={`/product/${id}/reviews`} variant="secondary" size="sm">Leave A Review</Link> }   
       
     </Card.Body>
     </div>

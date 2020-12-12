@@ -49,7 +49,8 @@ const MainBoard = (props) => {
   const added = inCart.some(cartProd => cartProd.id === product.id)
   if(added){
     if (categorysel === ''){
-    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={true} />}
+    return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={true} />,
+          }
     else if (categorysel !== ''){
         if(product.category === categorysel){
             return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={true} />
