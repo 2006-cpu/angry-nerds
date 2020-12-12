@@ -27,7 +27,7 @@ const SelectedBoard = (props) => {
     }
     useEffect(() => {
     fetchProducts()
-      },[selectedId]);
+      },[]);
       console.log('set render ',initialRender)
 
     return<div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', height: '55.5rem'}}>
