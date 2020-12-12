@@ -64,6 +64,15 @@ export async function getAllOrders() {
   }
 }
 
+export async function getOrderById(orderId) {
+  try {
+    const { data } = await axios.get(`/api/orders/${orderId}`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const callApi = async ({method, body, url, token}) => {
   try {
       const options = {
@@ -107,6 +116,16 @@ export async function addProductToOrder(orderId, productId, price, quantity) {
     return data;
   } catch (error) {
     throw error;
+  }
+}
+
+export async function deleteOrderProduct(orderProductId) {
+  
+  try {
+      const {data} = await axios.delete(`/api/order_products/${orderProductId}`);
+      return data;
+  } catch (error) {
+      console.error(error);
   }
 }
 

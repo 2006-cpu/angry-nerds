@@ -22,8 +22,6 @@ usersRouter.use((req, res, next) => {
     next();
 });
 
-const {getOrdersByUser} = require('../db/orders')
-
 
 usersRouter.get('/', async (req, res) => {
     const users = await getAllUsers();
@@ -114,10 +112,10 @@ usersRouter.get('/me', requireUser,  async(req, res, next) => {
     }
 })
 
-usersRouter.get('/:userId', requireUser, async (req, res, next ) => {
+usersRouter.get('/:userId', async (req, res, next ) => {
     const { userId } = req.params;
     try {
-        const user = await getOrdersById(userId);
+        const user = await getUserById(userId);
         res.send(user)
 
     } catch (error) {

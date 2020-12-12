@@ -96,7 +96,7 @@ const RegisterComponent = (props) => {
                 <Form.Control className="registerInput" type="text" value={emailFirstHalf} onChange={(event) => {setEmailFirstHalf(event.target.value)}} placeholder="example" required/>
                 <Form.Text className="text-muted">@</Form.Text>
                 <Form.Control className="registerInput" type="text" value={emailSecHalf} onChange={(event) => {setEmailSecHalf(event.target.value)}} placeholder="handle" required/>
-                <Form.Text className="text-muted">.com</Form.Text>
+                <Form.Text className="text-muted"></Form.Text>
                 </div>
                 <Form.Text className="text-muted">
                 Please Input your Email
