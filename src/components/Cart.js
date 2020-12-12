@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { getCart } from '../api';
 import StripeCheckout from 'react-stripe-checkout';
-import stripeCheckout from './stripeCheckout';
-import ReactDOM from 'react-dom';
 import {loadStripe} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js'
 import {Footer} from './index'
 import { getCurrentCart, getCurrentToken } from '../auth';
 import { getProductById } from '../api'
 import CartProduct from './CartCard'
-// import axios from 'axios';
 const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
 
 const Cart = (props) => {
@@ -79,10 +76,9 @@ const Cart = (props) => {
 
     {<div style={{position: 'fixed', bottom: '0', left: '0', right: '0', backgroundColor: '#B0E0E6', paddingBottom: '1.5rem'}}>
        <h3 style={{borderTop: '1px solid black', marginLeft: '1rem', marginRight: '1rem', padding: '1rem' }}>Total: ${total}</h3>  
-       <Elements stripe={stripePromise}>
+ 
            <StripeCheckout style={{marginLeft: '2rem', padding: '1rem', backgroundColor: '#20B2AA', borderRadius: '13px', 
        border: '1px solid black', boxShadow: '0 5px 5px -5px'}} role="/checkout/session" />
-          </Elements>
         
        <Footer />
     </div>}
