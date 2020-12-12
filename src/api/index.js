@@ -132,7 +132,7 @@ export async function destroyProduct(id) {
 export async function makeReview( title, content, userId, productId ) {
 
   try {
-    const { data } = await axios.post('/api/reviews', {title, content, userId, productId} );
+    const { data } = await axios.post(`/api/${productId}/reviews`, {title, content, userId, productId} );
     return data;
   } catch(error) {
     throw error;

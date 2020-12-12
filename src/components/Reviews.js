@@ -7,10 +7,11 @@ import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
 import './Reviews.css';
 import {
-    useHistory
+    useHistory,
+    useParams
 } from 'react-router-dom';
 
-import {callApi, makeReview} from '../api'
+import {callApi, getProductById, makeReview} from '../api'
 
 /* import {storeCurrentUser, storeCurrentToken} from '../auth' */
 
@@ -19,37 +20,55 @@ const ReviewComponent = (props) => {
     const [ title, setFormTitle ] = useState('');
     const [ content, setFormContent ] = useState('');
     const [ userId, setUserId ] = useState('');
-    const [ productId, setProductId ] = useState('');
+    /* const [ productId, setProductId ] = useState(''); */
     const [ reviewMessage, setReviewMessage ] = useState('');
     const [ alertShow, setAlertShow ] = useState(false);
+    const {productId} = useParams();
+    const [ theSelectedProdId, setTheSelectedProdId ] = useState({});
+    
+    const {product, user, setUser} = props;
 
-    const {product, user, setUser} = props
-    /* const {id} = props.product */
+    const productIdGrabber = async () => {
+        try{
+            console.log("Here is the product Id man:", productId);
+            const gettingTheProdId = await getProductById(productId);
+            setTheSelectedProdId(gettingTheProdId);
 
+        } catch(error) {
+            throw error;
+        }
+        
+    }
+
+    /* const {imageurl} = props.product; */
+    console.log("Here is the product:", theSelectedProdId);
     /* const {token, setToken, user, setUser} = props; */
     const history = useHistory();
     console.log("Here is the user information", user);
-    console.log("Here is the userId", user.id);
+   /*  console.log("Here is the userId", user.id); */
     
     /* setUserId(user.id);
     console.log("This is the result of savinguserId",userId) */
 
-
+    useEffect(() => {
+        productIdGrabber();
+    }, [])
 
     const reviewHandler = async (event) => {
         try {
             event.preventDefault();
+            setUserId(user.id);
+            console.log("Here is the result of setUserId", user.id, productId);
 
             const response = await makeReview( title, content, userId, productId)
 
             const {data} = response;
-            setUserId(user.id);
             console.log("This is the result of settinf userId:", userId);
-            setProductId(product.id);
-            console.log("This is the result of setting the productId", productId);
+            /* setProductId(product.id);
+            console.log("This is the result of setting the productId", productId); */
             setFormTitle('');
             setFormContent('');
-            setReviewMessage(data.message);
+            /* setReviewMessage(data.message); */
             /* if(data.token) {
                 storeCurrentToken(data.token)
                 setToken(data.token);
@@ -81,8 +100,9 @@ const ReviewComponent = (props) => {
     }, [token]); */
 
     return <> 
-       {/* <Image className="reviewImg" src="https://learnenglish.britishcouncil.org/sites/podcasts/files/styles/article/public/RS7351_ThinkstockPhotos-492813404-hig.jpg?itok=cNrOuKt4" fluid /> */}
-
+       
+       <img src={`${theSelectedProdId.imageurl}`}/>
+       
         
        <Form className="reviewForm" onSubmit={reviewHandler}>
             <h1>Create A Review</h1>

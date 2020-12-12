@@ -51,7 +51,7 @@ const MainBoard = (props) => {
   if(added){
     if (categorysel === ''){
     return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={true} />,
-          <ReviewComponent product={product}/>}
+          <ReviewComponent product={product} key={product.id}/>}
     else if (categorysel !== ''){
         if(product.category === categorysel){
             return <Prod key={product.id} product={product} setSelectedId={setSelectedId} setCategorysel={setCategorysel} inCart={true} />

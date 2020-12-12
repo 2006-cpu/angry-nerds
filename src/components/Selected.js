@@ -5,6 +5,14 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import Button from 'react-bootstrap/Button'
 import {destroyProduct, makeReview} from '../api'
+import {
+  useHistory
+} from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -21,6 +29,7 @@ const SelectedProd = (props) => {
     const [newCategory, setNewCategory] = useState('')
     const [reviewBody, setReviewBody] = useState('')
     const [missing, setMissing] = useState('')
+    const history = useHistory();
 
     const submittedProduct = async () => {
       try{
@@ -124,7 +133,7 @@ const SelectedProd = (props) => {
       <Button id={id} onClick={(event) => {event.preventDefault()}, handleProductDelete} style={{float: 'right'}} variant="danger" size="sm">Delete Listing</Button>
 
       <Button style={{float: 'right', marginRight: '1rem'}} onClick={() => {setEditingProduct(!editingProduct)}}variant="info" size="sm">{editingProduct ? 'Cancel':'Edit Listing'}</Button></>
-       : <Button style={{float: 'right'}} /* onClick={() => {setReviewDisplay(!reviewDisplay)}} */ variant="secondary" size="sm">Leave A Review</Button> }   
+       : <Link style={{float: 'right'}} to={`/product/${id}/reviews`} variant="secondary" size="sm">Leave A Review</Link> }   
       
     </Card.Body>
     </div>
