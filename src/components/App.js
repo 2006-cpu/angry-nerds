@@ -39,7 +39,6 @@ import { Elements } from "@stripe/react-stripe-js";
 
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
-  console.log("Here is the result of fetchId:", fetchId);
   const [ orders, setOrders ] = useState(getCurrentCart());
   const [ token, setToken ] = useState(getCurrentToken());
   const [ user, setUser ] = useState(getCurrentUser())
