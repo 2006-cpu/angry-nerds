@@ -11,13 +11,14 @@ const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlV
 const Cart = (props) => {
     const {orders, setOrders, token} = props
     const [total, setTotal] = useState(0)
+    const [incomingOrders, setIncomingOrders] = useState(getCurrentCart())
     const [editOrders, setEditOrders] = useState(0)
 
     const fetchOrder = async () => {
         try{
             if(token){
                 const obtainedOrder = await getCart()
-                setOrders(obtainedOrder.products);
+                setIncomingOrders(obtainedOrder.products);
                 const allProducts = obtainedOrder.products
                 let priceArr = []
                 allProducts.forEach(product => {
@@ -29,8 +30,8 @@ const Cart = (props) => {
                 }
                 setTotal(newTotal)
             } else if (!token){
-                setOrders(getCurrentCart())
-                const allProducts = orders
+                setIncomingOrders(getCurrentCart())
+                const allProducts = incomingOrders
                 let priceArr = []
                 allProducts.forEach(product => {
                     priceArr.push(Number(product.price))
@@ -51,15 +52,18 @@ const Cart = (props) => {
 
     useEffect(() => {
         fetchOrder()
-    },[total, orders]);
+        if(!incomingOrders){
+            setIncomingOrders([])
+        }
+    },[total]);
     
     return <div style={{margin: '1.5rem'}} >
     <h1>My Cart</h1>
     <div style={{overflowY: 'auto', marginBottom: '14rem'}}>
     
-    {orders ? orders.map((product) => {
+    {incomingOrders ? incomingOrders.map((product) => {
         return (
-            <CartProduct key={product.id} product={product} setEditOrders={setEditOrders} editOrders={editOrders} setTotal={setTotal}/>
+            <CartProduct key={product.id} product={product} setEditOrders={setEditOrders} editOrders={editOrders} setTotal={setTotal} setIncomingOrders={setIncomingOrders} />
         )
     }) : <div>Your Cart is Currently Empty!</div>}
        
