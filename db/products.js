@@ -1,4 +1,5 @@
 const {client} = require("./index")
+const { getReviewsByProductId } = require('./reviews')
 
 async function getAllProducts() {
     try{
@@ -20,6 +21,10 @@ async function getProductById(id) {
             FROM products
             WHERE id=$1
         `, [id]);
+        product.reviews = await getReviewsByProductId(product.id)
+        product.reviews.forEach(review => {
+            delete review.productId
+        })
 
         return product;
     } catch (error) {
