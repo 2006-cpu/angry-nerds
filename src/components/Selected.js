@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import Button from 'react-bootstrap/Button'
-import {destroyProduct} from '../api'
+import {destroyProduct, makeReview} from '../api'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -33,7 +33,7 @@ const SelectedProd = (props) => {
 
   const submittedReview = async () => {
     try{
-        //const newProduct = await apiFuncName({name, description, price, inStock, imageURL, category})
+        /* const newProduct = await makeReview({name, description, price, inStock, imageURL, category}) */
         console.log('review: ', reviewBody)
     }catch(error){
         console.error(error)
