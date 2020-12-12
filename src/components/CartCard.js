@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { getCart } from '../api';
 
 import {deleteOrderProduct} from '../api'
 import {getCurrentCart, getCurrentToken, storeCurrentCart} from '../auth'
 
 const CartProduct = (props) => {
-    const {product, setEditOrders, editOrders, setTotal} = props
+    const {product, setEditOrders, editOrders, setTotal, setIncomingOrders} = props
     const {id, name, description, price, imageurl, instock, category, orderProductId} = props.product
     const [loggedIn, setLoggedIn] = useState(getCurrentToken())
 
@@ -14,6 +15,10 @@ const CartProduct = (props) => {
         try {
             if(loggedIn){   
                 const deleteOP = await deleteOrderProduct(orderProductId)
+                
+                const obtainedOrder = await getCart()
+
+                setIncomingOrders(obtainedOrder.products)
 
             } else if(!loggedIn){
                 const grabbedCart = getCurrentCart();
@@ -24,6 +29,7 @@ const CartProduct = (props) => {
                         newCart.push(storedProduct)
                     }
                 })
+                setIncomingOrders(newCart)
                 let priceArr = []
                 newCart.forEach(product => {
                     priceArr.push(Number(product.price))
@@ -33,9 +39,9 @@ const CartProduct = (props) => {
                     newTotal+=priceArr[i]
                 }
                 setTotal(newTotal)
-         
                 storeCurrentCart(newCart)
                 setEditOrders(id)
+         
             }
         } catch (error) {
             console.error(error)
