@@ -36,5 +36,8 @@
     align-items: center;
     flex-direction: column;
     position: relative;
-    width: 100%;
+    width: '14rem';
+    /* height: '18rem';
+    margin: '1rem'; 
+    box-Shadow: '0 6px 10px -5px' */
 }

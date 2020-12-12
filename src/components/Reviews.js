@@ -100,11 +100,11 @@ const ReviewComponent = (props) => {
     }, [token]); */
 
     return <> 
+
        
-       <img src={`${theSelectedProdId.imageurl}`}/>
-       
-        
        <Form className="reviewForm" onSubmit={reviewHandler}>
+            <img style={{ width: '17rem', height: '18rem', margin: '1rem', textAlign:"center" }} src={`${theSelectedProdId.imageurl}`}/>
+            <br></br><br></br>
             <h1>Create A Review</h1>
            <h1 className="messageAlert">{messageHandler()}</h1>
             
