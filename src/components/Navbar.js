@@ -18,7 +18,7 @@ import {
   Link
 } from 'react-router-dom';
 
-import {getCurrentUser, getCurrentToken, clearCurrentToken, clearCurrentUser} from '../auth'
+import {getCurrentUser, getCurrentToken, clearCurrentToken, clearCurrentUser, clearCurrentCart} from '../auth'
 
 const Navigation = (props) => {
 
@@ -30,6 +30,7 @@ const Navigation = (props) => {
   const handleLogout = () => {
     clearCurrentUser();
     clearCurrentToken();
+    clearCurrentCart();
     setOrders([])
     console.log("See Ya!", "You Have Succesfully Logged Out!", "success");
     setUser({});
@@ -59,22 +60,32 @@ const Navigation = (props) => {
         <NavDropdown title="Admin Tools" id="collasible-nav-dropdown">
           {user && user.isadmin ? <NavDropdown.Item>
             <Nav.Link>
-          <NavLink to="/users">
-            Registered Users
-            </NavLink>
-        </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Action</NavDropdown.Item> }
-          {user && user.isadmin ? <NavDropdown.Item>
-            <Nav.Link>
-          <NavLink to="/users/add">
-            Add Users
-            </NavLink>
+              <NavLink to="/users">
+                Registered Users
+                </NavLink>
+            </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Action</NavDropdown.Item> }
+
+              {user && user.isadmin ? <NavDropdown.Item>
+                <Nav.Link>
+              <NavLink to="/users/add">
+                Add Users
+                </NavLink>
+            </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Another Action</NavDropdown.Item> }
+
+              {user && user.isadmin ? <NavDropdown.Item>
+                <Nav.Link>
+              <NavLink to="/orders">
+                All Orders
+              </NavLink>
         </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Another Action</NavDropdown.Item> }
-          {user && user.isadmin ? <NavDropdown.Item>
-            <Nav.Link>
-          <NavLink to="/orders">
-            All Orders
-            </NavLink>
+
+              {user && user.isadmin ? <NavDropdown.Item>
+                <Nav.Link>
+              <NavLink to="/products">
+                Edit Products
+              </NavLink>
         </Nav.Link></NavDropdown.Item> : <NavDropdown.Item>Another Action</NavDropdown.Item> }
+
         </NavDropdown>
          : null}
 
