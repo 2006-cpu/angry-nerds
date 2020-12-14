@@ -27,7 +27,8 @@ import {
 
 import LoginComponent from './Login';
 import RegisterComponent from './Register';
-
+import ReviewComponent from './Reviews';
+import StripeCheckout from 'react-stripe-checkout';
 
 import {getCurrentUser, getCurrentToken, getCurrentCart, storeCurrentCart} from '../auth'
 
@@ -39,7 +40,7 @@ import { getCart } from '../api';
 
 const App = () => {
   const [fetchId, setFetchId] = useState(null)
-
+  console.log("Here is the result of fetchId:", fetchId);
   const [ orders, setOrders ] = useState(getCurrentCart());
   const [ token, setToken ] = useState(getCurrentToken());
   const [ user, setUser ] = useState(getCurrentUser())
@@ -64,8 +65,11 @@ const App = () => {
         <Route exact path="/products">
           <MainBoard setFetchId={setFetchId} user={user} orders={orders} />
         </Route>
-        <Route path="/product/:productId">
+        <Route exact path="/product/:productId">
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} user={user} orders={orders} />
+        </Route>
+        <Route path="/product/:productId/reviews">
+          <ReviewComponent />
         </Route>
         {user && user.isadmin ?  
         <Route exact path="/users">
@@ -90,9 +94,11 @@ const App = () => {
         <Route path="/orders/cart">
           <Cart orders={orders} setOrders={setOrders} token={token} storeCurrentCart={storeCurrentCart}/>
         </Route>
-        {/* <Route path="/thank-you">
+        {StripeCheckout.token ?
+        <Route path="/thank-you">
           <thankYou />
-        </Route> */}
+        </Route>
+        :null}
         <Route path="/orders/:orderId">
           <Order />
         </Route>
@@ -102,6 +108,7 @@ const App = () => {
       <Route path="/users/register">
         <RegisterComponent token={token} setToken={setToken} user={user} setUser={setUser} />
       </Route>
+
       <Redirect to="/home" />
       </Switch>
     </div></Router>

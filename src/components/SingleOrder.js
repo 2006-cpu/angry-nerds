@@ -1,55 +1,32 @@
 import React, { useState, useEffect } from 'react';
 
 import {useParams} from 'react-router-dom'
-import {getAllOrders} from '../api'
+import {getOrderById} from '../api'
 
-import {Prod} from './index'
 
 const Order = (props) => {
     const {orderId} = useParams();
-    const [orders, setOrders] = useState([]);
-    const {products, setProducts} = props
+    const [order, setOrder] = useState([]);
 
-    const fetchOrders = () => {
-        getAllOrders().then(
-            orders => {
-            setOrders(orders);
-        })
-        .catch(error => {
+    const fetchOrder = async () => {
+        try{
+            const singleOrder = await getOrderById(orderId)
+            setOrder(singleOrder)
+        }catch(error){
             console.error(error);
-        });
-      }
+        }
+    }
+
     useEffect(() => {
-        fetchOrders()
-      },[]);
-      console.log('orders', orders)
-      console.log("ORDER ID PARAM", orderId)
+        fetchOrder()
+    },[]);
 
     return <div >
         <h1>Single Order</h1>
-        {orders?.map((order) => {
-            if(orderId === order.id){
-                return (
-                    <div>
-                        <p>{order.id}</p>
-                        <p>{order.status}</p>
-                        <p>{order.datePlaced}</p>
-                    </div>
-                )
-            } else {
-                return (
-                    <div>
-                    <p>{order.id}</p>
-                    <p>{order.status}</p>
-                    <p>{order.datePlaced}</p>
-                </div>
-                )
-            }
-            
-        })
+        {order? 
+            <p>This page is under construction!</p>  
+            : <p>order.id, order.status, order.datePlaced</p>
         }
-           
-        
     </div>
 }
 

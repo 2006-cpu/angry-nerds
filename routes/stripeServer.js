@@ -1,8 +1,8 @@
 if (process.env.NODE_ENV !== 'production'){
     require('dotenv').load()
 }
-
-const stripeSecretKey = require("stripe")(process.env.stripe_SECRET)
+const Stripe = require('stripe')
+const stripe = Stripe(process.env.stripe_SECRET)
 console.log(stripePublicKey)
 
 const express = require('express');
@@ -14,20 +14,20 @@ app.use(express.json());
 app.use(cors());
 
 
-app.post("/cart", async(req, res) => {
+app.post("/checkout", async(req, res) => {
     console.log("Request:", req.body);
 
     let error;
     let status;
 
     try{
-        const {token} = req.body;
+        const {token, stripe} = req.body;
         const customer = await stripe.customers.create({
             email: token.email,
             source: token.id
         });
 
-        const uniqueCharge = uuid();
+        const idempotencyKey = uuid();
         const charge = await strip.charges.create({
             amount: {total}*100,
             currency: "usd",
@@ -41,17 +41,26 @@ app.post("/cart", async(req, res) => {
                     country: token.card.address_country,
                     postal_code: token.card.address_zip
                 }
-            }
+            },
+            idempotencyKey:"y9J3UsKw9zLvhyRK"
         });
-        console.log("Charge: ", {charge});
-        // success_url: 'https://fathomless-retreat-94739.herokuapp.com/thank_you',
-        // cancel_url: 'https://fathomless-retreat-94739.herokuapp.com/error',
-        status = "success";
-        // res.json(storeCurrentCart([]))
-    } catch (error) {
-        console.error("Error", error);
-        status = "error";
-        // res.status(500).end()
+        
+        const session = await stripe.checkout.sessions.create({
+            success_url: 'https://fathomless-retreat-94739.herokuapp.com/thank-you',
+            cancel_url: 'https://fathomless-retreat-94739.herokuapp.com/error',
+            payment_method_types: ['card'],
+            mode: 'payment',
+        })
+        {
+        // console.log("Charge: ", {charge});
+        // // success_url: 'https://fathomless-retreat-94739.herokuapp.com/thank_you',
+        // // cancel_url: 'https://fathomless-retreat-94739.herokuapp.com/error',
+        // status = "success";
+        // // res.json(storeCurrentCart([]))
+    }} catch (error) {
+        // console.error("Error", error);
+        // status = "error";
+        res.status(500).end()
     }
     res.json({error, status});
 })

@@ -4,8 +4,7 @@ import { getCart } from '../api';
 // import {loadStripe} from '@stripe/stripe-js';
 // import {Elements} from '@stripe/react-stripe-js'
 import {Footer} from './index'
-import { getCurrentCart, getCurrentToken, storeCurrentCart } from '../auth';
-import { getProductById } from '../api'
+import { getCurrentCart, storeCurrentCart } from '../auth';
 import CartProduct from './CartCard'
 import StripeCheckout from 'react-stripe-checkout';
 import axios from 'axios';
@@ -27,11 +26,13 @@ async function handleToken(token,addresses) {
     // storeCurrentCart([])
     const status = response.data;
     if (status === 'success') {
-        // storeCurrentCart([])
+        // session.success_url
         swal("Success!", "Thank you for your order! Please check your email for your receipt & shipping updates!","success");
+        // storeCurrentCart([])
     } else {
-        // storeCurrentCart([])
+        // session.error_url
         swal("Success!", "Thank you for your order! Please check your email for your receipt & shipping updates!","success");
+        // storeCurrentCart([])
         // swal("Opps","Sorry, something went wrong, please try again or contact customer service for help.","error")
     }
     // <Redirect to="/home" />
@@ -41,62 +42,56 @@ async function handleToken(token,addresses) {
 const Cart = (props) => {
     const {orders, setOrders, token} = props
     const [total, setTotal] = useState(0)
+    const [incomingOrders, setIncomingOrders] = useState(getCurrentCart())
     const [editOrders, setEditOrders] = useState(0)
-    const [loggedIn, setLoggedIn] = useState(getCurrentToken())
-    const [quantity, setQuantity] = useState(1);
 
     const fetchOrder = async () => {
         try{
             if(token){
-        const obtainedOrder = await getCart()
-        setOrders(obtainedOrder.products);
-        const allProducts = obtainedOrder.products
-        console.log('allProducts ', allProducts)
-        let priceArr = []
-        allProducts.forEach(product => {
-               priceArr.push(Number(product.price))
-            })
-            console.log('arr ', priceArr)
-            let newTotal = 0
-            for (let i=0; i<priceArr.length; i++){
-                newTotal+=priceArr[i]
+                const obtainedOrder = await getCart()
+                setIncomingOrders(obtainedOrder.products);
+                const allProducts = obtainedOrder.products
+                let priceArr = []
+                allProducts.forEach(product => {
+                    priceArr.push(Number(product.price))
+                })
+                let newTotal = 0
+                for (let i=0; i<priceArr.length; i++){
+                    newTotal+=priceArr[i]
+                }
+                setTotal(newTotal)
+            } else if (!token){
+                setIncomingOrders(getCurrentCart())
+                const allProducts = incomingOrders
+                let priceArr = []
+                allProducts.forEach(product => {
+                    priceArr.push(Number(product.price))
+                })
+                let newTotal = 0
+                for (let i=0; i<priceArr.length; i++){
+                    newTotal+=priceArr[i]
+                }
+                setTotal(newTotal)
             }
-            setTotal(newTotal)
-    } else if (!token){
-        setOrders(getCurrentCart())
-        const allProducts = orders
-        console.log('allProducts ', allProducts)
-        let priceArr = []
-        allProducts.forEach(product => {
-               priceArr.push(Number(product.price))
-            })
-            console.log('arr ', priceArr)
-            let newTotal = 0
-            for (let i=0; i<priceArr.length; i++){
-                newTotal+=priceArr[i]
-            }
-            setTotal(newTotal)
-    }
         }catch(error){
         console.error(error)
         }
-      }
-       
+    }
+
     useEffect(() => {
         fetchOrder()
-        if(!orders){
-            setOrders([])
+        if(!incomingOrders){
+            setIncomingOrders([])
         }
-      },[]);
+    },[total]);
     
-
     return <div style={{margin: '1.5rem'}} >
     <h1>My Cart</h1>
     <div style={{overflowY: 'auto', marginBottom: '14rem'}}>
     
-    {orders ? orders.map((product) => {
+    {incomingOrders ? incomingOrders.map((product) => {
         return (
-            <CartProduct key={product.id} product={product} setEditOrders={setEditOrders} editOrders={editOrders} setTotal={setTotal}/>
+            <CartProduct key={product.id} product={product} setEditOrders={setEditOrders} editOrders={editOrders} setTotal={setTotal} setIncomingOrders={setIncomingOrders} />
         )
     }) : <div>Your Cart is Currently Empty!</div>}
        
