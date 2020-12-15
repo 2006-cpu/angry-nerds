@@ -111,7 +111,7 @@ const Cart = (props) => {
             
             
         
-       <Footer />
+       
     </div>}
 
       

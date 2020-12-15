@@ -56,17 +56,17 @@ const {
 /* THIS IS THE GET/product/:category ROUTER */
 
     /* looks up product by category and sends back */
-    productsRouter.get('/:category', async ( req, res, next ) => {
+    productsRouter.get('/category/:category', async ( req, res, next ) => {
         const { category } = req.params;
         try {
             console.log('this is the params ', category)
-            const productById = await getProductsByCategory({category});
-            res.send("hello");
-            console.log(productById)
+            const productByCategory = await getProductsByCategory(category);
+            res.send(productByCategory);
+            
 
         } catch(error) {
             next(error);
-            console.log(productById)
+           
         }
     });
 

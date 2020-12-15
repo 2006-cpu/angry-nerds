@@ -59,8 +59,8 @@ const Prod = (props) => {
       </div>
     </Card.Body>
     <ListGroup className="list-group-flush">
-<ListGroupItem>{category}</ListGroupItem>
-<ListGroupItem>{price}</ListGroupItem>
+{/* <ListGroupItem>{category}</ListGroupItem> */}
+<ListGroupItem>${price}</ListGroupItem>
     </ListGroup>
     <div style={{height: '4rem'}}>
     <Card.Body>

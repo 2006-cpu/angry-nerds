@@ -4,6 +4,8 @@
         margin: 0 auto;
         text-align: center;
         min-width: 300px;
+        padding-bottom: 10rem;
+        padding-top: 3rem;
     }
 
     .loginInput {

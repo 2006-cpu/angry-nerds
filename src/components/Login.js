@@ -13,6 +13,7 @@ import {
 import {callApi} from '../api'
 
 import {storeCurrentUser, storeCurrentToken} from '../auth'
+import {Footer} from './index'
 
 const LoginComponent = (props) => {
 
@@ -93,6 +94,7 @@ const LoginComponent = (props) => {
                 Login
             </Button>
         </Form>
+        <Footer/>
 
     </>
 

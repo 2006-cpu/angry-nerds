@@ -37,9 +37,9 @@ export async function getProductById(id) {
   }
 }
 
-export async function getProductByCategory(category) {
+export async function getProductsByCategory(category) {
   try {
-    const { data } = await axios.get(`/api/products/${category}`);
+    const { data } = await axios.get(`/api/products/category/${category}`);
     return data;
   } catch (error) {
     throw error;

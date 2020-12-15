@@ -66,7 +66,7 @@ const HomePage = (props) => {
           </Carousel.Item>
         </Carousel>
       </div>
-      <div style={{borderTop: '1px solid black', float:'bottom'}}><div style={{padding: '1rem'}}>Popular Items</div>
+      <div style={{borderTop: '1px solid black', float:'bottom'}}>
 
       <div style={{ backgroundColor: 'lightgray', borderTop: '1px solid black',
       display: 'flex', /* flexWrap: 'wrap', */ flexDirection: 'row', /* padding: '1rem 7.5rem 7.5rem 17rem', */ flexShrink: '0', overflowX: 'scroll', width: '100%', height: '100%'}}>
