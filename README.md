@@ -1,5 +1,3 @@
-
-
 GETTING STARTED:
 
 npm i
@@ -30,6 +28,7 @@ The root React code starts in the src/index.js file.
 ______________________________________________________________________________
 
 Project Structure:
+
 ├── db
 │   ├── index.js
 │   └── init_db.js
@@ -59,9 +58,8 @@ Lastly /public and /src are the two puzzle pieces for our React front-end. /publ
 
 ______________________________________________________________________________
 Contributors:
-Trinidad Padilla, Katiana Janea Camacho-Villalon, Nicholas Lopez, and Cecilia Lam. You can see all of their gitHub profiles here:
-
 Trinidad Padilla: https://github.com/tpadilla10117
 Katiana Janea Camacho-Villalon: https://github.com/kati-unu
 Nicholas Lopez: https://github.com/Nrlopez16
 Cecilia Lam: https://github.com/Zezlita
+
