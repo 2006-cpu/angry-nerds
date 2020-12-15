@@ -72,7 +72,7 @@ const Cart = (props) => {
            <StripeCheckout style={{marginLeft: '2rem', padding: '1rem', backgroundColor: '#20B2AA', borderRadius: '13px', 
        border: '1px solid black', boxShadow: '0 5px 5px -5px'}} role="/checkout/session" />
         
-       <Footer />
+       
     </div>}
 
       

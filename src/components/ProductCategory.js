@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/* import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
@@ -53,13 +53,13 @@ const Prod = (props) => {
         }}>
     <Card.Img variant="top" src={imageurl ? imageurl : "https://icon-library.com/images/no-image-available-icon/no-image-available-icon-8.jpg"} />
     <Card.Body>
-<Card.Title><Link to={`/product/${id}`}>{name}</Link></Card.Title>
+<Card.Title><Link to={`/product/category/${category}`}>{name}</Link></Card.Title>
       <div style={{overflowY: 'auto', fontSize: '.85rem'}}>
         {description}
       </div>
     </Card.Body>
     <ListGroup className="list-group-flush">
-{/* <ListGroupItem>{category}</ListGroupItem> */}
+<ListGroupItem>{category}</ListGroupItem>
 <ListGroupItem>${price}</ListGroupItem>
     </ListGroup>
     <div style={{height: '4rem'}}>
@@ -75,4 +75,4 @@ const Prod = (props) => {
   </Card>
 }
 
-export default Prod;
+export default Prod; */

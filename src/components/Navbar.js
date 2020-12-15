@@ -56,10 +56,10 @@ const Navigation = (props) => {
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
       <Nav className="mr-auto">
-        <Link style={{color: '#666565', padding: '.5rem'}} to="/products">All Products</Link>
-       {/*  <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products">Guitars</Link>
-        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products">Bases</Link>
-        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products">Microphones</Link> */}
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products">All Products</Link>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products/category/guitar">Guitars</Link>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products/category/bass">Bases</Link>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products/category/microphones">Microphones</Link>
 {user && user.isadmin ? 
         <NavDropdown title="Admin Tools" id="collasible-nav-dropdown">
           {user && user.isadmin ? <NavDropdown.Item>

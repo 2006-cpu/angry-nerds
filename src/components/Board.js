@@ -7,7 +7,7 @@ import {getAllProducts} from '../api'
 import {getCurrentUser, getCurrentToken, getCurrentCart} from '../auth'
 import {ProductInput} from './index'
 
-import {Prod} from './index'
+import {Prod, Footer} from './index'
 
 const MainBoard = (props) => {
     const {setFetchId, user} = props
@@ -67,6 +67,7 @@ const MainBoard = (props) => {
     </div>
     <div style={{height: '2.5rem', bottom: '0', left: '0', right: '0', backgroundColor: '#B0E0E6', paddingBottom: '1.5rem', marginTop: '3rem'}}>
       <div style={{textAlign: 'center', paddingTop: '.5rem'}}>Page 1</div>
+      <Footer />
       </div></>
 }
 

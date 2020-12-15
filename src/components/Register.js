@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 
 import {storeCurrentToken} from '../auth'
+import {Footer} from './index'
 
 
 const RegisterComponent = (props) => {
@@ -122,6 +123,7 @@ const RegisterComponent = (props) => {
                 Create
             </Button>
         </Form>
+        <Footer/>
     </>
 
 }

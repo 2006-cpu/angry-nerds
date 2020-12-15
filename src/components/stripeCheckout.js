@@ -25,6 +25,7 @@ class Checkout extends React.Component{
                 token={this.onToken}
             >
                 </StripeCheckout>
+                
             
         )
         
