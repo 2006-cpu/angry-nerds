@@ -58,8 +58,11 @@ const Navigation = (props) => {
       <Nav className="mr-auto">
         <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products">All Products</Link>
         <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products/category/guitar">Guitars</Link>
-        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products/category/bass">Bases</Link>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products/category/bass">Basses</Link>
         <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products/category/microphones">Microphones</Link>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products/category/effectpedals">Effect Pedals</Link>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products/category/piano">Pianos & Keyboards</Link>
+        <Link style={{color: 'lightgrey', padding: '.5rem'}} to="/products/category/drums">DrumKits</Link>
 {user && user.isadmin ? 
         <NavDropdown title="Admin Tools" id="collasible-nav-dropdown">
           {user && user.isadmin ? <NavDropdown.Item>
