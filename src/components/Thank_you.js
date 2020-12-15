@@ -1,7 +1,7 @@
 import React from 'react';
 
-const thankYou = (props) => {
-    console.log('thankyou', thankYou)
+const ThankYou = (props) => {
+    console.log('Thankyou', ThankYou)
     const {order} = props;
 
     return (
@@ -13,15 +13,17 @@ const thankYou = (props) => {
             </head>
             <body>
                 <section>
+                    <div id = "thankyou">
                     <p>
                         Your order number is {order && order.id}
                         If you have any questions, please email
                         <a href="mailto:orders@codalorians.com">orders@codalorians.com</a>.
                     </p>
+                    </div>
                 </section>
             </body>
         </html>
         )
 }
 
-export default thankYou;
+export default ThankYou;
