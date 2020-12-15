@@ -16,6 +16,7 @@ import {
   Order,
   HomePage,
   Cart,
+  stripeCheckout,
   UserBoard,
   SelectedUser,
   Footer,
@@ -27,14 +28,14 @@ import {
 import LoginComponent from './Login';
 import RegisterComponent from './Register';
 import ReviewComponent from './Reviews';
-
+import StripeCheckout from 'react-stripe-checkout';
 
 import {getCurrentUser, getCurrentToken, getCurrentCart, storeCurrentCart} from '../auth'
 
 import { getCart } from '../api';
 
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
+// import { Elements } from "@stripe/react-stripe-js";
 // const stripePromise = loadStripe('pk_test_51Husm9IEsmL7CmEu27mWMP2XxUgTeWW1rZzlVw4XykcEoHUFGkc66iYkdadeL2j2zebv9n8w5hVqptTivC9DeTng00tZSDJ0VX');
 
 const App = () => {
@@ -94,11 +95,13 @@ const App = () => {
         </Route>
         : null}
         <Route path="/orders/cart">
-          <Cart orders={orders} setOrders={setOrders} token={token} />
+          <Cart orders={orders} setOrders={setOrders} token={token} storeCurrentCart={storeCurrentCart}/>
         </Route>
-        {/* <Route path="/thank-you">
+        {StripeCheckout.token ?
+        <Route path="/thank-you">
           <thankYou />
-        </Route> */}
+        </Route>
+        :null}
         <Route path="/orders/:orderId">
           <Order />
         </Route>
