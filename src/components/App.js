@@ -68,9 +68,6 @@ const App = () => {
         <Route exact path="/product/:productId">
           <SelectedBoard setFetchId={setFetchId} fetchId={fetchId} user={user} orders={orders} />
         </Route>
-        <Route exact path="/product/category/:category">
-
-        </Route>
         <Route path="/product/:productId/reviews">
           <ReviewComponent />
         </Route>
