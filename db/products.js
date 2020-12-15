@@ -32,15 +32,15 @@ async function getProductById(id) {
     }
 }
 
-async function getProductsByCategory({category}) {
+async function getProductsByCategory(category) {
     try{
-        const { rows: products } = await client.query(`
+        const { rows } = await client.query(`
             SELECT *
             FROM products
             WHERE category=$1
         `, [category]);
 
-        return products;
+        return rows;
     } catch (error) {
         throw error;
     }
