@@ -8,8 +8,8 @@ Run npm run server:dev to start the web server. In a second terminal navigate ba
 ______________________________________________________________________________
 
 Deployed URL: 
-
-https://fathomless-retreat-94739.herokuapp.com/
+- (new): https://afternoon-brook-26059.herokuapp.com/home
+- (old): https://fathomless-retreat-94739.herokuapp.com/
 
 ______________________________________________________________________________
 
